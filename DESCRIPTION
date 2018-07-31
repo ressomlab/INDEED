@@ -1,6 +1,6 @@
 Package: INDEED
 Title: An Implementation of Integrated Differential Expression and Differential Network Analysis for Biomarker Candidate Selection
-Version: 0.99.16
+Version: 0.99.17
 Author: Zhenzhi Li <zzrickli@gmail.com>
 Maintainer: Zhenzhi Li <zzrickli@gmail.com>,
             Yiming Zuo <yimingzuo@gmail.com>
