@@ -38,13 +38,13 @@ library(INDEED)
 
 # Example 1:
 # Using partial correlation to obtain sparse differential network
-pre_data <- pre_partial(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU)
-partial_cor(data_list=pre_data,rho_group1='min',rho_group2="min",permutation = 1000,p_val=pvalue_M_GU)
+pre_data <- select_rho_partial(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU,error_curve = "YES")
+partial_cor(data_list=pre_data,rho_group1='min',rho_group2="min",permutation = 1000,p_val=pvalue_M_GU,permutation_thres = 0.05)
 
 
 # Example 2:
 # Using Spearman correlation to obtain differential network
-non_partial_cor(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU,method="spearman")
+non_partial_cor(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU,method="spearman",permutation_thres = 0.05)
 ```
 
 
