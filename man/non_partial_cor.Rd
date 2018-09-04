@@ -5,7 +5,8 @@
 \title{Non-partial correlaton analysis}
 \usage{
 non_partial_cor(data = NULL, class_label = NULL, id = NULL,
-  method = "pearson", p_val = NULL, permutation = 1000)
+  method = "pearson", p_val = NULL, permutation = 1000,
+  permutation_thres = 0.025)
 }
 \arguments{
 \item{data, }{input matrix of expression from all metabolites from all samples}
@@ -20,6 +21,8 @@ to be computed. One of "pearson" (default) or "spearman".}
 \item{p_val}{optional, a dataframe contains p values for each metabolite/molecule}
 
 \item{permutation, }{a positive integer of desired number of permutations, default 1000}
+
+\item{permutation_thres, }{threshold for permutation, defalut is 0.025 for each side to make 95percent}
 }
 \value{
 a list of processed data for next step and rho
@@ -34,3 +37,4 @@ A method that integrates differential expression (DE) analysis
 non_partial_cor(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU,
    method="spearman")
 }
+

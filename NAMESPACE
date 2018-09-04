@@ -2,7 +2,7 @@
 
 export(non_partial_cor)
 export(partial_cor)
-export(pre_partial)
+export(select_rho_partial)
 import(devtools)
 importFrom(glasso,glasso)
 importFrom(graphics,abline)
