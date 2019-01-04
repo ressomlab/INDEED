@@ -1,6 +1,6 @@
 Package: INDEED
 Title: An Implementation of Integrated Differential Expression and Differential Network Analysis for Biomarker Candidate Selection
-Version: 1.1.0
+Version: 1.1.1
 Author: Zhenzhi Li <zzrickli@gmail.com>
 Maintainer: Zhenzhi Li <zzrickli@gmail.com>,
             Yiming Zuo <yimingzuo@gmail.com>
@@ -22,7 +22,7 @@ Suggests: knitr (>= 1.19),
           rmarkdown (>= 1.8),
           testthat (>= 2.0.0)
 VignetteBuilder: knitr
-biocViews: Software, 
+biocViews: ImmunoOncology, Software, 
            ResearchField,
            BiologicalQuestion, 
            StatisticalMethod,
