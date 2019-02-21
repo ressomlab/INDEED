@@ -11,7 +11,7 @@ URL: http://github.com/ressomlab/INDEED
 BugReports: http://github.com/ressomlab/INDEED/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Depends: R (>= 3.5),
          glasso (>= 1.8)
 Imports: utils (>= 3.3.1),
