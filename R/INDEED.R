@@ -13,7 +13,7 @@
 #' user input preprocessed list from select_rho_partial step
 #' and the rho choosing method or rho of their choice
 #' and number of permutations (default 1000), p-value is optional
-#' the result of score table and differential network will be returned 
+#' the result of score table and differential network will be returned
 
 #' @section non_partial_cor function:
 #' non_partial_cor function performs correlation analysis
@@ -25,3 +25,10 @@
 #' @docType package
 #' @name INDEED
 NULL
+
+
+
+
+
+
+
