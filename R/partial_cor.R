@@ -36,8 +36,8 @@ partial_cor <- function(data_list =NULL, rho_group1=NULL,rho_group2=NULL, permut
         else if (is.numeric(rho_group2) & rho_group2>0) {rho_group_2_opt = rho_group2}
         else if (is.numeric(rho_group2) & rho_group2<=0) {stop("please provide data_list from select_rho_partial function")}
         else {rho_group_2_opt =data_list$rho_table[2,2]} #default is minimum rho if no rule specified and no valid input entered
-        
-        
+
+
         pre_group_1 <- glasso(data_list$cov_group_1, rho = rho_group_1_opt)
         thres <- 1e-3
         sum(abs(pre_group_1$wi) > thres)
@@ -60,7 +60,7 @@ partial_cor <- function(data_list =NULL, rho_group1=NULL,rho_group2=NULL, permut
         thres = 1e-3
         sum(abs(diff) > thres)
         diff[1:10, 1:10]
-        
+
         ## Permutation test using partial correlation
         if(permutation<=0) {stop("please provide a valid number of permutation (positive integer)")}
         else{
@@ -75,7 +75,7 @@ partial_cor <- function(data_list =NULL, rho_group1=NULL,rho_group2=NULL, permut
         thres_right <- 1-permutation_thres
         significant_thres <- permutation_thres(thres_left, thres_right, p, diff_p)
         rm(thres_left, thres_right)
-        
+
         # get binary matrix
         significant_thres_p <- significant_thres$positive
         significant_thres_n <- significant_thres$negative
@@ -91,15 +91,15 @@ partial_cor <- function(data_list =NULL, rho_group1=NULL,rho_group2=NULL, permut
         weight_link[1:10, 1:10]
         rowSums(abs(binary_link)) # node degree for differential networks
         rm(diff_p)
-        
+
         # Convert adjacent matrix into edge list
         i <- rep(seq_len(nrow(binary_link) - 1), times = (nrow(binary_link)-1):1)
         k <- unlist(lapply(2:nrow(binary_link), seq, nrow(binary_link)))
-        binary_link_value <- binary_link[upper.tri(binary_link)]
-        weight_link_value <- weight_link[upper.tri(weight_link)]
+        binary_link_value <- binary_link[lower.tri(binary_link)]
+        weight_link_value <- weight_link[lower.tri(weight_link)]
         edge <- cbind("Node1" = i, "Node2" = k, "Binary" = binary_link_value, "Weight" = weight_link_value)
         edge_dn <- edge[which(edge[,3] != 0),]
-        
+
         if (is.null(p_val) == TRUE) {
             # Calculate p-values using logistic regression if p-values are not provided by users
             pvalue <- pvalue_logit(data_list$data, data_list$class_label, data_list$id)
@@ -109,23 +109,23 @@ partial_cor <- function(data_list =NULL, rho_group1=NULL,rho_group2=NULL, permut
             pvalue <- p_val
             p.value <- pvalue$p.value           # Extract p-values from the table provided
             row.names(pvalue)<-NULL
-            
+
         }
-        
+
         # trasfer p-value to z-score
         z_score <- abs(qnorm(1 - p.value/2))
         # calculate differntial network score
         dn_score <- compute_dns(binary_link, z_score)
-        
-        
+
+
         indeed_df <- cbind(pvalue, rowSums(abs(binary_link)), dn_score )
-        
+
         colnames(indeed_df) <- c("MetID", "P_value", "Node Degree", "Activity_Score")
         indeed_df$P_value <- lapply(indeed_df$P_value, round, 3)
         indeed_df$Activity_Score <- lapply(indeed_df$Activity_Score, round, 1)
         indeed_df <- as.data.frame(lapply(indeed_df, unlist))
         indeed_df<-indeed_df[order(indeed_df$Activity_Score, decreasing=TRUE), ]
-        
+
         result_list <-list(activity_score=indeed_df,diff_network=edge_dn)
     }
 }
