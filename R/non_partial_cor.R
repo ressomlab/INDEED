@@ -3,17 +3,18 @@
 #'   and differential network (DN) analysis to select biomarker candidates for
 #'   survival time prediction. non_partial_cor is a one step function for user
 #'   to perform analysis, no pre-processing step required
-#' @param data input matrix of expression from all metabolites from all samples
-#' @param class_label a binary array with 0: group 1; 1: group 2.
-#' @param id an array of biomolecule ID to label.
-#' @param method a character string indicating which correlation coefficient is
-#'    to be computed. One of "pearson" (default) or "spearman".
-#' @param p_val optional, a dataframe contains p values for each metabolite/molecule
-#' @param permutation a positive integer of desired number of permutations, default 1000
-#' @param permutation_thres threshold for permutation, defalut is 0.025 for each side to make 95percent
+#' @param data This is a matrix of expression from all metabolites from all samples
+#' @param class_label This is a binary array with 0 for group 1 and 1 for group 2.
+#' @param id This is an array of biomolecule ID to label.
+#' @param method This is a character string indicating which correlation coefficient is
+#'    to be computed. The options are either  "pearson" (the default) or "spearman".
+#' @param p_val This is optional, it is a dataframe containing p-values for each metabolite/molecule
+#' @param permutation This is a positive integer representing the desired number of permutations. The default is 1000
+#' @param permutation_thres This is a threshold for permutation. The defalut is 0.025 for each side to result in 95percent
 #' @examples non_partial_cor(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU,
 #'    method="spearman",permutation_thres=0.05,permutation=1000)
-#' @return a list of processed data for next step and rho
+#' @return Two lists, the first being the activity score which contains the "MetID", "P_value", "Node Degree", "Activity_Score" and
+#'          the second list is the differential network which contains  "Node1", "Node2", the binary link value and the weight link value
 #' @import devtools
 #' @importFrom glasso glasso
 #' @importFrom stats qnorm cor quantile var sd glm
