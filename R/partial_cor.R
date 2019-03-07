@@ -16,7 +16,7 @@
 #'    partial_cor(data_list=preprocess,rho_group1='min',
 #'    rho_group2="min",permutation = 1000,p_val=pvalue_M_GU,permutation_thres=0.05)
 #' @return A list containing a score dataframe with "MetID", "P_value", "Node Degree", "Activity_Score"
-#'          and a list containing a differential network dataframe with  "Node1", "Node2", the binary link value and the weight link value
+#'          and a differential network dataframe with  "Node1", "Node2", the binary link value and the weight link value
 #' @import devtools
 #' @importFrom glasso glasso
 #' @importFrom stats qnorm cor quantile var sd glm
