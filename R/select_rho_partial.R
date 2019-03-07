@@ -3,13 +3,13 @@
 #'   and differential network (DN) analysis to select biomarker candidates for
 #'   survival time prediction. select_rho_partial is the pre-processing step for INDEED
 #'   partial differential analysis
-#' @param data input matrix of expression from all metabolites from all samples
-#' @param class_label a binary array with 0: group 1; 1: group 2.
-#' @param id an array of biomolecule ID to label.
-#' @param error_curve default "YES", option on whether a error curve plot will be
-#'    printed, user can choose "YES" and "NO"
+#' @param data The input matrix of expression from all metabolites from all samples that will be preprocessed for Step 1
+#' @param class_label This is a binary array with 0 for group 1 and 1 for group 2.
+#' @param id This is an array of biomolecule ID to label.
+#' @param error_curve The default is "YES". This is an option on whether a error curve plot will be
+#'    printed, user can choose "YES" or "NO"
 #' @examples select_rho_partial(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU,error_curve="YES")
-#' @return a list of processed data for next step and rho, error curve for group 1 and 2
+#' @return A list of processed data for the next step, rho, and generates an error curve for group 1 and 2
 #' @import devtools
 #' @importFrom glasso glasso
 #' @importFrom stats qnorm cor quantile var sd glm
