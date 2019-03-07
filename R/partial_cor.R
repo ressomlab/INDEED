@@ -11,10 +11,11 @@
 #' @param p_val This is optional.It is a dataframe that contains p-values for each metabolite/molecule
 #' @param permutation This is a positive integer of the desired number of permutations. The default is 1000 permutations
 #' @param permutation_thres This is the threshold for permutation. The defalut is 0.025 for each side to make 95percent
-#' @examples preprocess<- select_rho_partial(data=Met_GU,class_label =
-#'    Met_Group_GU,id=Met_name_GU,error_curve="YES")
-#'    partial_cor(data_list=preprocess,rho_group1='min',
-#'    rho_group2="min",permutation = 1000,p_val=pvalue_M_GU,permutation_thres=0.05)
+#' @examples STEP 1: (select_rho_partial.R)
+#'          preprocess<- select_rho_partial(data=Met_GU,class_label =Met_Group_GU, id=Met_name_GU, error_curve="YES")
+#'           STEP 2: (partial_cor.R)
+#'          partial_cor(data_list=preprocess, rho_group1='min', rho_group2="min", permutation = 1000,
+#'                          p_val=pvalue_M_GU,permutation_thres=0.05)
 #' @return A list containing a score dataframe with "MetID", "P_value", "Node Degree", "Activity_Score"
 #'          and a differential network dataframe with  "Node1", "Node2", the binary link value and the weight link value
 #' @import devtools
