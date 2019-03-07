@@ -13,9 +13,8 @@
 #' @param permutation_thres This is a threshold for permutation. The defalut is 0.025 for each side to result in 95percent
 #' @examples non_partial_cor(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU,
 #'    method="spearman",permutation_thres=0.05,permutation=1000)
-#' @return Two lists, the first being the activity score which contains the "MetID", "P_value", "Node Degree",
-#'              "Activity_Score" and the second list is the differential network which 
-#'              contains  "Node1", "Node2", the binary link value and the weight link value
+#' @return A list containing a score dataframe with "MetID", "P_value", "Node Degree", "Activity_Score"
+#'          and a differential network dataframe with "Node1", "Node2", the binary link value and the weight link value.
 #' @import devtools
 #' @importFrom glasso glasso
 #' @importFrom stats qnorm cor quantile var sd glm
