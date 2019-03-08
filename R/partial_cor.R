@@ -70,9 +70,8 @@ partial_cor <- function(data_list =NULL, rho_group1=NULL,rho_group2=NULL, permut
             diff_p <- permutation_pc(m, data_list$p, data_list$n_group_1, data_list$n_group_2, data_list$data_group_1, data_list$data_group_2, rho_group_1_opt, rho_group_2_opt)
             p <- data_list$p
         }
-        #####
-        ##### final calculation
-        #####
+       
+        # Calculating the positive and negative threshold based on the permutation result
         thres_left <- permutation_thres
         thres_right <- 1-permutation_thres
         significant_thres <- permutation_thres(thres_left, thres_right, p, diff_p)
