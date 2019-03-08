@@ -47,12 +47,14 @@ select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL,error_
         abline(v = rho[error_group1$log.cv == min(error_group1$log.cv)], col = "red", lty = 3)
 
         # one standard error rule
-        abline(h = min(error_group1$log.cv) + error_group1$log.rho[error_group1$log.cv == min(error_group1$log.cv)], col = "blue")
+        abline(h = min(error_group1$log.cv) + 
+               error_group1$log.rho[error_group1$log.cv == min(error_group1$log.cv)], col = "blue")
     }
     rho[error_group1$log.cv == min(error_group1$log.cv)] # rho based on minimum rule
 
     # rhos that are under blue line
-    rho_under_blue <- rho[error_group1$log.cv < min(error_group1$log.cv) + error_group1$log.rho[error_group1$log.cv == min(error_group1$log.cv)]]
+    rho_under_blue <- rho[error_group1$log.cv < min(error_group1$log.cv) + 
+                          error_group1$log.rho[error_group1$log.cv == min(error_group1$log.cv)]]
 
     # rhos that are on the right of the red line
     rho_right_red <- rho[rho > rho[error_group1$log.cv == min(error_group1$log.cv)]]
@@ -76,12 +78,14 @@ select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL,error_
         abline(v = rho[error_group2$log.cv == min(error_group2$log.cv)], col = "red", lty = 3)
 
         # one standard error rule
-        abline(h = min(error_group2$log.cv) + error_group2$log.rho[error_group2$log.cv == min(error_group2$log.cv)], col = "blue")
+        abline(h = min(error_group2$log.cv) + 
+               error_group2$log.rho[error_group2$log.cv == min(error_group2$log.cv)], col = "blue")
     }
     rho[error_group2$log.cv == min(error_group2$log.cv)] # rho based on minimum rule
 
     # rhos that are under blue line
-    rho_under_blue <- rho[error_group2$log.cv < min(error_group2$log.cv) + error_group2$log.rho[error_group2$log.cv == min(error_group2$log.cv)]]
+    rho_under_blue <- rho[error_group2$log.cv < min(error_group2$log.cv) + 
+                          error_group2$log.rho[error_group2$log.cv == min(error_group2$log.cv)]]
 
     # rhos that are on the right of the red line
     rho_right_red <- rho[rho > rho[error_group2$log.cv == min(error_group2$log.cv)]]
