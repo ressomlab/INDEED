@@ -66,7 +66,7 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
     }
 
 
-    #####
+    # Calculating the positive and negative threshold based on the permutation result
     thres_left <- permutation_thres
     thres_right <- 1-permutation_thres
     significant_thres <- permutation_thres(thres_left, thres_right, p, diff_p)
