@@ -72,7 +72,7 @@ select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL,error_
         lines(rho, error_group2$log.cv)
         title(main=paste("Group2 error curve", "using cross validation", sep="\n"))
 
-        # chosse optimal rho
+        # choose optimal rho
         abline(v = rho[error_group2$log.cv == min(error_group2$log.cv)], col = "red", lty = 3)
 
         # one standard error rule
@@ -91,9 +91,12 @@ select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL,error_
 
     rho_min_rule_group2 <- rho[error_group2$log.cv == min(error_group2$log.cv)]   # export as global
 
-    rho_df <- data.frame(c(rho_one_std_group1,rho_min_rule_group1), c(rho_one_std_group2,rho_min_rule_group2), row.names=c("one standard error","minimum"))
+    rho_df <- data.frame(c(rho_one_std_group1,rho_min_rule_group1), c(rho_one_std_group2,rho_min_rule_group2), 
+                         row.names=c("one standard error","minimum"))
     colnames(rho_df)<-c('group1',"group2")
     #cov_group_1
-    data_list <- list(p=p,rho_table =rho_df,cov_group_1=cov_group_1,cov_group_2=cov_group_2,n_group_1=n_group_1, n_group_2=n_group_2, data_group_1=data_group_1, data_group_2=data_group_2,class_label=class_label,id=id,data=data)
+    data_list <- list(p=p,rho_table =rho_df,cov_group_1=cov_group_1,cov_group_2=cov_group_2,
+                      n_group_1=n_group_1, n_group_2=n_group_2, data_group_1=data_group_1,
+                      data_group_2=data_group_2,class_label=class_label,id=id,data=data)
     return(data_list)
 }
