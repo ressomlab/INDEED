@@ -111,7 +111,7 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
     dn_score <- compute_dns(binary_link, z_score)
     indeed_df <- cbind(pvalue, rowSums(abs(binary_link)), dn_score )
 
-    colnames(indeed_df) <- c("MetID", "P_value", "Node Degree", "Activity_Score")
+    colnames(indeed_df) <- c("MetID", "P_value", "Node_Degree", "Activity_Score")
     indeed_df$P_value <- lapply(indeed_df$P_value, round, 3)
     indeed_df$Activity_Score <- lapply(indeed_df$Activity_Score, round, 1)
     indeed_df <- as.data.frame(lapply(indeed_df, unlist))
