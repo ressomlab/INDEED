@@ -111,11 +111,16 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
     dn_score <- compute_dns(binary_link, z_score)
     indeed_df <- cbind(pvalue, rowSums(abs(binary_link)), dn_score )
 
-    colnames(indeed_df) <- c("MetID", "P_value", "Node Degree", "Activity_Score")
+    colnames(indeed_df) <- c("MetID", "P_value", "Node_Degree", "Activity_Score")
     indeed_df$P_value <- lapply(indeed_df$P_value, round, 3)
     indeed_df$Activity_Score <- lapply(indeed_df$Activity_Score, round, 1)
     indeed_df <- as.data.frame(lapply(indeed_df, unlist))
+    indeed_df <- cbind(rownames(indeed_df) , data.frame(indeed_df, row.names=NULL) ) # Recopy dataframe with index to help with ighraph formating
+    colnames(indeed_df)[1] <- "Node"    # rename the previous index column as "Node"
+ 
     indeed_df<-indeed_df[order(indeed_df$Activity_Score, decreasing=TRUE), ]
+    row.names(indeed_df) <- NULL      # remove index repeat 
+    
     result_list <-list(activity_score=indeed_df,diff_network=edge_dn)
     return(result_list)
 }
