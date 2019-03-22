@@ -325,12 +325,10 @@ scale_range <- function(x){(x-min(x))/(max(x)-min(x))}
 #'
 #' @return A horizontal color bar representative of the inputted data
 
-# Function to plot color bar
-## horizontal 
+# Function to plot a horizontal color bar  
 color.bar <- function(lut, min, max=-min, nticks=5, ticks=seq(min, max, len=nticks), title='') {
   scale = (length(lut)-1)/(max-min)
-  
-  #dev.new(width=1.75, height=5)
+
   plot(c(ceiling(max(max)),0), c(4,min), type='n', bty='n', xaxt='n', xlab='', yaxt='n', ylab='', main=title)
   axis(1, ticks, las=1)
   for (i in 1:(length(lut)-1)) {
