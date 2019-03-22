@@ -131,5 +131,6 @@ partial_cor <- function(data_list =NULL, rho_group1=NULL,rho_group2=NULL, permut
         row.names(indeed_df) <- NULL      # remove index repeat 
 
         result_list <-list(activity_score=indeed_df,diff_network=edge_dn)
+        return (result_list)
     }
 }
