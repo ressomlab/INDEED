@@ -1,21 +1,23 @@
-#' @title Data preprocessing for partial correlaton analysis
+#' @title Partial correlaton analysis
 #' @description A method that integrates differential expression (DE) analysis
 #'   and differential network (DN) analysis to select biomarker candidates for
 #'   survival time prediction. partial_cor is the second step of partial correlation
 #'   calculation after the output result from select_rho_partial function
-#' @param data_list list of pre-processed data from select_rho_partial function
-#' @param rho_group1 rule to choose rho for group 1, "min": minimum rho,
-#' "ste" one standard error from minimum, or user can input rho of their choice, default: minimum
-#' @param rho_group2 rule to choose rho for group 1, "min": minimum rho,
-#' "ste" one standard error from minimum, or user can input rho of their choice, default: minimum
-#' @param p_val optional, a dataframe contains p values for each metabolite/molecule
-#' @param permutation a positive integer of desired number of permutations, default 1000
-#' @param permutation_thres threshold for permutation, defalut is 0.025 for each side to make 95percent
-#' @examples preprocess<- select_rho_partial(data=Met_GU,class_label =
-#'    Met_Group_GU,id=Met_name_GU,error_curve="YES")
-#'    partial_cor(data_list=preprocess,rho_group1='min',
-#'    rho_group2="min",permutation = 1000,p_val=pvalue_M_GU,permutation_thres=0.05)
-#' @return a list containing a score dataframe and a differential network dataframe
+#' @param data_list This is a list of pre-processed data outputed by the select_rho_partial function
+#' @param rho_group1 This is the rule for choosing rho for group 1, "min": minimum rho,
+#' "ste" one standard error from minimum, or user can input rho of their choice, the default is minimum
+#' @param rho_group2 This is the rule for choosing rho for group 1, "min": minimum rho,
+#' "ste" one standard error from minimum, or user can input rho of their choice, the default is minimum
+#' @param p_val This is optional.It is a dataframe that contains p-values for each metabolite/molecule
+#' @param permutation This is a positive integer of the desired number of permutations. The default is 1000 permutations
+#' @param permutation_thres This is the threshold for permutation. The defalut is 0.025 for each side to make 95percent
+#' @examples STEP 1: (select_rho_partial.R)
+#'          preprocess<- select_rho_partial(data=Met_GU,class_label =Met_Group_GU, id=Met_name_GU, error_curve="YES")
+#'           STEP 2: (partial_cor.R)
+#'          partial_cor(data_list=preprocess, rho_group1='min', rho_group2="min", permutation = 1000,
+#'                          p_val=pvalue_M_GU,permutation_thres=0.05)
+#' @return A list containing a score dataframe with "MetID", "P_value", "Node Degree", "Activity_Score"
+#'          and a differential network dataframe with  "Node1", "Node2", the binary link value and the weight link value
 #' @import devtools
 #' @importFrom glasso glasso
 #' @importFrom stats qnorm cor quantile var sd glm
@@ -61,16 +63,15 @@ partial_cor <- function(data_list =NULL, rho_group1=NULL,rho_group2=NULL, permut
         sum(abs(diff) > thres)
         diff[1:10, 1:10]
 
-        ## Permutation test using partial correlation
+        # Permutation test using partial correlation
         if(permutation<=0) {stop("please provide a valid number of permutation (positive integer)")}
         else{
             m <- as.numeric(permutation)
             diff_p <- permutation_pc(m, data_list$p, data_list$n_group_1, data_list$n_group_2, data_list$data_group_1, data_list$data_group_2, rho_group_1_opt, rho_group_2_opt)
             p <- data_list$p
         }
-        #####
-        ##### final calculation
-        #####
+  
+        # Calculating the positive and negative threshold based on the permutation result
         thres_left <- permutation_thres
         thres_right <- 1-permutation_thres
         significant_thres <- permutation_thres(thres_left, thres_right, p, diff_p)
@@ -120,12 +121,18 @@ partial_cor <- function(data_list =NULL, rho_group1=NULL,rho_group2=NULL, permut
 
         indeed_df <- cbind(pvalue, rowSums(abs(binary_link)), dn_score )
 
-        colnames(indeed_df) <- c("MetID", "P_value", "Node Degree", "Activity_Score")
+        colnames(indeed_df) <- c("MetID", "P_value", "Node_Degree", "Activity_Score")
         indeed_df$P_value <- lapply(indeed_df$P_value, round, 3)
         indeed_df$Activity_Score <- lapply(indeed_df$Activity_Score, round, 1)
         indeed_df <- as.data.frame(lapply(indeed_df, unlist))
+        
+        indeed_df <- cbind(rownames(indeed_df) , data.frame(indeed_df, row.names=NULL) ) # Recopy dataframe with index to help with ighraph formating
+        colnames(indeed_df)[1] <- "Node"    # rename the previous index column as "Node"
+ 
         indeed_df<-indeed_df[order(indeed_df$Activity_Score, decreasing=TRUE), ]
+        row.names(indeed_df) <- NULL      # remove index repeat 
 
         result_list <-list(activity_score=indeed_df,diff_network=edge_dn)
+        return (result_list)
     }
 }
