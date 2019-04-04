@@ -7,13 +7,14 @@
 loglik_ave(data, theta)
 }
 \arguments{
-\item{data}{a matrix or data.frame.}
+\item{data}{This is a matrix or data.frame.}
 
-\item{theta}{a precision matrix.}
+\item{theta}{This is a precision matrix.}
 }
 \value{
 log likelihood error function
 }
 \description{
-Calculate log likelihood error function.
+Calculates the log likelihood error function. This function is 
+     used inside the function choose_rho found below.
 }

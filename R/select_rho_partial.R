@@ -1,21 +1,21 @@
-#' @title Data preprocessing for partial correlaton analysis test
+#' @title Data preprocessing for partial correlaton analysis
 #' @description A method that integrates differential expression (DE) analysis
 #'   and differential network (DN) analysis to select biomarker candidates for
-#'   survival time prediction. select_rho_partial is the pre-processing step for INDEED
-#'   partial differential analysis
-#' @param data The input matrix of expression from all metabolites from all samples that will be preprocessed for Step 1
+#'   cancer studies. select_rho_partial is the pre-processing step for INDEED
+#'   partial differential analysis.
+#' @param data The input matrix of expression from all metabolites from all samples that will be preprocessed for Step 1.
 #' @param class_label This is a binary array with 0 for group 1 and 1 for group 2.
 #' @param id This is an array of biomolecule ID to label.
 #' @param error_curve The default is "YES". This is an option on whether a error curve plot will be
-#'    printed, user can choose "YES" or "NO"
-#' @examples select_rho_partial(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU,error_curve="YES")
-#' @return A list of processed data for the next step, rho, and generates an error curve for group 1 and 2
+#'    printed, user can choose "YES" or "NO".
+#' @examples select_rho_partial(data = Met_GU, class_label = Met_Group_GU,id = Met_name_GU, error_curve = "YES")
+#' @return A list of processed data for the next step, and generates an error curve to select rho for group 1 and 2.
 #' @import devtools
 #' @importFrom glasso glasso
 #' @importFrom stats qnorm cor quantile var sd glm
 #' @importFrom graphics abline title plot lines
 #' @export
-select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL,error_curve="YES") {
+select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL, error_curve = "YES"){
     data_bind <- rbind(data , class_label)
     raw_group_1 <- data_bind[,data_bind[nrow(data_bind),] == 0][1:(nrow(data_bind) - 1),]  # Group 1: p*n1
     raw_group_2 <- data_bind[,data_bind[nrow(data_bind),] == 1][1:(nrow(data_bind) - 1),]  # Group 2: p*n2

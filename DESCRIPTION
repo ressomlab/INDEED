@@ -16,10 +16,12 @@ LazyData: true
 RoxygenNote: 6.1.1
 Depends: glasso (>= 1.8),
     R (>= 3.5)
-Imports: devtools (>= 1.13.0),
+Imports: 
+    devtools (>= 1.13.0),
     graphics (>= 3.3.1),
     stats (>= 3.3.1),
-    utils (>= 3.3.1)
+    utils (>= 3.3.1),
+    igraph (>= 1.2.4)
 Suggests: knitr (>= 1.19),
     rmarkdown (>= 1.8),
     testthat (>= 2.0.0)
@@ -31,4 +33,3 @@ biocViews: Software,
     DifferentialExpression,
     MassSpectrometry,
     Metabolomics
-

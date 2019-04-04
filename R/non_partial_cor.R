@@ -1,27 +1,28 @@
 #' @title Non-partial correlaton analysis
 #' @description A method that integrates differential expression (DE) analysis
 #'   and differential network (DN) analysis to select biomarker candidates for
-#'   survival time prediction. non_partial_cor is a one step function for user
-#'   to perform analysis, no pre-processing step required
-#' @param data This is a matrix of expression from all metabolites from all samples
+#'   cancer studies. non_partial_cor is a one step function for user
+#'   to perform the analysis, no pre-processing step required.
+#' @param data This is a matrix of expression from all metabolites from all samples.
 #' @param class_label this is a binary array with 0 for group 1 and 1 for group 2.
 #' @param id This is an array of biomolecule ID to label.
 #' @param method This is a character string indicating which correlation coefficient is
-#'    to be computed. THe options are either "pearson" (the default) or "spearman".
-#' @param p_val This is optional, it is a dataframe containing p-values for each metabolite/molecule
-#' @param permutation This is a positive integer representing the desired number of permutations, default is 1000
-#' @param permutation_thres This is a threshold for permutation. The defalut is 0.025 for each side to result in 95percent
-#' @examples non_partial_cor(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU,
-#'    method="spearman",permutation_thres=0.05,permutation=1000)
-#' @return A list containing a score dataframe with "MetID", "P_value", "Node Degree", "Activity_Score" 
-#'          and a differential network dataframe with "Node1", "Node2", the binary link value and the weight link value.
+#'    to be computed. The options are either "pearson" (the default) or "spearman".
+#' @param p_val This is optional, it is a data frame containing p-values for each metabolite/molecule.
+#' @param permutation This is a positive integer representing the desired number of permutations, default is 1000.
+#' @param permutation_thres This is a threshold for permutation. The defalut is 0.025 for each side to result in 95 percent confidience.
+#' @examples non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
+#'                           method = "spearman", permutation_thres = 0.05, permutation = 1000)
+#' @return A list containing a score data frame with "MetID", "P_value", "Node_Degree", "Activity_Score"
+#'          and a differential network data frame with "Node1", "Node2", the binary link value and the weight link value.
 #' @import devtools
 #' @importFrom glasso glasso
 #' @importFrom stats qnorm cor quantile var sd glm
 #' @importFrom graphics abline title plot lines
 #' @export
 
-non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method = "pearson",  p_val = NULL,permutation=1000,permutation_thres=0.025) {
+non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method = "pearson",
+                            p_val = NULL, permutation = 1000, permutation_thres = 0.025){
     data_bind <- rbind(data , class_label)
     raw_group_1 <- data_bind[,data_bind[nrow(data_bind),] == 0][1:(nrow(data_bind) - 1),]  # Group 1: p*n1
     raw_group_2 <- data_bind[,data_bind[nrow(data_bind),] == 1][1:(nrow(data_bind) - 1),]  # Group 2: p*n2
@@ -118,10 +119,10 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
     indeed_df <- as.data.frame(lapply(indeed_df, unlist))
     indeed_df <- cbind(rownames(indeed_df) , data.frame(indeed_df, row.names=NULL) ) # Recopy dataframe with index to help with ighraph formating
     colnames(indeed_df)[1] <- "Node"    # rename the previous index column as "Node"
- 
+
     indeed_df<-indeed_df[order(indeed_df$Activity_Score, decreasing=TRUE), ]
-    row.names(indeed_df) <- NULL      # remove index repeat 
-    
+    row.names(indeed_df) <- NULL      # remove index repeat
+
     result_list <-list(activity_score=indeed_df,diff_network=edge_dn)
     return(result_list)
 }

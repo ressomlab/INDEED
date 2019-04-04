@@ -1,4 +1,4 @@
-#' GU CIRR and GU HCC combined .
+#' GU CIRR and GU HCC combined.
 #'
 #' A dataset containing the expression levels for each of the 120 subjects (HCC: 60; CIRR: 60)
 #' in terms of 39 metabolites.

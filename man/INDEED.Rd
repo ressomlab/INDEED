@@ -7,6 +7,7 @@
 \title{INDEED: A package for biomarker candidate prioritization.}
 \description{
 The INDEED package provides an important functions below:
+select_rho_partial, partial_cor, non_partial_cor and network_display.
 }
 \section{select_rho_partial function}{
 
@@ -26,10 +27,16 @@ the result of score table and differential network will be returned
 
 \section{non_partial_cor function}{
 
-non_partial_cor function performs correlation analysis based on
-user input data, class label, p-value, sample id,
-number of permutations, and method (default pearson),
+non_partial_cor function performs correlation analysis
+based on user input data, class label, p-value, sample id,
+number of permutations, and method (default pearson)
 p value is optional,
 the result of score table and differential network will be returned
+}
+
+\section{network_display function}{
+
+A tool to assist in the network visualization of the results from INDEED functions patial_cor()
+and non_partial_cor().
 }
 
