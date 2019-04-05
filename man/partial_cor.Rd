@@ -2,38 +2,41 @@
 % Please edit documentation in R/partial_cor.R
 \name{partial_cor}
 \alias{partial_cor}
-\title{Data preprocessing for partial correlaton analysis}
+\title{Partial correlaton analysis}
 \usage{
 partial_cor(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL,
   permutation = 1000, p_val = NULL, permutation_thres = 0.025)
 }
 \arguments{
-\item{data_list}{list of pre-processed data from select_rho_partial function}
+\item{data_list}{This is a list of pre-processed data outputed by the select_rho_partial function.}
 
-\item{rho_group1}{rule to choose rho for group 1, "min": minimum rho,
-"ste" one standard error from minimum, or user can input rho of their choice, default: minimum}
+\item{rho_group1}{This is the rule for choosing rho for group 1, "min": minimum rho,
+"ste": one standard error from minimum, or user can input rho of their choice, the default is minimum.}
 
-\item{rho_group2}{rule to choose rho for group 1, "min": minimum rho,
-"ste" one standard error from minimum, or user can input rho of their choice, default: minimum}
+\item{rho_group2}{This is the rule for choosing rho for group 1, "min": minimum rho,
+"ste": one standard error from minimum, or user can input rho of their choice, the default is minimum.}
 
-\item{permutation}{a positive integer of desired number of permutations, default 1000}
+\item{permutation}{This is a positive integer of the desired number of permutations. The default is 1000 permutations.}
 
-\item{p_val}{optional, a dataframe contains p values for each metabolite/molecule}
+\item{p_val}{This is optional. It is a data frame that contains p-values for each metabolite/molecule.}
 
-\item{permutation_thres}{threshold for permutation, defalut is 0.025 for each side to make 95percent}
+\item{permutation_thres}{This is the threshold for permutation. The defalut is 0.025 for each side to make 95 percent confidence.}
 }
 \value{
-a list containing a score dataframe and a differential network dataframe
+A list containing a score data frame with "MetID", "P_value", "Node Degree", "Activity_Score"
+         and a differential network data frame with  "Node1", "Node2", the binary link value and the weight link value.
 }
 \description{
 A method that integrates differential expression (DE) analysis
   and differential network (DN) analysis to select biomarker candidates for
-  survival time prediction. partial_cor is the second step of partial correlation
-  calculation after the output result from select_rho_partial function
+  cancer studies. partial_cor is the second step of partial correlation
+  calculation after the output result from select_rho_partial function.
 }
 \examples{
-preprocess<- select_rho_partial(data=Met_GU,class_label =
-   Met_Group_GU,id=Met_name_GU,error_curve="YES")
-   partial_cor(data_list=preprocess,rho_group1='min',
-   rho_group2="min",permutation = 1000,p_val=pvalue_M_GU,permutation_thres=0.05)
+# step 1: select_rho_partial
+preprocess<- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
+                                error_curve = "YES")
+# step 2: partial_cor
+partial_cor(data_list = preprocess, rho_group1 = 'min', rho_group2 = "min", permutation = 1000,
+            p_val = pvalue_M_GU, permutation_thres = 0.05)
 }

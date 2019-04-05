@@ -3,7 +3,7 @@
 \docType{data}
 \name{Met_GU}
 \alias{Met_GU}
-\title{GU CIRR and GU HCC combined .}
+\title{GU CIRR and GU HCC combined.}
 \format{A data frame with 39 variables (rows) and 120 subjects (columns).}
 \usage{
 Met_GU
