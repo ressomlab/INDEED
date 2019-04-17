@@ -4,12 +4,12 @@
 \alias{compute_cor}
 \title{Compute the correlation}
 \usage{
-compute_cor(data_group_2, data_group_1, type_of_cor)
+compute_cor(data_group_1, data_group_2, type_of_cor)
 }
 \arguments{
-\item{data_group_2}{This is a n*p matrix}
-
 \item{data_group_1}{This is a n*p matrix}
+
+\item{data_group_2}{This is a n*p matrix}
 
 \item{type_of_cor}{If this is NULL, pearson correlation coefficient will be calculated.
 Otherwise, a character string "spearman" will calculate the spearman correlation coefficient.}

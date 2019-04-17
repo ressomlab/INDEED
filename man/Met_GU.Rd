@@ -9,7 +9,7 @@
 Met_GU
 }
 \description{
-A dataset containing the expression levels for each of the 120 subjects (HCC: 60; CIRR: 60)
+A dataset containing the expression levels for each of the 120 subjects (CIRR: 60; HCC: 60)
 in terms of 39 metabolites.
 }
 \keyword{datasets}

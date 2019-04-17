@@ -1,4 +1,4 @@
-## This file contains several very important functions needed to 
+## This file contains several helper functions needed to 
 ## properly run select_rho_partial.R, partial_cor.R, and non_partial_cor.R
  
 
@@ -6,24 +6,23 @@
 #'
 #' @description This function computes either the pearson or spearman correlation coefficient. 
 #'      This function is used in non_partial_corr.R 
-#' @param data_group_2 This is a n*p matrix
 #' @param data_group_1 This is a n*p matrix
+#' @param data_group_2 This is a n*p matrix
 #' @param type_of_cor If this is NULL, pearson correlation coefficient will be calculated.
 #'   Otherwise, a character string "spearman" will calculate the spearman correlation coefficient.
 #'
 #' @return A list of correlation matrices for both group 1 and group 2
 #'
 # Compute Pearson correlation or Spearman correlation
-compute_cor <- function(data_group_2, data_group_1, type_of_cor) {
+compute_cor <- function(data_group_1, data_group_2, type_of_cor) {
     if (is.null(type_of_cor) || type_of_cor == "pearson") {
-        cor_group_2 <- cor(data_group_2, method = "pearson")
         cor_group_1 <- cor(data_group_1, method = "pearson")
-
+        cor_group_2 <- cor(data_group_2, method = "pearson")
     } else if (type_of_cor == "spearman") {
-        cor_group_2 <- cor(data_group_2, method = "spearman")
         cor_group_1 <- cor(data_group_1, method = "spearman")
+        cor_group_2 <- cor(data_group_2, method = "spearman")
     }
-    cor <- list("Group2" = cor_group_2, "Group1" = cor_group_1)
+    cor <- list("Group1" = cor_group_1, "Group2" = cor_group_2)
 }
 
 
@@ -40,7 +39,7 @@ compute_cor <- function(data_group_2, data_group_1, type_of_cor) {
 compute_par <- function(pre_inv) {
   p <- nrow(pre_inv)
 
-  i <- rep(seq_len(p - 1), times=(p-1):1)
+  i <- rep(seq_len(p-1), times=(p-1):1)
   k <- unlist(lapply(2:p, seq, p))
 
   pre_inv_i <- vapply(seq_len(p-1), function(x) pre_inv[x,x], numeric(1))
@@ -94,11 +93,11 @@ permutation_cor <- function(m, p, n_group_1, n_group_2, data_group_1, data_group
         }
 
     if (is.null(type_of_cor)) {
-        cor_group_2_p <- cor(data_group_2_p, method = "pearson")
         cor_group_1_p <- cor(data_group_1_p, method = "pearson")
+        cor_group_2_p <- cor(data_group_2_p, method = "pearson")
     } else {
-        cor_group_2_p <- cor(data_group_2_p, method = "spearman")
         cor_group_1_p <- cor(data_group_1_p, method = "spearman")
+        cor_group_2_p <- cor(data_group_2_p, method = "spearman")
     }
         diff_p[t, , ] <- cor_group_2_p - cor_group_1_p
 

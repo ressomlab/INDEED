@@ -1,6 +1,6 @@
 #' GU CIRR and GU HCC combined.
 #'
-#' A dataset containing the expression levels for each of the 120 subjects (HCC: 60; CIRR: 60)
+#' A dataset containing the expression levels for each of the 120 subjects (CIRR: 60; HCC: 60)
 #' in terms of 39 metabolites.
 #'
 #' @format A data frame with 39 variables (rows) and 120 subjects (columns).
@@ -9,7 +9,7 @@
 
 #' Group label.
 #'
-#' A dataset containing group information group 1: 0; group 2: 1.
+#' A dataset containing group information CIRR group: 0; HCC group: 1.
 #'
 #' @format A data frame with 1 row and 120 (subjects) columns.
 "Met_Group_GU"

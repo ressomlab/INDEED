@@ -1,6 +1,6 @@
 #' INDEED: A package for biomarker candidate prioritization.
 #'
-#' The INDEED package provides an important functions below:
+#' The INDEED package provides important functions below:
 #' select_rho_partial, partial_cor, non_partial_cor and network_display.
 #'
 #' @section select_rho_partial function:
