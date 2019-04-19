@@ -18,19 +18,19 @@ partial_cor(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL,
 
 \item{permutation}{This is a positive integer of the desired number of permutations. The default is 1000 permutations.}
 
-\item{p_val}{This is optional. It is a data frame that contains p-values for each metabolite/molecule.}
+\item{p_val}{This is optional. It is a data frame that contains p-values for each biomolecule.}
 
 \item{permutation_thres}{This is the threshold for permutation. The defalut is 0.025 for each side to make 95 percent confidence.}
 }
 \value{
-A list containing a score data frame with "MetID", "P_value", "Node Degree", "Activity_Score"
-         and a differential network data frame with  "Node1", "Node2", the binary link value and the weight link value.
+A list containing a score table with "ID", "P_value", "Node_Degree", "Activity_Score"
+         and a differential network table with  "Node1", "Node2", the binary link value and the weight link value.
 }
 \description{
 A method that integrates differential expression (DE) analysis
   and differential network (DN) analysis to select biomarker candidates for
   cancer studies. partial_cor is the second step of partial correlation
-  calculation after the output result from select_rho_partial function.
+  calculation after getting the result from select_rho_partial function.
 }
 \examples{
 # step 1: select_rho_partial
@@ -38,5 +38,5 @@ preprocess<- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = 
                                 error_curve = "YES")
 # step 2: partial_cor
 partial_cor(data_list = preprocess, rho_group1 = 'min', rho_group2 = "min", permutation = 1000,
-            p_val = pvalue_M_GU, permutation_thres = 0.05)
+            p_val = pvalue_M_GU, permutation_thres = 0.025)
 }

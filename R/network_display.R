@@ -1,9 +1,10 @@
 #' @title Network Visualization for INDEED Partial and Non-Partial Correlation
 
-#' @description A tool to assist in the visualization of the results from INDEED functions patial_cor()
+#' @description A function to assist in the visualization of the results from INDEED functions patial_cor()
 #' and non_partial_cor(). The size and the color of each node can be adjusted by users to represent either
 #' the Node_Degree, Activity_Score, Z_Score, or P_Value. The color of the edge is based on the binary value of
-#' either 1 corresonding to a positive correlation dipicted as green or a negative correlation of -1 dipicted as red. The
+#' either 1 corresonding to a positive correlation change from group 1 to group 2 dipicted as green or a negative 
+#' correlation change dipicted as red. The
 #' user also has the option of having the width of each edge be proportional to its weight value. The layout of the network
 #' can also be customized by choosing from the options: 'nice', 'sphere', 'grid', 'star', and 'circle'.
 #' @param results This is the result from the calling either partial_cor() or non_partial_cor().
@@ -19,9 +20,9 @@
 #'            including:'nice', 'sphere', 'grid', 'star', and 'circle'.
 #'
 #' @examples
-#' result1 = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
-#'                           method = "spearman", permutation_thres = 0.05, permutation = 1000)
-#' network_display(results = result1, layout = 'nice', nodesize = 'Node_Degree',
+#' result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
+#'                          method = "pearson", permutation_thres = 0.05, permutation = 1000)
+#' network_display(results = result, layout = 'nice', nodesize = 'Node_Degree',
 #'                 nodecolor = 'Activity_Score', edgewidth = 'NO')
 #'
 #' @return A visual dipiction of the network resulting from INDEED functions partial_cor() or non_partial_cor()
@@ -68,8 +69,8 @@ network_display <- function(results = NULL, nodesize = 'Node_Degree', nodecolor 
 
 	V(net)$color [ncolor >= 0] <- heat.colors(length(ncolor), alpha=1)  # doesnt need to be >=0 make it something useful
 
-	# Label 'MetID' display settings
-	V(net)$label <- V(net)$MetID			# Adding MetID as label to each node
+	# Label 'ID' display settings
+	V(net)$label <- V(net)$ID			# Adding ID as label to each node
 	V(net)$label.dist <- 0
 	V(net)$label.cex <- 0.8
 	V(net)$label.font <- 2
@@ -112,7 +113,7 @@ network_display <- function(results = NULL, nodesize = 'Node_Degree', nodecolor 
 
 	par(mar = c(1, 1, 1, 1))
 	plot(net, layout=l, main= paste0("Node Size Representative of ", nodesize),  frame = FALSE)
-	legend('bottomleft', c("Positive", "Negative"), lty = c(1,1), lwd=c(2.5,2.5), col=c("dark green", "dark red"), bty="o",cex=1.5, title= "Correlation")
+	legend('bottomleft', c("Positive change", "Negative change"), lty = c(1,1), lwd=c(2.5,2.5), col=c("dark green", "dark red"), bty="o",cex=1.5, title= "Correlation")
 
 	par(mar = c(2, 2, 2, 2))
 	color.bar(lut, min=0, max=max(ncolor), title= toString(nodecolor), nticks=5)

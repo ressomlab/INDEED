@@ -4,23 +4,23 @@
 \name{INDEED}
 \alias{INDEED}
 \alias{INDEED-package}
-\title{INDEED: A package for biomarker candidate prioritization.}
+\title{INDEED: A package for biomarker candidate selection.}
 \description{
-The INDEED package provides important functions below:
+The INDEED package provides important functions as shown below:
 select_rho_partial, partial_cor, non_partial_cor and network_display.
 }
 \section{select_rho_partial function}{
 
 select_rho_partial function preprocess data for partical correlation analysis,
 the result contains list of preprocessed data and rho values and
-error plot for user to choose desired rho value
+error plot for user to choose desired rho value for graphical lasso
 }
 
 \section{partial_cor function}{
 
 partial_cor function performs partical correlation analysis
 based on user input preprocessed list from select_rho_partial step
-and the rho choosing method or rho of their choice
+and the rho choosing method or values of their choice
 and number of permutations (default 1000), p-value is optional,
 the result of score table and differential network will be returned
 }
@@ -36,7 +36,7 @@ the result of score table and differential network will be returned
 
 \section{network_display function}{
 
-A tool to assist in the network visualization of the results from INDEED functions patial_cor()
+A function to assist in the network visualization of the results from INDEED functions patial_cor()
 and non_partial_cor().
 }
 

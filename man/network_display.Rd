@@ -28,17 +28,18 @@ including:'nice', 'sphere', 'grid', 'star', and 'circle'.}
 A visual dipiction of the network resulting from INDEED functions partial_cor() or non_partial_cor()
 }
 \description{
-A tool to assist in the visualization of the results from INDEED functions patial_cor()
+A function to assist in the visualization of the results from INDEED functions patial_cor()
 and non_partial_cor(). The size and the color of each node can be adjusted by users to represent either
 the Node_Degree, Activity_Score, Z_Score, or P_Value. The color of the edge is based on the binary value of
-either 1 corresonding to a positive correlation dipicted as green or a negative correlation of -1 dipicted as red. The
+either 1 corresonding to a positive correlation change from group 1 to group 2 dipicted as green or a negative 
+correlation change dipicted as red. The
 user also has the option of having the width of each edge be proportional to its weight value. The layout of the network
 can also be customized by choosing from the options: 'nice', 'sphere', 'grid', 'star', and 'circle'.
 }
 \examples{
-result1 = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
-                          method = "spearman", permutation_thres = 0.05, permutation = 1000)
-network_display(results = result1, layout = 'nice', nodesize = 'Node_Degree',
+result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
+                         method = "pearson", permutation_thres = 0.05, permutation = 1000)
+network_display(results = result, layout = 'nice', nodesize = 'Node_Degree',
                 nodecolor = 'Activity_Score', edgewidth = 'NO')
 
 }
