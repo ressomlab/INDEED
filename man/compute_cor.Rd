@@ -4,20 +4,20 @@
 \alias{compute_cor}
 \title{Compute the correlation}
 \usage{
-compute_cor(data_group_2, data_group_1, type_of_cor)
+compute_cor(data_group_1, data_group_2, type_of_cor)
 }
 \arguments{
-\item{data_group_2}{a n*p matrix.}
+\item{data_group_1}{This is a n*p matrix}
 
-\item{data_group_1}{a n*p matrix}
+\item{data_group_2}{This is a n*p matrix}
 
-\item{type_of_cor}{if NULL, pearson correlation coefficient will be calculated.
-Otherwise, a character string "spearman" to calculate spearman correlation
-coefficient.}
+\item{type_of_cor}{If this is NULL, pearson correlation coefficient will be calculated.
+Otherwise, a character string "spearman" will calculate the spearman correlation coefficient.}
 }
 \value{
-A list of correlation matrix for both group 1 and group 2
+A list of correlation matrices for both group 1 and group 2
 }
 \description{
-Compute either pearson or spearman correlation coefficient.
+This function computes either the pearson or spearman correlation coefficient. 
+     This function is used in non_partial_corr.R
 }

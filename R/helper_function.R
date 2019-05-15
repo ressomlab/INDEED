@@ -1,48 +1,45 @@
-## Functions defined to help the functions.R
-# This file contains several very important functions to run select_sig() in functions.R
-
+## This file contains several helper functions needed to 
+## properly run select_rho_partial.R, partial_cor.R, and non_partial_cor.R
+ 
 
 #' @title Compute the correlation
 #'
-#' @description Compute either pearson or spearman correlation coefficient.
-#' @param data_group_2 a n*p matrix.
-#' @param data_group_1 a n*p matrix
-#' @param type_of_cor if NULL, pearson correlation coefficient will be calculated.
-#'   Otherwise, a character string "spearman" to calculate spearman correlation
-#'   coefficient.
+#' @description This function computes either the pearson or spearman correlation coefficient. 
+#'      This function is used in non_partial_corr.R 
+#' @param data_group_1 This is a n*p matrix
+#' @param data_group_2 This is a n*p matrix
+#' @param type_of_cor If this is NULL, pearson correlation coefficient will be calculated.
+#'   Otherwise, a character string "spearman" will calculate the spearman correlation coefficient.
 #'
-#' @return A list of correlation matrix for both group 1 and group 2
+#' @return A list of correlation matrices for both group 1 and group 2
 #'
-
-
 # Compute Pearson correlation or Spearman correlation
-compute_cor <- function(data_group_2, data_group_1, type_of_cor) {
+compute_cor <- function(data_group_1, data_group_2, type_of_cor) {
     if (is.null(type_of_cor) || type_of_cor == "pearson") {
-        cor_group_2 <- cor(data_group_2, method = "pearson")
         cor_group_1 <- cor(data_group_1, method = "pearson")
-
+        cor_group_2 <- cor(data_group_2, method = "pearson")
     } else if (type_of_cor == "spearman") {
-        cor_group_2 <- cor(data_group_2, method = "spearman")
         cor_group_1 <- cor(data_group_1, method = "spearman")
+        cor_group_2 <- cor(data_group_2, method = "spearman")
     }
-    cor <- list("Group2" = cor_group_2, "Group1" = cor_group_1)
+    cor <- list("Group1" = cor_group_1, "Group2" = cor_group_2)
 }
-
 
 
 #' @title Compute the partial correlation
 #'
 #' @description Compute the partial correlation coefficient.
-#' @param pre_inv an inverse covariance matrix.
+#'      This function is used in partial_corr.R 
+#' @param pre_inv This is an inverse covariance matrix.
 #'
-#' @return An \eqn{n by n} partial correlation matrix
+#' @return An \eqn{n * n} partial correlation matrix
 #' @importFrom utils tail
 
-## Compute partial correlation
+# Compute partial correlation
 compute_par <- function(pre_inv) {
   p <- nrow(pre_inv)
 
-  i <- rep(seq_len(p - 1), times=(p-1):1)
+  i <- rep(seq_len(p-1), times=(p-1):1)
   k <- unlist(lapply(2:p, seq, p))
 
   pre_inv_i <- vapply(seq_len(p-1), function(x) pre_inv[x,x], numeric(1))
@@ -62,28 +59,26 @@ compute_par <- function(pre_inv) {
 
 
 
-
-
-#' @title Permutations to build differential network using correlation
+#' @title Permutations to build a differential network using correlation
 #'
 #' @description A permutation test that randomly permutes the sample labels in distinct
 #'     biological groups for each biomolecule. The difference in each paired biomolecule
 #'     is considered significant if it falls into the 2.5% tails on either end of the empirical
-#'     distribution curve.
-#' @param m number of permutations.
-#' @param p number of biomarker candidates.
-#' @param n_group_1 number of subjects in group 1.
-#' @param n_group_2 number of subjects in group 2.
-#' @param data_group_1 a \eqn{n*p} matrix or data.frame containing group 1 data.
-#' @param data_group_2 a \eqn{n*p} matrix of data.frame containing group 2 data.
-#' @param type_of_cor if NULL, pearson correlation coefficient will be calculated.
-#'     Otherwise, a character string "spearman" to calculate spearman correlation
+#'     distribution curve. This function is used in non_partial_corr.R 
+#' @param m This is the number of permutations desired.
+#' @param p This is the number of biomarker candidates present.
+#' @param n_group_1 This is the number of subjects in group 1.
+#' @param n_group_2 This is the number of subjects in group 2.
+#' @param data_group_1 This is a \eqn{n*p} matrix or data.frame containing group 1 data.
+#' @param data_group_2 This is a \eqn{n*p} matrix of data.frame containing group 2 data.
+#' @param type_of_cor If this is NULL, pearson correlation coefficient will be calculated by default.
+#'     Otherwise, a character string "spearman" will calculate the spearman correlation
 #'     coefficient.
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @return A multi-dimensional matrix that contains the permutation results
-# Permutation to build differential network using correlation
-#' @importFrom utils txtProgressBar setTxtProgressBar
 
+# Permutation to build differential network using correlation
 permutation_cor <- function(m, p, n_group_1, n_group_2, data_group_1, data_group_2, type_of_cor) {
     diff_p <- array(0, dim = c(m, p, p))
     pb <- txtProgressBar(min = 0, max = m, style = 3)
@@ -98,11 +93,11 @@ permutation_cor <- function(m, p, n_group_1, n_group_2, data_group_1, data_group
         }
 
     if (is.null(type_of_cor)) {
-        cor_group_2_p <- cor(data_group_2_p, method = "pearson")
         cor_group_1_p <- cor(data_group_1_p, method = "pearson")
+        cor_group_2_p <- cor(data_group_2_p, method = "pearson")
     } else {
-        cor_group_2_p <- cor(data_group_2_p, method = "spearman")
         cor_group_1_p <- cor(data_group_1_p, method = "spearman")
+        cor_group_2_p <- cor(data_group_2_p, method = "spearman")
     }
         diff_p[t, , ] <- cor_group_2_p - cor_group_1_p
 
@@ -119,19 +114,20 @@ permutation_cor <- function(m, p, n_group_1, n_group_2, data_group_1, data_group
 #' @description A permutation test that randomly permutes the sample labels in distinct
 #'     biological groups for each biomolecule. The difference in paired partial correlation
 #'     is considered significant if it falls into the 2.5% tails on either end of the empirical
-#'     distribution curve.
-#' @param m number of permutations.
-#' @param p number of biomarker candidates.
-#' @param n_group_1 number of subjects in group 1.
-#' @param n_group_2 number of subjects in group 2.
-#' @param data_group_1 a \eqn{n*p} matrix or data.frame containing group 1 data.
-#' @param data_group_2 a \eqn{n*p} matrix of data.frame containing group 2 data.
-#' @param rho_group_1_opt optimal tuning parameter to sparse the differential network for group 1
-#' @param rho_group_2_opt optimal tuning parameter to sparse the differential network for group 2
+#'     distribution curve. This function is used in partial_corr.R 
+#' @param m This is the number of permutations desired.
+#' @param p This is the number of biomarker candidates present.
+#' @param n_group_1 This is the number of subjects in group 1.
+#' @param n_group_2 This is the number of subjects in group 2.
+#' @param data_group_1 This is a \eqn{n*p} matrix or data.frame containing group 1 data.
+#' @param data_group_2 This is a \eqn{n*p} matrix of data.frame containing group 2 data.
+#' @param rho_group_1_opt This is an optimal tuning parameter to sparse the differential network for group 1
+#' @param rho_group_2_opt This is an optimal tuning parameter to sparse the differential network for group 2
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @return A multi-dimensional matrix that contains the permutation results
 
-## Permutation to build differential network using partial correlation
+# Permutation to build differential network using partial correlation
 permutation_pc <- function(m, p, n_group_1, n_group_2, data_group_1, data_group_2, rho_group_1_opt, rho_group_2_opt) {
     diff_p <- array(0, dim = c(m, p, p))
     pb <- txtProgressBar(min = 0, max = m, style = 3)
@@ -162,13 +158,15 @@ permutation_pc <- function(m, p, n_group_1, n_group_2, data_group_1, data_group_
 #' @title Calculate the positive and negative threshold based on the permutation result
 #'
 #' @description Calculate the positive and negative threshold based on the permutation result.
+#'       This function is used in both partial_cor.R and non_partial_corr.R
+#' @param thres_left This is the threshold representing 2.5 percent of the left tail of the empirical
+#'     distribution curve.
+#' @param thres_right This is the threshold representing 2.5 percent of the right tail of the empirical
+#'     distribution curve.
+#' @param p This is the number of biomarker candidates present.
+#' @param diff_p  This is the permutation results from either permutation_pc or permutation_cor
 #'
-#' @param thres_left 2.5 percent left tails.
-#' @param thres_right 2.5 percent right tails.
-#' @param p number of biomarker candidates.
-#' @param diff_p permutation results.
-#'
-#' @return A list of positive and negative threshold
+#' @return A list of the positive and negative thresholds
 
 # Calculate the positive and negative threshold based on the permutation result
 permutation_thres <- function(thres_left, thres_right, p, diff_p) {
@@ -189,13 +187,13 @@ permutation_thres <- function(thres_left, thres_right, p, diff_p) {
 
 
 
-#' @title Calculate differential network score
+#' @title Calculate the differential network score
 #'
-#' @description Calculate differential network score.
-#'
-#' @param binary_link binary correlation matrix with 1 indicating positive correlation and -1
+#' @description Calculates a differential network score by using the binary link and z-scores. 
+#'      This function is used in both partial_cor.R and non_partial_corr.R
+#' @param binary_link This is the binary correlation matrix with 1 indicating positive correlation and -1
 #'     indicating negative correlation for each biomolecular pair.
-#' @param z_score converted from p-value.
+#' @param z_score This was converted from given of calulated p-value.
 #'
 #' @return An activity score associated with each biomarker candidate
 
@@ -213,10 +211,10 @@ compute_dns <- function(binary_link, z_score) {
 #' @title Obtain p-values using logistic regression
 #'
 #' @description Calculate p-values using logistic regression.
-#'
-#' @param x a data frame consists of data from group 1 and group 2.
-#' @param class_label a binary array indicating 0: group 1; 1: group 2.
-#' @param Met_name an array of ID.
+#'      This function is used in both partial_cor.R and non_partial_corr.R in cases where p-values are not provided
+#' @param x This is a data frame consists of data from group 1 and group 2.
+#' @param class_label This is a binary array indicating 0 for group 1 and 1 for group 2.
+#' @param Met_name This is an array of IDs.
 #'
 #' @return p-values
 
@@ -238,14 +236,14 @@ pvalue_logit <- function(x, class_label, Met_name) {
 
 #' @title Create log likelihood error function
 #'
-#' @description Calculate log likelihood error function.
-#'
-#' @param data a matrix or data.frame.
-#' @param theta a precision matrix.
+#' @description Calculates the log likelihood error function. This function is 
+#'      used inside the function choose_rho found below. 
+#' @param data This is a matrix or data.frame.
+#' @param theta This is a precision matrix.
 #'
 #' @return log likelihood error function
 
-## Create log likelihood error function
+# Create log likelihood error function
 loglik_ave <- function(data, theta){
     loglik <- c()
     loglik <- log(det(theta)) - sum(diag(var(data) %*% theta))
@@ -256,17 +254,18 @@ loglik_ave <- function(data, theta){
 
 
 
-#' @title Draw error curve
+#' @title Generating a list of errors and thier corresponding \eqn{log(rho)} values
 #'
-#' @description Draw error curve using cross-validation.
-#'
-#' @param data a matrix.
-#' @param n_fold specify n to n-fold cross_validation.
-#' @param rho multiple regularization parameter values to be evalueated in terms of errors.
+#' @description This functions output is later used to draw an error curve using cross-validation. 
+#'          This function is used in select_rho_partial.R to help visualize 
+#'          the error curve for both group 1 and 2 in the data preprocessing step
+#' @param data This is a matrix.
+#' @param n_fold This parameter specifies the n to n-fold cross_validation.
+#' @param rho This is the multiple regularization parameter values used to evaluate in terms of errors.
 #'
 #' @return a list of errors and their corresponding \eqn{log(rho)}
 
-## Draw error curve
+# Draw error curve
 choose_rho <- function(data, n_fold, rho) {
   # randomly shuffle the data
   Data <- data[sample(nrow(data)), ]
@@ -294,4 +293,18 @@ choose_rho <- function(data, n_fold, rho) {
   #lines(rho, loglik_cv)
   error <- list("log.cv" = loglik_cv, "log.rho" = loglik_rho)
   return(error)
-}
+}        
+                       
+#' @title Scale list of numbers
+#'
+#' @description This function is used to help spread out data values across 0 to 1. This is so that it 
+#'              will be easier to distinguish values later incorporated into the network_display function 
+#'
+#' @param x This is a list of numbers taken form on the columns outputted from calling patial_corr.R or non_partial_corr.R
+#'
+#' @return Scaled version of data that fits between 0 to 1
+
+# Rescaling data points
+scale_range <- function(x){(x-min(x))/(max(x)-min(x))}
+
+

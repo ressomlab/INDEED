@@ -2,20 +2,22 @@
 % Please edit documentation in R/helper_function.R
 \name{choose_rho}
 \alias{choose_rho}
-\title{Draw error curve}
+\title{Generating a list of errors and thier corresponding \eqn{log(rho)} values}
 \usage{
 choose_rho(data, n_fold, rho)
 }
 \arguments{
-\item{data}{a matrix.}
+\item{data}{This is a matrix.}
 
-\item{n_fold}{specify n to n-fold cross_validation.}
+\item{n_fold}{This parameter specifies the n to n-fold cross_validation.}
 
-\item{rho}{multiple regularization parameter values to be evalueated in terms of errors.}
+\item{rho}{This is the multiple regularization parameter values used to evaluate in terms of errors.}
 }
 \value{
 a list of errors and their corresponding \eqn{log(rho)}
 }
 \description{
-Draw error curve using cross-validation.
+This functions output is later used to draw an error curve using cross-validation. 
+         This function is used in select_rho_partial.R to help visualize 
+         the error curve for both group 1 and 2 in the data preprocessing step
 }
