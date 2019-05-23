@@ -8,21 +8,21 @@ permutation_pc(m, p, n_group_1, n_group_2, data_group_1, data_group_2,
   rho_group_1_opt, rho_group_2_opt)
 }
 \arguments{
-\item{m}{This is the number of permutations desired.}
+\item{m}{number of permutations.}
 
-\item{p}{This is the number of biomarker candidates present.}
+\item{p}{number of biomarker candidates.}
 
-\item{n_group_1}{This is the number of subjects in group 1.}
+\item{n_group_1}{number of subjects in group 1.}
 
-\item{n_group_2}{This is the number of subjects in group 2.}
+\item{n_group_2}{number of subjects in group 2.}
 
-\item{data_group_1}{This is a \eqn{n*p} matrix or data.frame containing group 1 data.}
+\item{data_group_1}{a \eqn{n*p} matrix or data.frame containing group 1 data.}
 
-\item{data_group_2}{This is a \eqn{n*p} matrix of data.frame containing group 2 data.}
+\item{data_group_2}{a \eqn{n*p} matrix of data.frame containing group 2 data.}
 
-\item{rho_group_1_opt}{This is an optimal tuning parameter to sparse the differential network for group 1}
+\item{rho_group_1_opt}{optimal tuning parameter to sparse the differential network for group 1}
 
-\item{rho_group_2_opt}{This is an optimal tuning parameter to sparse the differential network for group 2}
+\item{rho_group_2_opt}{optimal tuning parameter to sparse the differential network for group 2}
 }
 \value{
 A multi-dimensional matrix that contains the permutation results
@@ -31,5 +31,5 @@ A multi-dimensional matrix that contains the permutation results
 A permutation test that randomly permutes the sample labels in distinct
     biological groups for each biomolecule. The difference in paired partial correlation
     is considered significant if it falls into the 2.5% tails on either end of the empirical
-    distribution curve. This function is used in partial_corr.R
+    distribution curve.
 }

@@ -2,20 +2,19 @@
 % Please edit documentation in R/helper_function.R
 \name{compute_dns}
 \alias{compute_dns}
-\title{Calculate the differential network score}
+\title{Calculate differential network score}
 \usage{
 compute_dns(binary_link, z_score)
 }
 \arguments{
-\item{binary_link}{This is the binary correlation matrix with 1 indicating positive correlation and -1
+\item{binary_link}{binary correlation matrix with 1 indicating positive correlation and -1
 indicating negative correlation for each biomolecular pair.}
 
-\item{z_score}{This was converted from given of calulated p-value.}
+\item{z_score}{converted from p-value.}
 }
 \value{
 An activity score associated with each biomarker candidate
 }
 \description{
-Calculates a differential network score by using the binary link and z-scores. 
-     This function is used in both partial_cor.R and non_partial_corr.R
+Calculate differential network score.
 }
