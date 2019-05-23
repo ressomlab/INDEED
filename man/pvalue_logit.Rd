@@ -7,15 +7,16 @@
 pvalue_logit(x, class_label, Met_name)
 }
 \arguments{
-\item{x}{a data frame consists of data from group 1 and group 2.}
+\item{x}{This is a data frame consists of data from group 1 and group 2.}
 
-\item{class_label}{a binary array indicating 0: group 1; 1: group 2.}
+\item{class_label}{This is a binary array indicating 0 for group 1 and 1 for group 2.}
 
-\item{Met_name}{an array of ID.}
+\item{Met_name}{This is an array of IDs.}
 }
 \value{
 p-values
 }
 \description{
 Calculate p-values using logistic regression.
+     This function is used in both partial_cor.R and non_partial_corr.R in cases where p-values are not provided
 }

@@ -12,7 +12,7 @@
 
 <meta name="author" content="Zhenzhi Li and Yiming Zuo" />
 
-<meta name="date" content="2018-07-20" />
+<meta name="date" content="2019-05-02" />
 
 <title>INDEED R package for cancer biomarker candidate selection</title>
 
@@ -32,7 +32,7 @@
 
 <h1 class="title toc-ignore">INDEED R package for cancer biomarker candidate selection</h1>
 <h4 class="author"><em>Zhenzhi Li and Yiming Zuo</em></h4>
-<h4 class="date"><em>2018-07-20</em></h4>
+<h4 class="date"><em>2019-05-02</em></h4>
 
 
 
@@ -67,7 +67,8 @@
 <p>In partical correlation method, user will need to preprocess the data using <code>pre_partial()</code> function, followed by using <code>partial_cor()</code> and choosing desired rho number and complete the analysis. User can also choose to provide p-value table and number of permutations in <code>partial_cor()</code> function. Result will be saved in a list of two dataframes: activity_score and diff_network. Activity_score contains a dataframe with biomolecules ranked by activity score calculated from p-value and node degree. Diff_network contains a dataframe of connection weight between two nodes.</p>
 <p>The following example demonstrates how to use <code>pre_partial()</code> and <code>partial_cor()</code>function:</p>
 <pre><code>pre_data &lt;- pre_partial(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU)
-partial_cor(data_list=pre_data,rho_group1='min',rho_group2=&quot;min&quot;,permutation = 1000,p_val=pvalue_M_GU)</code></pre>
+partial_cor(data_list=pre_data,rho_group1='min',
+                        rho_group2=&quot;min&quot;,permutation = 1000,p_val=pvalue_M_GU)</code></pre>
 <p>In this case, the sparse differential network is based on partial correlation and p-value for each biomolecule is calculated for users. Also, <strong>rho</strong> is picked based on minimum rule and number of permutations is set to 1000.</p>
 </div>
 <div id="non-partial-correlation-data-preprocessing-function-non_partial_cor" class="section level2">
@@ -85,6 +86,20 @@ partial_cor(data_list=pre_data,rho_group1='min',rho_group2=&quot;min&quot;,permu
 <pre><code>non_partial_cor(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU,method=&quot;spearman&quot;)
 </code></pre>
 </div>
+<div id="interactive-network-visualization-function-networkvis" class="section level2">
+<h2>Interactive Network Visualization function <code>networkVis()</code></h2>
+<ul>
+<li>(<strong>results</strong>) This is the result from the calling either partial_cor() or non_partial_cor().</li>
+<li>(<strong>nodesize</strong>) This parameter determines what the size of each node will represent. The options are ‘Node_Degree’, ‘Activity_Score’, ‘Z_Score’, and ‘P_Value’. The title of the resulting network will identify which parameter was selected to represent the node size. The default is Node_Degree.</li>
+<li>(<strong>nodecolor</strong>) This parameter determines what color each node will be, based on a yellow or red color gradient. The options are ‘Node_Degree’, ‘Activity_Score’, ‘Z_Score’, and ‘P_Value’. A color bar will be created based on which parameter is chosen.</li>
+<li>(<strong>edgewidth</strong>) This is a ‘YES’ or ‘NO’ option as to if the edgewidth should be representative of the weight value corresponding to the correlation between two nodes.</li>
+<li>(<strong>layout</strong>) User can choose from a a handful of network visualization templates including:‘nice’, ‘sphere’, ‘grid’, ‘star’, and ‘circle’.</li>
+</ul>
+<p>An interactive tool to assist in the visualization of the results from INDEED functions patial_corr() or non_partial_corr(). The size and the color of each node can be adjusted by users to represent either the Node_Degree, Activity_Score, Z_Score, or P_Value. The color of the edge is based on the binary value of either 1 corresonding to a positive correlation dipicted as green or a negative correlation of -1 dipicted as red. The user also has the option of having the width of each edge be proportional to its weight value. The layout of the network can also be customized by choosing from the options: ‘nice’, ‘sphere’, ‘grid’, ‘star’, and circle’. Nodes can be moved and zoomed in on. Each node and edge will display extra information when clicked on. Secondary interactions will be highlighted as well when a node is clicked on.</p>
+<p>The following example demonstrates how to use the <code>networkVis()</code> function:</p>
+<pre><code>networkVis(results = result1, layout= 'nice', nodesize= 'Node_Degree', 
+                                       nodecolor= 'Activity_Score', edgewidth= 'NO')</code></pre>
+</div>
 <div id="more-examples" class="section level2">
 <h2>More Examples</h2>
 <div id="example-1" class="section level3">
@@ -97,9 +112,17 @@ partial_cor(data_list=pre_data,rho_group1=0.3,rho_group2=0.25,permutation = 500)
 </div>
 <div id="example-2" class="section level3">
 <h3>Example 2</h3>
-<pre><code>non_partial_cor(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU,method=&quot;pearson&quot;)
-By calling the above function, the differential network is obtained based on Pearson correlation coefficient.</code></pre>
-<p>By calling the above function, the differential network is obtained based on Spearman correlation coefficient. And the table below is part of the csv file output.</p>
+<pre><code>result2 &lt;- non_partial_cor(data=Met_GU,class_label = Met_Group_GU,
+                            id=Met_name_GU,method=&quot;spearman&quot;,permutation_thres = 0.05)</code></pre>
+<p>By calling the above function, the differential network is obtained based on Pearson correlation coefficient. And the table below is part of the csv file output.</p>
+</div>
+<div id="example-3" class="section level3">
+<h3>Example 3</h3>
+<pre><code>
+networkVis(results = result2, layout= 'nice', nodesize= 'Node_Degree',
+                  nodecolor= 'Activity_Score', edgewidth= 'NO')
+</code></pre>
+<p>By calling the above function, an interactive visual network will be displayed based on the outputs from non_parial_cor() or partial_cor() functions bepending on which was provided.</p>
 </div>
 </div>
 

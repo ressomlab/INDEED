@@ -7,11 +7,12 @@
 compute_par(pre_inv)
 }
 \arguments{
-\item{pre_inv}{an inverse covariance matrix.}
+\item{pre_inv}{This is an inverse covariance matrix.}
 }
 \value{
-An \eqn{n by n} partial correlation matrix
+An \eqn{n * n} partial correlation matrix
 }
 \description{
 Compute the partial correlation coefficient.
+     This function is used in partial_corr.R
 }
