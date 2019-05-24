@@ -113,6 +113,7 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
         weight_link_value <- weight_link[lower.tri(weight_link)]
         edge <- cbind("Node1" = i, "Node2" = k, "Binary" = binary_link_value, "Weight" = weight_link_value)
         edge_dn <- edge[which(edge[,3] != 0),]
+        edge_dn <- as.data.frame(edge_dn)
 
         # Compute p-values
         if (is.null(p_val) == TRUE) {
@@ -142,7 +143,7 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
         row.names(indeed_df) <- NULL      # remove index repeat
 
         # return
-        result_list <-list(activity_score=indeed_df,diff_network=edge_dn)
+        result_list <-list(activity_score=indeed_df, diff_network=edge_dn)
         return (result_list)
     }
 }

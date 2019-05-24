@@ -7,13 +7,13 @@
 #' @param class_label This is a binary array with 0 for group 1 and 1 for group 2.
 #' @param id This is an array of biomolecule ID to label.
 #' @param error_curve The default is "YES". This is an option on whether a error curve plot will be
-#'    provided to the user, user can choose "YES" or "NO".
+#'     provided to the user, user can choose "YES" or "NO".
 #' @examples select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, error_curve = "YES")
 #' @return A list of processed data for the next step, and generates an error curve to select rho for graphical lasso.
 #' @import devtools
 #' @importFrom glasso glasso
-#' @importFrom stats qnorm cor quantile var sd glm
-#' @importFrom graphics abline title plot lines
+#' @importFrom stats qnorm cor quantile var sd glm 
+#' @importFrom graphics abline title plot lines 
 #' @export
 
 select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL, error_curve = "YES"){

@@ -12,7 +12,7 @@
 #' @param permutation This is a positive integer representing the desired number of permutations, default is 1000.
 #' @param permutation_thres This is a threshold for permutation. The defalut is 0.025 for each side to result in 95 percent confidience.
 #' @examples non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
-#'                           method = "pearson", permutation = 1000, permutation_thres = 0.025)
+#'                         method = "pearson", permutation = 1000, permutation_thres = 0.025)
 #' @return A list containing a score table with "ID", "P_value", "Node_Degree", "Activity_Score"
 #'          and a differential network table with "Node1", "Node2", the binary link value and the weight link value.
 #' @import devtools
@@ -94,6 +94,7 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
     weight_link_value <- weight_link[lower.tri(weight_link)]
     edge <- cbind("Node1" = i, "Node2" = k, "Binary" = binary_link_value, "Weight" = weight_link_value)
     edge_dn <- edge[which(edge[,3] != 0),]
+    edge_dn <- as.data.frame(edge_dn)
 
     # Compute p-values
     if (is.null(p_val) == TRUE) {

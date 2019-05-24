@@ -308,30 +308,3 @@ choose_rho <- function(data, n_fold, rho) {
 scale_range <- function(x){(x-min(x))/(max(x)-min(x))}
 
 
-#' @title Color Bar
-#'
-#' @description This function creates a customized color bar optimized to be used in network_display.R
-#'               
-#' @param lut This is a hue range that will be used to display the same color gradient 
-#'             used to fill in the nodes in the network display
-#' @param min This is an integer representing the starting point of the labled color gradient. 
-#'             It is also used for scaling purposes when setting the dimentions of the color bar
-#' @param max This is an integer representing the ending point of the labled color gradient. 
-#'             It is also used for scaling purposes when setting the dimentions of the color bar
-#' @param nticks This is the number of tick marks the user would like to be displayed across the color bar
-#' @param ticks This is a sequence with a length of 'nticks' which ranges from min to max evenly spaced
-#' @param title This is the title that is desired to be displayed based on what data parameters were inputted
-#'
-#' @return A horizontal color bar representative of the inputted data
-
-# Function to plot a horizontal color bar  
-color.bar <- function(lut, min, max=-min, nticks=5, ticks=seq(min, max, len=nticks), title='') {
-  scale = (length(lut)-1)/(max-min)
-
-  plot(c(ceiling(max(max)),0), c(4,min), type='n', bty='n', xaxt='n', xlab='', yaxt='n', ylab='', main=title)
-  axis(1, ticks, las=1)
-  for (i in 1:(length(lut)-1)) {
-    y = (i-1)/scale + min
-    rect(y,0,y+1/scale, 3, col=lut[i], border=NA)
-  }
-}
