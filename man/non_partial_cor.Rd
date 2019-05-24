@@ -36,5 +36,5 @@ A method that integrates differential expression (DE) analysis
 }
 \examples{
 non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
-                          method = "pearson", permutation = 1000, permutation_thres = 0.025)
+                        method = "pearson", permutation = 1000, permutation_thres = 0.025)
 }

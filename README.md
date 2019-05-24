@@ -76,22 +76,20 @@ result <- partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = "mi
 # Show result 
 head(result$activity_score)
 #>   Node     ID P_value Node_Degree Activity_Score
-#> 1   15 C00188   0.487           4            8.3
-#> 2   12 C00183   0.000           3            8.2
-#> 3    5 C00064   0.015           3            7.7
-#> 4   18 C00247   0.889           8            7.3
-#> 5   19 C00249   0.686           7            7.0
-#> 6   17 C00209   0.206           3            6.7
+#> 1   12 C00183   0.000           3            8.0
+#> 2    5 C00064   0.015           3            7.7
+#> 3   34 C03752   0.624           3            7.5
+#> 4   19 C00249   0.686           7            7.0
+#> 5   18 C00247   0.889           6            6.4
+#> 6   16 C00189   0.016           5            6.0
 head(result$diff_network)
-#>      Node1 Node2 Binary      Weight
-#> [1,]     1    19      1  0.02642267
-#> [2,]     2     8     -1 -0.01844766
-#> [3,]     2    15      1  0.01564158
-#> [4,]     2    31      1  0.01174936
-#> [5,]     2    33     -1 -0.02943342
-#> [6,]     2    38     -1 -0.01018387
+#>   Node1 Node2 Binary      Weight
+#> 1     1    19      1  0.03594529
+#> 2     2    15      1  0.01962253
+#> 3     2    31      1  0.01562868
+#> 4     2    33     -1 -0.02943342
+#> 5     3    30      1  0.01515653
+#> 6     4    25     -1 -0.02494942
 # Show network
 network_display(result)
 ```
-
-![](README-unnamed-chunk-3-1.png)

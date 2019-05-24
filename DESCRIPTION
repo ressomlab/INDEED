@@ -21,7 +21,8 @@ Imports:
     graphics (>= 3.3.1),
     stats (>= 3.3.1),
     utils (>= 3.3.1),
-    igraph (>= 1.2.4)
+    igraph (>= 1.2.4),
+    visNetwork(>= 2.0.6)
 Suggests: knitr (>= 1.19),
     rmarkdown (>= 1.8),
     testthat (>= 2.0.0)
