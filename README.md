@@ -94,4 +94,4 @@ head(result$diff_network)
 network_display(result)
 ```
 
-![](README-unnamed-chunk-3-1.png)
+![](README-net-pic.png)
