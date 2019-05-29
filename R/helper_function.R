@@ -1,5 +1,5 @@
 ## This file contains several helper functions needed to 
-## properly run select_rho_partial.R, partial_cor.R, and non_partial_cor.R
+## properly run select_rho_partial.R, partial_cor.R, non_partial_cor.R, and network_display.R
  
 
 #' @title Compute the correlation
