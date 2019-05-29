@@ -51,6 +51,8 @@ Met_name_GU[1:10]
 
 An example to obtain sparse differential network using partial correlation analysis.
 ```{r, eval = T, results = 'hide'}
+# set seed to avoid randomness
+set.seed(100)
 # Compute rho values to run graphical lasso
 pre_data <- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, error_curve = "NO")
 # Choose optimal rho values to compute activity scores and build the differntial network
