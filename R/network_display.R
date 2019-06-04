@@ -15,22 +15,41 @@
 #' @param edgewidth This is a 'YES' or 'NO' option as to if the edgewidth should be representative of the weight value corresponding 
 #' to the correlation between two nodes. 
 #' @param layout User can choose from a a handful of network visualization templates including:'nice', 'sphere', 'grid', 'star', and circle'.  
+#' @param bingroups Users can choose between Activity_Score or Node_Degree to sort through varying threshold ranges
 #'
 #' @examples result1 = non_partial_cor(data=Met_GU,class_label = Met_Group_GU,
 #'                     id=Met_name_GU,method="spearman",permutation_thres = 0.05, permutation = 1000)
 #'           network_display(results = result1, layout= 'nice', nodesize= 'Node_Degree', 
-#'                           nodecolor= 'Activity_Score', edgewidth= 'NO')
+#'                           nodecolor= 'Activity_Score', edgewidth= 'NO', bingroups= 'Node_Degree')
 #' @return An interactive dipiction of the network resulting from INDEED functions patial_corr() or non_partial_corr() 
 #' @import igraph
 #' @import visNetwork
 #' @importFrom grDevices topo.colors 
 #' @export
 
-network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 'Activity_Score', edgewidth= 'NO', layout= 'nice'){
+network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 'Activity_Score', edgewidth= 'NO', layout= 'nice', bingroups= 'Node_Degree'){
   
   nodes <- results$activity_score
   links <- results$diff_network
-  vis.nodes <- data.frame(id= nodes$Node, name= nodes$ID, pval= nodes$P_value, ndegree= nodes$Node_Degree, ascore= nodes$Activity_Score, stringsAsFactors = FALSE)
+  
+  
+  # Setting up groups for thresholding select option 
+  if (missing(bingroups)){
+    nodes$bins <- cut(nodes$Node_Degree, breaks=c(as.integer(min(nodes$Node_Degree)),as.integer(max(nodes$Node_Degree)/2),as.integer(max(nodes$Node_Degree)/1.5), as.integer(max(nodes$Node_Degree))))
+    bingroups <- 'Node_Degree'
+  }
+  else if (bingroups == 'Node_Degree'){
+    nodes$bins <- cut(nodes$Node_Degree, breaks=c(as.integer(min(nodes$Node_Degree)),as.integer(max(nodes$Node_Degree)/2),as.integer(max(nodes$Node_Degree)/1.5), as.integer(max(nodes$Node_Degree))))
+  } 
+  else if(bingroups == 'Activity_Score'){
+    nodes$bins <- cut(nodes$Activity_Score, breaks=c(min(nodes$Activity_Score),max(nodes$Activity_Score)/2,max(nodes$Activity_Score)/1.5, max(nodes$Activity_Score)))
+  } else { 
+    nodes$bins <- cut(nodes$Node_Degree, breaks=c(min(nodes$Node_Degree),max(nodes$Node_Degree)/2,max(nodes$Node_Degree)/1.5, max(nodes$Node_Degree)))
+    bingroups <- 'Node_Degree'
+    
+  }
+  
+  vis.nodes <- data.frame(id= nodes$Node, name= nodes$ID, pval= nodes$P_value, ndegree= nodes$Node_Degree, ascore= nodes$Activity_Score, group = nodes$bins, stringsAsFactors = FALSE)
   vis.links <- data.frame(from=links$Node1, to=links$Node2, binary= links$Binary, weight= links$Weight)
   
   vis.nodes$shape  <- "dot"  
@@ -129,19 +148,15 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
   else if (layout == 'circle'){l <- "layout_in_circle"
   } else {l <- "layout_nicely"}
   
-  lnodes <- data.frame(label= c("High", "Mild", "Low"), shape= c("circle"), color= c("blue", "green", "yellow"))
-  ledges <- data.frame(color= c("green", "red"), label= c("Positive Correlation", "Negative Correlation"), font.align= "top", arrows= c("NA", "NA"))
+  lnodes <- data.frame(label= c("High", "       ", "Low"), shape= c("circle"), color= c("blue", "green", "yellow"))
+  ledges <- data.frame(color= c("green", "red"), label= c("Positive Correlation", "Negative Correlation"), font.align= "top", arrows= c("NA", "NA"), width= 4)
   
   
-  
-  
-  
-  
-  net <- visNetwork(vis.nodes, vis.links, width = "100%", height = "800px", main= "INDEED 2.0", submain= paste("Node size is reprentative of: ", nodesize)) %>%
-    visOptions( highlightNearest= TRUE, nodesIdSelection= TRUE)  %>% # selectedBy = (list(variable= "ndegree", multiple = FALSE) %>%
+  net <- visNetwork(vis.nodes, vis.links, width = "100%", height = "800px", main= "INDEED 2.0", submain= paste("Node size represents: ", nodesize, "&", "Groups selection represents: ", bingroups)) %>%
+    visOptions( highlightNearest= TRUE,selectedBy = "group", nodesIdSelection= TRUE)  %>% 
     visIgraphLayout(layout=l) %>%
     visInteraction( dragView= TRUE, dragNodes= TRUE, zoomView= TRUE, navigationButtons= FALSE, hideEdgesOnDrag= FALSE, multiselect = TRUE) %>%
-    visLegend(addEdges= ledges, addNodes= lnodes, position= "right", useGroups= FALSE, ncol=1, main= paste("Node color based on ", nodecolor))
+    visLegend(addEdges= ledges, addNodes= lnodes, position= "right", useGroups= FALSE, ncol=1, main= paste("Node color based on ", nodecolor), width= 0.2, stepX = 50, stepY = 50, zoom = TRUE)
   print(net)
 } 
 
