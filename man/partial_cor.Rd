@@ -20,7 +20,7 @@ partial_cor(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL,
 
 \item{p_val}{This is optional. It is a data frame that contains p-values for each biomolecule.}
 
-\item{permutation_thres}{This is the threshold for permutation. The defalut is 0.025 for each side to make 95 percent confidence.}
+\item{permutation_thres}{This is the threshold for permutation. The defalut is 0.05 to make 95 percent confidence.}
 }
 \value{
 A list containing a score table with "ID", "P_value", "Node_Degree", "Activity_Score"
@@ -38,5 +38,5 @@ preprocess<- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = 
                                 error_curve = "YES")
 # step 2: partial_cor
 partial_cor(data_list = preprocess, rho_group1 = 'min', rho_group2 = "min", permutation = 1000,
-            p_val = pvalue_M_GU, permutation_thres = 0.025)
+            p_val = pvalue_M_GU, permutation_thres = 0.05)
 }
