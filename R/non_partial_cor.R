@@ -10,9 +10,9 @@
 #'    to be computed. The options are either "pearson" as the default or "spearman".
 #' @param p_val This is optional, it is a data frame containing p-values for each biomolecule.
 #' @param permutation This is a positive integer representing the desired number of permutations, default is 1000.
-#' @param permutation_thres This is a threshold for permutation. The defalut is 0.025 for each side to result in 95 percent confidience.
+#' @param permutation_thres This is a threshold for permutation. The defalut is 0.05 to make 95 percent confidence..
 #' @examples non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
-#'                         method = "pearson", permutation = 1000, permutation_thres = 0.025)
+#'                         method = "pearson", permutation = 1000, permutation_thres = 0.05)
 #' @return A list containing a score table with "ID", "P_value", "Node_Degree", "Activity_Score"
 #'          and a differential network table with "Node1", "Node2", the binary link value and the weight link value.
 #' @import devtools
@@ -22,7 +22,7 @@
 #' @export
 
 non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method = "pearson",
-                            p_val = NULL, permutation = 1000, permutation_thres = 0.025){
+                            p_val = NULL, permutation = 1000, permutation_thres = 0.05){
     data_bind <- rbind(data, class_label)
     raw_group_1 <- data_bind[,data_bind[nrow(data_bind),] == 0][1:(nrow(data_bind) - 1),]  # Group 1: p*n1
     raw_group_2 <- data_bind[,data_bind[nrow(data_bind),] == 1][1:(nrow(data_bind) - 1),]  # Group 2: p*n2
@@ -66,8 +66,8 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
     rm(m)
 
     # Calculating the positive and negative threshold based on the permutation result
-    thres_left <- permutation_thres
-    thres_right <- 1 - permutation_thres
+    thres_left <- permutation_thres/2
+    thres_right <- 1 - permutation_thres/2
     significant_thres <- permutation_thres(thres_left, thres_right, p, diff_p)
     rm(thres_left, thres_right)
 

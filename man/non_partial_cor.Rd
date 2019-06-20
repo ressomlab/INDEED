@@ -6,7 +6,7 @@
 \usage{
 non_partial_cor(data = NULL, class_label = NULL, id = NULL,
   method = "pearson", p_val = NULL, permutation = 1000,
-  permutation_thres = 0.025)
+  permutation_thres = 0.05)
 }
 \arguments{
 \item{data}{This is a matrix of expression from all metabolites and all samples.}
@@ -22,7 +22,7 @@ to be computed. The options are either "pearson" as the default or "spearman".}
 
 \item{permutation}{This is a positive integer representing the desired number of permutations, default is 1000.}
 
-\item{permutation_thres}{This is a threshold for permutation. The defalut is 0.025 for each side to result in 95 percent confidience.}
+\item{permutation_thres}{This is a threshold for permutation. The defalut is 0.05 to make 95 percent confidence..}
 }
 \value{
 A list containing a score table with "ID", "P_value", "Node_Degree", "Activity_Score"
@@ -36,5 +36,5 @@ A method that integrates differential expression (DE) analysis
 }
 \examples{
 non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
-                        method = "pearson", permutation = 1000, permutation_thres = 0.025)
+                        method = "pearson", permutation = 1000, permutation_thres = 0.05)
 }

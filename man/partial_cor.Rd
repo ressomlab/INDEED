@@ -5,7 +5,7 @@
 \title{Partial correlaton analysis}
 \usage{
 partial_cor(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL,
-  permutation = 1000, p_val = NULL, permutation_thres = 0.025)
+  permutation = 1000, p_val = NULL, permutation_thres = 0.05)
 }
 \arguments{
 \item{data_list}{This is a list of pre-processed data outputed by the select_rho_partial function.}

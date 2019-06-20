@@ -27,7 +27,7 @@
 #' @export
 
 partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, permutation = 1000,
-                        p_val = NULL, permutation_thres = 0.025){
+                        p_val = NULL, permutation_thres = 0.05){
     if(missing(data_list)) {stop("please provide data_list from select_rho_partial function")}
     else{
         # group 1
