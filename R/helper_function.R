@@ -1,5 +1,5 @@
-## Functions defined to help the functions.R
-# This file contains several very important functions to run select_sig() in functions.R
+## This file contains several helper functions needed to 
+## properly run select_rho_partial.R, partial_cor.R, non_partial_cor.R, and network_display.R
 
 
 #' @title Compute the correlation
@@ -295,3 +295,17 @@ choose_rho <- function(data, n_fold, rho) {
   error <- list("log.cv" = loglik_cv, "log.rho" = loglik_rho)
   return(error)
 }
+
+
+#' @title Scale list of numbers
+#'
+#' @description This function is used to help spread out data values across 0 to 1. This is so that it 
+#'              will be easier to distinguish values later incorporated into the network_display function 
+#'
+#' @param x This is a list of numbers taken form on the columns outputted from calling patial_corr.R or non_partial_corr.R
+#'
+#' @return Scaled version of data that fits between 0 to 1
+
+# Rescaling data points
+scale_range <- function(x){(x-min(x))/(max(x)-min(x))}
+

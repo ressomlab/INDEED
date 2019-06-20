@@ -1,31 +1,36 @@
 Package: INDEED
-Title: An Implementation of Integrated Differential Expression and Differential Network Analysis for Biomarker Candidate Selection
-Version: 0.99.19
-Author: Zhenzhi Li <zzrickli@gmail.com>
-Maintainer: Zhenzhi Li <zzrickli@gmail.com>,
-            Yiming Zuo <yimingzuo@gmail.com>
-Description: An Implementation of Integrated Differential Expression and Differential Network 
-    Analysis of Omic Data. The differential network is obtained based on partial correlation or correlation.
+Title: Integrated Differential Expression and Differential Network Analysis (INDEED)
+Version: 1.1.0
+Author: Yiming Zuo with contributions from Kian Ghaffari and Zhenzhi Li
+Maintainer: Yiming Zuo <yimingzuo@gmail.com> and Kian Ghaffari <kg737@georgetown.edu>
+Description: An R package for integrated differential expression and differential network analysis 
+    based on omic data for biomarker candidate selection. Both correlation and partial correlation
+    can be used to generate differential network to aid the traditional differential expression 
+    analysis to identify changes between biomolecules on both their expression and pairwise 
+    association levels.
 License: Artistic-2.0
 URL: http://github.com/ressomlab/INDEED
 BugReports: http://github.com/ressomlab/INDEED/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
-Depends: R (>= 3.5),
-         glasso (>= 1.8)
-Imports: utils (>= 3.3.1),
-          stats (>= 3.3.1),
-          graphics (>= 3.3.1),
-          devtools (>= 1.13.0)
+RoxygenNote: 6.1.1
+Depends: glasso (>= 1.8),
+    R (>= 3.5)
+Imports: 
+    devtools (>= 1.13.0),
+    graphics (>= 3.3.1),
+    stats (>= 3.3.1),
+    utils (>= 3.3.1),
+    igraph (>= 1.2.4),
+    visNetwork(>= 2.0.6)
 Suggests: knitr (>= 1.19),
-          rmarkdown (>= 1.8),
-          testthat (>= 2.0.0)
+    rmarkdown (>= 1.8),
+    testthat (>= 2.0.0)
 VignetteBuilder: knitr
-biocViews: Software, 
-           ResearchField,
-           BiologicalQuestion, 
-           StatisticalMethod,
-           DifferentialExpression,
-           MassSpectrometry, 
-           Metabolomics
+biocViews: Software,
+    ResearchField,
+    BiologicalQuestion,
+    StatisticalMethod,
+    DifferentialExpression,
+    MassSpectrometry,
+    Metabolomics
