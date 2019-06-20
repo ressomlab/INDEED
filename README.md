@@ -120,4 +120,4 @@ head(result$diff_network)
 network_display(result)
 ```
 
-![Differential network](figure/rho-selection-1.png)
+![Differential network](figure/differential-network.png)
