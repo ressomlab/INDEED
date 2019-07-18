@@ -2,7 +2,7 @@
 title: "INDEED R package for cancer biomarker candidate selection"
 author: "Zhenzhi Li and Yiming Zuo"
 date: "`r Sys.Date()`"
-output: rmarkdown::pdf_document
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{INDEED R package for cancer biomarker candidate selection}
   %\VignetteEngine{knitr::rmarkdown}

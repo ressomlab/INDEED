@@ -16,14 +16,14 @@ network_display(results = NULL, nodesize = "Node_Degree",
 was selected to represent the node size. The default is Node_Degree}
 
 \item{nodecolor}{This parameter determines what color each node will be based on a yellow to blue color gradient.
-The options are 'Node_Degree', 'Activity_Score', 'Z_Score', and 'P_Value'. A color bar will be created based on which parameter is chosen.}
+The options are 'Node_Degree', 'Activity_Score', and 'P_Value'. A color bar will be created based on which parameter is chosen.}
 
 \item{edgewidth}{This is a 'YES' or 'NO' option as to if the edgewidth should be representative of the weight value corresponding 
 to the correlation between two nodes.}
 
 \item{layout}{User can choose from a a handful of network visualization templates including:'nice', 'sphere', 'grid', 'star', and circle'.}
 
-\item{bingroups}{Users can choose between Activity_Score or Node_Degree to sort through varying threshold ranges}
+\item{bingroups}{Users can choose between 'Activity_Score',  'Node_Degree', and 'P_Value' to sort through varying threshold ranges}
 }
 \value{
 An interactive dipiction of the network resulting from INDEED functions patial_corr() or non_partial_corr()
