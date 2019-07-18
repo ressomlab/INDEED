@@ -10,14 +10,14 @@
 #' "ste": one standard error from minimum, or user can input rho of their choice, the default is minimum.
 #' @param p_val This is optional. It is a data frame that contains p-values for each biomolecule.
 #' @param permutation This is a positive integer of the desired number of permutations. The default is 1000 permutations.
-#' @param permutation_thres This is the threshold for permutation. The defalut is 0.025 for each side to make 95 percent confidence.
+#' @param permutation_thres This is the threshold for permutation. The defalut is 0.05 to make 95 percent confidence.
 #' @examples
 #' # step 1: select_rho_partial
 #' preprocess<- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
 #'                                 error_curve = "YES")
 #' # step 2: partial_cor
 #' partial_cor(data_list = preprocess, rho_group1 = 'min', rho_group2 = "min", permutation = 1000,
-#'             p_val = pvalue_M_GU, permutation_thres = 0.025)
+#'             p_val = pvalue_M_GU, permutation_thres = 0.05)
 #' @return A list containing a score table with "ID", "P_value", "Node_Degree", "Activity_Score"
 #'          and a differential network table with  "Node1", "Node2", the binary link value and the weight link value.
 #' @import devtools
@@ -27,7 +27,7 @@
 #' @export
 
 partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, permutation = 1000,
-                        p_val = NULL, permutation_thres = 0.025){
+                        p_val = NULL, permutation_thres = 0.05){
     if(missing(data_list)) {stop("please provide data_list from select_rho_partial function")}
     else{
         # group 1
@@ -85,8 +85,8 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
         rm(m)
 
         # Calculating the positive and negative threshold based on the permutation result
-        thres_left <- permutation_thres
-        thres_right <- 1 - permutation_thres
+        thres_left <- permutation_thres/2
+        thres_right <- 1 - permutation_thres/2
         significant_thres <- permutation_thres(thres_left, thres_right, p, diff_p)
         rm(thres_left, thres_right)
 

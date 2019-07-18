@@ -56,8 +56,7 @@ The following example demonstrates how to use `pre_partial()` and `partial_cor()
 
 ```
 pre_data <- pre_partial(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU)
-partial_cor(data_list=pre_data,rho_group1='min',
-                        rho_group2="min",permutation = 1000,p_val=pvalue_M_GU)
+partial_cor(data_list=pre_data,rho_group1='min',rho_group2="min",permutation = 1000,p_val=pvalue_M_GU)
 ```
 
 In this case, the sparse differential network is based on partial correlation and p-value for each biomolecule is calculated for users. Also, **rho** is picked based on minimum rule and number of permutations is set to 1000.
@@ -84,23 +83,6 @@ non_partial_cor(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU,method="sp
 
 ```
 
-## Interactive Network Visualization function `network_display()`
-
-- (**results**) This is the result from the calling either partial_cor() or non_partial_cor().
-- (**nodesize**) This parameter determines what the size of each node will represent. The options are 'Node_Degree', 'Activity_Score', 'Z_Score', and 'P_Value'. The title of the resulting network will identify which parameter was selected to represent the node size. The default is Node_Degree.
-- (**nodecolor**) This parameter determines what color each node will be, based on a yellow or red color gradient. The options are 'Node_Degree', 'Activity_Score', 'Z_Score', and 'P_Value'. A color bar will be created based on which parameter is chosen.
-- (**edgewidth**) This is a 'YES' or 'NO' option as to if the edgewidth should be representative of the weight value corresponding to the correlation between two nodes.
-- (**layout**) User can choose from a a handful of network visualization templates including:'nice', 'sphere', 'grid', 'star', and 'circle'.
-
-An interactive tool to assist in the visualization of the results from INDEED functions patial_corr() or non_partial_corr(). The size and the color of each node can be adjusted by users to represent either the Node_Degree, Activity_Score, Z_Score, or P_Value. The color of the edge is based on the binary value of either 1 corresonding to a positive correlation dipicted as green or a negative correlation of -1 dipicted as red. The user also has the option of having the width of each edge be proportional to its weight value. The layout of the network can also be customized by choosing from the options: 'nice', 'sphere', 'grid', 'star', and circle'. Nodes can be moved and zoomed in on. Each node and edge will display extra information when clicked on. Secondary interactions will be highlighted as well when a node is clicked on. 
-
-The following example demonstrates how to use the `network_display()` function:
-
-```
-network_display(results = result1, layout= 'nice', nodesize= 'Node_Degree', 
-                                       nodecolor= 'Activity_Score', edgewidth= 'NO')
-```
-
 
 ## More Examples
 
@@ -116,19 +98,7 @@ By calling the above function, rho for group 1 is 0.3 and rho for group 2 is 0.2
 
 ### Example 2
 ```
-result2 <- non_partial_cor(data=Met_GU,class_label = Met_Group_GU,
-                            id=Met_name_GU,method="spearman",permutation_thres = 0.05)
+non_partial_cor(data=Met_GU,class_label = Met_Group_GU,id=Met_name_GU,method="pearson")
+By calling the above function, the differential network is obtained based on Pearson correlation coefficient.
 ```
-By calling the above function, the differential network is obtained 
-based on Pearson correlation coefficient. And the table below is part of the csv file output.
-
-### Example 3
-```
-
-network_display(results = result2, layout= 'nice', nodesize= 'Node_Degree',
-                  nodecolor= 'Activity_Score', edgewidth= 'NO')
-
-```
-By calling the above function, an interactive visual network will be displayed based on the outputs from non_parial_cor() or partial_cor() functions bepending on which was provided. 
-
-
+By calling the above function, the differential network is obtained based on Spearman correlation coefficient. And the table below is part of the csv file output.

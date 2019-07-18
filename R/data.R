@@ -1,16 +1,17 @@
-#' GU cirrhosis (CIRR) and GU Hepatocellular carcinoma (HCC) combined.
+#' GU CIRR and GU HCC combined .
 #'
-#' A dataset containing the expression levels of 39 metabolites for 120 subjects (CIRR: 60; HCC: 60).
+#' A dataset containing the expression levels for each of the 120 subjects (HCC: 60; CIRR: 60)
+#' in terms of 39 metabolites.
 #'
-#' @format A data frame with 39 variables as rows and 120 subjects as columns.
+#' @format A data frame with 39 variables (rows) and 120 subjects (columns).
 "Met_GU"
 
 
 #' Group label.
 #'
-#' A dataset containing group information CIRR group: 0 and HCC group: 1.
+#' A dataset containing group information group 1: 0; group 2: 1.
 #'
-#' @format A data frame with 1 row and 120 subjects as columns.
+#' @format A data frame with 1 row and 120 (subjects) columns.
 "Met_Group_GU"
 
 
@@ -22,11 +23,12 @@
 "Met_name_GU"
 
 
+
 #' P-values obtained by differential expression (DE) analysis.
 #'
-#' A dataset containing the p-values for each metabolite obtained through DE analysis.
+#' A dataset containing the p-values of each metabolite obtained through DE.
 #'
-#' @format A data frame with 39 rows and 2 variables as columns:
+#' @format A data frame with 39 rows and 3 variables:
 #' \describe{
 #'   \item{KEGG.ID}{KEGG.ID}
 #'   \item{p.value}{p-values}

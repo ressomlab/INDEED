@@ -11,11 +11,11 @@
 #' 'Node_Degree', 'Activity_Score', 'Z_Score', and 'P_Value'. The title of the resulting network will identify which parameter 
 #' was selected to represent the node size. The default is Node_Degree
 #' @param nodecolor This parameter determines what color each node will be based on a yellow to blue color gradient.  
-#' The options are 'Node_Degree', 'Activity_Score', 'Z_Score', and 'P_Value'. A color bar will be created based on which parameter is chosen. 
+#' The options are 'Node_Degree', 'Activity_Score', and 'P_Value'. A color bar will be created based on which parameter is chosen. 
 #' @param edgewidth This is a 'YES' or 'NO' option as to if the edgewidth should be representative of the weight value corresponding 
 #' to the correlation between two nodes. 
 #' @param layout User can choose from a a handful of network visualization templates including:'nice', 'sphere', 'grid', 'star', and circle'.  
-#' @param bingroups Users can choose between Activity_Score or Node_Degree to sort through varying threshold ranges
+#' @param bingroups Users can choose between 'Activity_Score',  'Node_Degree', and 'P_Value' to sort through varying threshold ranges
 #'
 #' @examples result1 = non_partial_cor(data=Met_GU,class_label = Met_Group_GU,
 #'                     id=Met_name_GU,method="spearman",permutation_thres = 0.05, permutation = 1000)
@@ -43,7 +43,11 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
   } 
   else if(bingroups == 'Activity_Score'){
     nodes$bins <- cut(nodes$Activity_Score, breaks=c(min(nodes$Activity_Score),max(nodes$Activity_Score)/2,max(nodes$Activity_Score)/1.5, max(nodes$Activity_Score)))
-  } else { 
+  } 
+  else if(bingroups == 'P_Value'){
+    nodes$bins <- cut(nodes$P_value, breaks=c(min(nodes$P_value),max(nodes$P_value)/2,max(nodes$P_value)/1.5, max(nodes$P_value)))
+  }
+  else { 
     nodes$bins <- cut(nodes$Node_Degree, breaks=c(min(nodes$Node_Degree),max(nodes$Node_Degree)/2,max(nodes$Node_Degree)/1.5, max(nodes$Node_Degree)))
     bingroups <- 'Node_Degree'
     
@@ -69,56 +73,52 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
     vis.nodes$size   <- ((vis.nodes$ascore)+1)*5
   }
   else if(nodesize == 'P_Value'){
-    pvalNorm <- scale_range(abs(vis.nodes$pval))
-    vis.nodes$size   <- (10^(pvalNorm))*5
+    vis.nodes$size   <- (rank(-1 * vis.nodes$pval)+1)
+
   }
   else if(nodesize == 'Z_Score'){
-    
     z_score <- abs(qnorm(1 - (vis.nodes$pval)/2)) # trasfer p-value to z-score
-    
     vis.nodes$size   <- ((z_score)+1)*10
+    
   } else { 
     vis.nodes$size   <- ((vis.nodes$ndegree)+1)*5
     nodesize <- "Node_Degree"
-    
   }
+  
+  
   
   # Setting Up Node Color
   if (missing(nodecolor)){
+    vis.nodes<- vis.nodes[order(vis.nodes$ascore, decreasing=TRUE), ]
     vis.nodes$color.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
     vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
     nodecolor <- 'Activity_Score'
   }
   else if (nodecolor == 'Node_Degree'){
+    vis.nodes<- vis.nodes[order(vis.nodes$ndegree, decreasing=TRUE), ]
     vis.nodes$color.background <- topo.colors(length(vis.nodes$ndegree), alpha=1)
     vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$ndegree), alpha=1)
     
   } 
   else if(nodecolor == 'Activity_Score'){
+    vis.nodes<- vis.nodes[order(vis.nodes$ascore, decreasing=TRUE), ]
     vis.nodes$color.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
     vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
     
   }
   else if(nodecolor == 'P_Value'){
+    vis.nodes<- vis.nodes[order(vis.nodes$pval, decreasing=FALSE), ]
     vis.nodes$color.background <- topo.colors(length(vis.nodes$pval), alpha=1)
     vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$pval), alpha=1)
     
   }
-  else if(nodecolor == 'Z_Score'){
-    z_score <- abs(qnorm(1 - (vis.nodes$pval)/2)) # trasfer p-value to z-score
-    vis.nodes$color.background <- topo.colors(length(z_score), alpha=1)
-    vis.nodes$color.highlight.background <- topo.colors(length(z_score), alpha=1)
-    
-  } else {
+ else {
+    vis.nodes<- vis.nodes[order(vis.nodes$ascore, decreasing=TRUE), ]
     vis.nodes$color.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
     vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
     nodecolor <- 'Activity_Score'
   }
-  
-  
-  
-  vis.nodes$color.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
-  vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
+
   
   vis.nodes$borderWidth <- 2 # Node border width
   vis.nodes$label  <- vis.nodes$name  # Node label
@@ -140,7 +140,7 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
   vis.links$shadow <- TRUE    # edge shadow
   
   # Setting up layout of network 
-  if (missing(layout)){l <- layout_nicely(net)}
+  if (missing(layout)){l <- "layout_nicely"}
   else if (layout == 'nice'){l <- "layout_nicely"}
   else if (layout == 'sphere'){l <- "layout_on_sphere"}
   else if (layout == 'star'){l <- "layout_as_star"}
@@ -159,8 +159,6 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
     visLegend(addEdges= ledges, addNodes= lnodes, position= "right", useGroups= FALSE, ncol=1, main= paste("Node color based on ", nodecolor), width= 0.2, stepX = 50, stepY = 50, zoom = TRUE)
   print(net)
 } 
-
-
 
 
 

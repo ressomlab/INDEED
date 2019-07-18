@@ -3,12 +3,13 @@
 \docType{data}
 \name{Met_GU}
 \alias{Met_GU}
-\title{GU cirrhosis (CIRR) and GU Hepatocellular carcinoma (HCC) combined.}
-\format{A data frame with 39 variables as rows and 120 subjects as columns.}
+\title{GU CIRR and GU HCC combined .}
+\format{A data frame with 39 variables (rows) and 120 subjects (columns).}
 \usage{
 Met_GU
 }
 \description{
-A dataset containing the expression levels of 39 metabolites for 120 subjects (CIRR: 60; HCC: 60).
+A dataset containing the expression levels for each of the 120 subjects (HCC: 60; CIRR: 60)
+in terms of 39 metabolites.
 }
 \keyword{datasets}

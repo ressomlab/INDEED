@@ -7,20 +7,17 @@
 permutation_thres(thres_left, thres_right, p, diff_p)
 }
 \arguments{
-\item{thres_left}{This is the threshold representing 2.5 percent of the left tail of the empirical
-distribution curve.}
+\item{thres_left}{2.5 percent left tails.}
 
-\item{thres_right}{This is the threshold representing 2.5 percent of the right tail of the empirical
-distribution curve.}
+\item{thres_right}{2.5 percent right tails.}
 
-\item{p}{This is the number of biomarker candidates present.}
+\item{p}{number of biomarker candidates.}
 
-\item{diff_p}{This is the permutation results from either permutation_pc or permutation_cor}
+\item{diff_p}{permutation results.}
 }
 \value{
-A list of the positive and negative thresholds
+A list of positive and negative threshold
 }
 \description{
 Calculate the positive and negative threshold based on the permutation result.
-      This function is used in both partial_cor.R and non_partial_corr.R
 }
