@@ -3,9 +3,9 @@
 #'   and differential network (DN) analysis to select biomarker candidates for
 #'   cancer studies. select_rho_partial is the pre-processing step for INDEED
 #'   partial differential analysis.
-#' @param data This is a matrix of expression from all metabolites and all samples.
+#' @param data This is a matrix of expression from all biomolecules and all samples.
 #' @param class_label This is a binary array with 0 for group 1 and 1 for group 2.
-#' @param id This is an array of biomolecule ID to label.
+#' @param id This is an array of biomolecule IDs.
 #' @param error_curve The default is "YES". This is an option on whether a error curve plot will be
 #'     provided to the user, user can choose "YES" or "NO".
 #' @examples select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, error_curve = "YES")
@@ -87,7 +87,7 @@ select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL, error
 
     rho_df <- data.frame(c(rho_one_std_group1, rho_min_rule_group1), c(rho_one_std_group2, rho_min_rule_group2), row.names = c("one standard error","minimum"))
     colnames(rho_df)<-c('group1', "group2")
-    #cov_group_1
+    
     data_list <- list(p = p, rho_table = rho_df, cov_group_1 = cov_group_1, cov_group_2 = cov_group_2, 
                       n_group_1 = n_group_1, n_group_2 = n_group_2, data_group_1 = data_group_1, 
                       data_group_2 = data_group_2, class_label = class_label, id = id, data = data)

@@ -1,6 +1,5 @@
-## This file contains several helper functions needed to 
-## properly run select_rho_partial.R, partial_cor.R, non_partial_cor.R, and network_display.R
-
+## This file contains all the helper functions needed to 
+## properly run non_partial_cor(), select_rho_partial(), partial_cor(), and network_display().
 
 #' @title Compute the correlation
 #'
@@ -11,9 +10,7 @@
 #'   Otherwise, a character string "spearman" to calculate spearman correlation
 #'   coefficient.
 #'
-#' @return A list of correlation matrix for both group 1 and group 2
-#'
-
+#' @return A list of correlation matrices for both group 1 and group 2
 
 # Compute Pearson correlation or Spearman correlation
 compute_cor <- function(data_group_2, data_group_1, type_of_cor) {
@@ -61,10 +58,7 @@ compute_par <- function(pre_inv) {
 }
 
 
-
-
-
-#' @title Permutations to build differential network using correlation
+#' @title Permutations to build a differential network using correlation
 #'
 #' @description A permutation test that randomly permutes the sample labels in distinct
 #'     biological groups for each biomolecule. The difference in each paired biomolecule
@@ -157,8 +151,6 @@ permutation_pc <- function(m, p, n_group_1, n_group_2, data_group_1, data_group_
 }
 
 
-
-
 #' @title Calculate the positive and negative threshold based on the permutation result
 #'
 #' @description Calculate the positive and negative threshold based on the permutation result.
@@ -187,9 +179,7 @@ permutation_thres <- function(thres_left, thres_right, p, diff_p) {
 }
 
 
-
-
-#' @title Calculate differential network score
+#' @title Calculate the differential network score
 #'
 #' @description Calculate differential network score.
 #'
@@ -209,6 +199,7 @@ compute_dns <- function(binary_link, z_score) {
     dns <- apply(diff_d, 1, function(x, y = z_score) sum(y[which(x == 1)]))
     return(dns)
 }
+
 
 #' @title Obtain p-values using logistic regression
 #'
@@ -235,7 +226,6 @@ pvalue_logit <- function(x, class_label, Met_name) {
 }
 
 
-
 #' @title Create log likelihood error function
 #'
 #' @description Calculate log likelihood error function.
@@ -253,12 +243,7 @@ loglik_ave <- function(data, theta){
 }
 
 
-
-
-
-#' @title Draw error curve
-#'
-#' @description Draw error curve using cross-validation.
+#' @title Generating a list of errors and thier corresponding \eqn{log(rho)} values
 #'
 #' @param data a matrix.
 #' @param n_fold specify n to n-fold cross_validation.
@@ -294,7 +279,7 @@ choose_rho <- function(data, n_fold, rho) {
   #lines(rho, loglik_cv)
   error <- list("log.cv" = loglik_cv, "log.rho" = loglik_rho)
   return(error)
-}
+}        
 
 
 #' @title Scale list of numbers

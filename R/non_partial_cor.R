@@ -2,13 +2,13 @@
 #' @description A method that integrates differential expression (DE) analysis
 #'   and differential network (DN) analysis to select biomarker candidates for
 #'   cancer studies. non_partial_cor is a one step function for user
-#'   to perform the analysis, no pre-processing step required.
-#' @param data This is a matrix of expression from all metabolites and all samples.
+#'   to perform the analysis based on typical correlation analysis, no pre-processing step required.
+#' @param data This is a matrix of expression from all biomolecules and all samples.
 #' @param class_label this is a binary array with 0 for group 1 and 1 for group 2.
-#' @param id This is an array of biomolecule ID to label.
+#' @param id This is an array of biomolecule IDs.
 #' @param method This is a character string indicating which correlation coefficient is
 #'    to be computed. The options are either "pearson" as the default or "spearman".
-#' @param p_val This is optional, it is a data frame containing p-values for each biomolecule.
+#' @param p_val This is optional, it is a data frame containing p-value for each biomolecule.
 #' @param permutation This is a positive integer representing the desired number of permutations, default is 1000.
 #' @param permutation_thres This is a threshold for permutation. The defalut is 0.05 to make 95 percent confidence..
 #' @examples non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
@@ -39,7 +39,7 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
     # Get the correlation matrix
     if(missing(method)){method = "pearson"}
     else if(method != "spearman"){method = "pearson"}
-    cor <- compute_cor(data_group_1, data_group_2, type_of_cor = method)    # default is pearson correlation
+    cor <- compute_cor(data_group_1, data_group_2, type_of_cor = method) # default is pearson correlation
     cor_group_1 <- cor$Group1
     cor_group_2 <- cor$Group2
     
@@ -104,7 +104,7 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
         row.names(pvalue) <- NULL
     } else {     # If the p-value matrix is provided
         pvalue <- p_val
-        p.value <- pvalue$p.value           # Extract p-values from the table provided
+        p.value <- pvalue$p.value   # Extract p-values from the table provided
         row.names(pvalue) <- NULL
     }
 

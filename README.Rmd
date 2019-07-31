@@ -1,0 +1,77 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figure/"
+)
+```
+
+# INDEED
+## Overview
+
+
+This R package implements INDEED algorithm from Zuo *et. al.*'s Methods paper, INDEED: Integrated differential expression and differential network analysis of omic data for biomarker discovery ([PMID: 27592383](https://www.ncbi.nlm.nih.gov/pubmed/?term=27592383%5Buid%5D)). 
+
+This R package will generate a list of dataframes containing information such as p-value, node degree and activity score for each biomolecule. A higher activity score indicates that the corresponding biomolecule has more neighbors connected in the differential network and their p-values are more statistically significant. It will also generate a network display to aid users' biomarker selection.
+
+
+## Installation
+
+You can install INDEED from github with:
+
+```{r gh-installation, eval = F}
+# install.packages("devtools")
+devtools::install_github("ressomlab/INDEED")
+```
+
+## Usage
+Load the package.
+```{r load, eval = T}
+# load INDEED
+library(INDEED)
+```
+
+A testing dataset has been provided to the users to get familiar with INDEED R package. It contains the expression levels of 39 metabolites from 120 subjects (CIRR: 60; HCC: 60) with CIRR group named as group 0 and HCC group named as group 1.
+
+```{r dataset, eval = T}
+# Data matrix contains the expression levels of 39 metabolites from 120 subjects 
+# (6 metabolites and 10 subjects are shown)
+head(Met_GU[, 1:10])
+# Group label for each subject (40 subjects are shown)
+Met_Group_GU[1:40]
+# Metabolite KEGG IDs (10 metabolites are shown)
+Met_name_GU[1:10]
+
+```
+
+An example to obtain the differential network using partial correlation analysis.
+```{r rho-selection, eval = T, results = 'hide'}
+# set seed to avoid randomness
+set.seed(100)
+# Compute rho values to run graphical lasso
+pre_data <- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, error_curve = "YES")
+```
+
+From the error curve figure, users can choose the rho value based on the minimum rule (red vertical line), the one standard error rule (blue horizontal line) or their preferred value.
+```{r partial-cor, eval = T, results = 'hide'}
+# Choose optimal rho values to compute activity scores and build the differntial network
+result <- partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = "min", permutation = 1000, p_val = pvalue_M_GU, permutation_thres = 0.05)
+```
+
+Show the network display and users can interact with it.
+```{r network-display, eval = T}
+# Show result 
+head(result$activity_score)
+head(result$diff_network)
+# Show network
+network_display(result)
+```
+
+<!-- Network display image was generated from somewhere else -->
+
