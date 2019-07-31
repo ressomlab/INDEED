@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_function.R
 \name{permutation_cor}
 \alias{permutation_cor}
-\title{Permutations to build differential network using correlation}
+\title{Permutations to build a differential network using correlation}
 \usage{
 permutation_cor(m, p, n_group_1, n_group_2, data_group_1, data_group_2,
   type_of_cor)

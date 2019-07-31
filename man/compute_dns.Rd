@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_function.R
 \name{compute_dns}
 \alias{compute_dns}
-\title{Calculate differential network score}
+\title{Calculate the differential network score}
 \usage{
 compute_dns(binary_link, z_score)
 }

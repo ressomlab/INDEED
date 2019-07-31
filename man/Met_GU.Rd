@@ -4,7 +4,7 @@
 \name{Met_GU}
 \alias{Met_GU}
 \title{GU cirrhosis (CIRR) and GU Hepatocellular carcinoma (HCC) data.}
-\format{A data frame with 39 variables as rows and 120 subjects as columns.}
+\format{A data frame with 39 variables (rows) and 120 subjects (columns).}
 \usage{
 Met_GU
 }

@@ -16,7 +16,7 @@ Otherwise, a character string "spearman" to calculate spearman correlation
 coefficient.}
 }
 \value{
-A list of correlation matrix for both group 1 and group 2
+A list of correlation matrices for both group 1 and group 2
 }
 \description{
 Compute either pearson or spearman correlation coefficient.
