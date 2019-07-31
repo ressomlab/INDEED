@@ -38,8 +38,8 @@ moved and zoomed in on. Each node and edge will display extra information when c
 as well when a node is clicked on.
 }
 \examples{
-result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU,
-                   id = Met_name_GU, method = "spearman", permutation_thres = 0.05, permutation = 1000)
+result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
+                   method = "spearman", permutation_thres = 0.05, permutation = 1000)
           network_display(results = result, layout = 'nice', nodesize = 'Node_Degree', 
                           nodecolor = 'Activity_Score', edgewidth = 'NO', bingroups = 'Node_Degree')
 }

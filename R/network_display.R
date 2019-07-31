@@ -17,8 +17,8 @@
 #' @param layout User can choose from a a handful of network visualization templates including:'nice', 'sphere', 'grid', 'star', and 'circle'.  
 #' @param bingroups Users can choose between Activity_Score or Node_Degree to sort through varying threshold ranges
 #'
-#' @examples result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU,
-#'                    id = Met_name_GU, method = "spearman", permutation_thres = 0.05, permutation = 1000)
+#' @examples result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
+#'                    method = "spearman", permutation_thres = 0.05, permutation = 1000)
 #'           network_display(results = result, layout = 'nice', nodesize = 'Node_Degree', 
 #'                           nodecolor = 'Activity_Score', edgewidth = 'NO', bingroups = 'Node_Degree')
 #' @return An interactive dipiction of the network resulting from INDEED functions non_partial_corr() or patial_corr().
