@@ -6,7 +6,7 @@
 #' @param data_list This is a list of pre-processed data outputed by the select_rho_partial function.
 #' @param rho_group1 This is the rule for choosing rho for group 1, "min": minimum rho,
 #' "ste": one standard error from minimum, or user can input rho of their choice, the default is minimum.
-#' @param rho_group2 This is the rule for choosing rho for group 1, "min": minimum rho,
+#' @param rho_group2 This is the rule for choosing rho for group 2, "min": minimum rho,
 #' "ste": one standard error from minimum, or user can input rho of their choice, the default is minimum.
 #' @param p_val This is optional. It is a data frame that contains p-values for each biomolecule.
 #' @param permutation This is a positive integer of the desired number of permutations. The default is 1000 permutations.

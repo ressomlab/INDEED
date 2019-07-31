@@ -3,7 +3,7 @@
 \docType{data}
 \name{Met_GU}
 \alias{Met_GU}
-\title{GU cirrhosis (CIRR) and GU Hepatocellular carcinoma (HCC) combined.}
+\title{GU cirrhosis (CIRR) and GU Hepatocellular carcinoma (HCC) data.}
 \format{A data frame with 39 variables as rows and 120 subjects as columns.}
 \usage{
 Met_GU

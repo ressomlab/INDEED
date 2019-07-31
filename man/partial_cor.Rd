@@ -13,7 +13,7 @@ partial_cor(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL,
 \item{rho_group1}{This is the rule for choosing rho for group 1, "min": minimum rho,
 "ste": one standard error from minimum, or user can input rho of their choice, the default is minimum.}
 
-\item{rho_group2}{This is the rule for choosing rho for group 1, "min": minimum rho,
+\item{rho_group2}{This is the rule for choosing rho for group 2, "min": minimum rho,
 "ste": one standard error from minimum, or user can input rho of their choice, the default is minimum.}
 
 \item{permutation}{This is a positive integer of the desired number of permutations. The default is 1000 permutations.}

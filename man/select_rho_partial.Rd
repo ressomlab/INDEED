@@ -8,11 +8,11 @@ select_rho_partial(data = NULL, class_label = NULL, id = NULL,
   error_curve = "YES")
 }
 \arguments{
-\item{data}{This is a matrix of expression from all metabolites and all samples.}
+\item{data}{This is a matrix of expression from all biomolecules and all samples.}
 
 \item{class_label}{This is a binary array with 0 for group 1 and 1 for group 2.}
 
-\item{id}{This is an array of biomolecule ID to label.}
+\item{id}{This is an array of biomolecule IDs.}
 
 \item{error_curve}{The default is "YES". This is an option on whether a error curve plot will be
 provided to the user, user can choose "YES" or "NO".}
