@@ -8,29 +8,35 @@ partial_cor(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL,
   permutation = 1000, p_val = NULL, permutation_thres = 0.05)
 }
 \arguments{
-\item{data_list}{This is a list of pre-processed data outputed by the select_rho_partial function.}
+\item{data_list}{This is a list of pre-processed data outputed by the select_rho_partial 
+function.}
 
 \item{rho_group1}{This is the rule for choosing rho for group 1, "min": minimum rho,
-"ste": one standard error from minimum, or user can input rho of their choice, the default is minimum.}
+"ste": one standard error from minimum, or user can input rho of their choice, the default 
+is minimum.}
 
 \item{rho_group2}{This is the rule for choosing rho for group 2, "min": minimum rho,
-"ste": one standard error from minimum, or user can input rho of their choice, the default is minimum.}
+"ste": one standard error from minimum, or user can input rho of their choice, the default 
+is minimum.}
 
-\item{permutation}{This is a positive integer of the desired number of permutations. The default is 1000 permutations.}
+\item{permutation}{This is a positive integer of the desired number of permutations. The default 
+is 1000 permutations.}
 
 \item{p_val}{This is optional. It is a data frame that contains p-values for each biomolecule.}
 
-\item{permutation_thres}{This is the threshold for permutation. The defalut is 0.05 to make 95 percent confidence.}
+\item{permutation_thres}{This is the threshold for permutation. The defalut is 0.05 to make 95 
+percent confidence.}
 }
 \value{
 A list containing a score table with "ID", "P_value", "Node_Degree", "Activity_Score"
-         and a differential network table with  "Node1", "Node2", the binary link value and the weight link value.
+         and a differential network table with  "Node1", "Node2", the binary link value and the 
+         weight link value.
 }
 \description{
 A method that integrates differential expression (DE) analysis
-  and differential network (DN) analysis to select biomarker candidates for
-  cancer studies. partial_cor is the second step of partial correlation
-  calculation after getting the result from select_rho_partial function.
+    and differential network (DN) analysis to select biomarker candidates for
+    cancer studies. partial_cor is the second step of partial correlation
+    calculation after getting the result from select_rho_partial function.
 }
 \examples{
 # step 1: select_rho_partial

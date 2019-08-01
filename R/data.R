@@ -28,7 +28,7 @@
 #'
 #' A dataset containing the p-value for each metabolite obtained through DE analysis.
 #'
-#' @format A data frame with 39 rows and 3 variables:
+#' @format A data frame with 39 rows and 2 variables:
 #' \describe{
 #'   \item{KEGG.ID}{KEGG ID}
 #'   \item{p.value}{p-value}

@@ -11,35 +11,45 @@ network_display(results = NULL, nodesize = "Node_Degree",
 \arguments{
 \item{results}{This is the result from calling either non_partial_corr() or partial_corr().}
 
-\item{nodesize}{This parameter determines what the size of each node will represent. The options are 
-'Node_Degree', 'Activity_Score', 'Z_Score', and 'P_Value'. The title of the resulting network will identify which parameter 
-was selected to represent the node size. The default is Node_Degree.}
+\item{nodesize}{This parameter determines what the size of each node will represent. The options 
+are 'Node_Degree', 'Activity_Score', 'Z_Score', and 'P_Value'. The title of the resulting 
+network will identify which parameter was selected to represent the node size. The default 
+is Node_Degree.}
 
-\item{nodecolor}{This parameter determines what color each node will be based on a yellow to blue color gradient.
-The options are 'Node_Degree', 'Activity_Score', 'Z_Score', and 'P_Value'. A color bar will be created based on which parameter is chosen.}
+\item{nodecolor}{This parameter determines what color each node will be based on a yellow to 
+blue color gradient. The options are 'Node_Degree', 'Activity_Score', and 'P_Value'. A color 
+bar will be created based on which parameter is chosen.}
 
-\item{edgewidth}{This is a 'YES' or 'NO' option as to if the edgewidth should be representative of the weight value corresponding 
-to the correlation between two nodes.}
+\item{edgewidth}{This is a 'YES' or 'NO' option as to if the edgewidth should be representative 
+of the weight value corresponding to the correlation between two nodes.}
 
-\item{layout}{User can choose from a a handful of network visualization templates including:'nice', 'sphere', 'grid', 'star', and 'circle'.}
+\item{layout}{User can choose from a a handful of network visualization templates including:
+'nice', 'sphere', 'grid', 'star', and 'circle'.}
 
-\item{bingroups}{Users can choose between Activity_Score or Node_Degree to sort through varying threshold ranges}
+\item{bingroups}{Users can choose between 'Activity_Score',  'Node_Degree', and 'P_Value' to 
+sort through varying threshold ranges.}
 }
 \value{
-An interactive dipiction of the network resulting from INDEED functions non_partial_corr() or patial_corr().
+An interactive dipiction of the network resulting from INDEED functions 
+    non_partial_corr() or patial_corr().
 }
 \description{
-An interactive tool to assist in the visualization of the results from INDEED functions non_partial_corr() or patial_corr().
-The size and the color of each node can be adjusted by users to represent either the Node_Degree, Activity_Score, Z_Score, or P_Value.
-The color of the edge is based on the binary value of either 1 corresonding to a positive correlation dipicted as green or a 
-negative correlation of -1 dipicted as red. The user also has the option of having the width of each edge be proportional to its weight value. 
-The layout of the network can also be customized by choosing from the options: 'nice', 'sphere', 'grid', 'star', and 'circle'. Nodes can be 
-moved and zoomed in on. Each node and edge will display extra information when clicked on. Secondary interactions will be highlighted 
-as well when a node is clicked on.
+An interactive tool to assist in the visualization of the results from INDEED 
+    functions non_partial_corr() or patial_corr(). The size and the color of each node can be 
+    adjusted by users to represent either the Node_Degree, Activity_Score, Z_Score, or P_Value.
+    The color of the edge is based on the binary value of either 1 corresonding to a positive 
+    correlation dipicted as green or a negative correlation of -1 dipicted as red. The user also 
+    has the option of having the width of each edge be proportional to its weight value. The 
+    layout of the network can also be customized by choosing from the options: 'nice', 'sphere', 
+    'grid', 'star', and 'circle'. Nodes can be moved and zoomed in on. Each node and edge will 
+    display extra information when clicked on. Secondary interactions will be highlighted as 
+    well when a node is clicked on.
 }
 \examples{
 result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
-                   method = "spearman", permutation_thres = 0.05, permutation = 1000)
+                                   method = "spearman", permutation_thres = 0.05, 
+                                   permutation = 1000)
           network_display(results = result, layout = 'nice', nodesize = 'Node_Degree', 
-                          nodecolor = 'Activity_Score', edgewidth = 'NO', bingroups = 'Node_Degree')
+                          nodecolor = 'Activity_Score', edgewidth = 'NO', 
+                          bingroups = 'Node_Degree')
 }

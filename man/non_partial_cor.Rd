@@ -20,19 +20,23 @@ to be computed. The options are either "pearson" as the default or "spearman".}
 
 \item{p_val}{This is optional, it is a data frame containing p-value for each biomolecule.}
 
-\item{permutation}{This is a positive integer representing the desired number of permutations, default is 1000.}
+\item{permutation}{This is a positive integer representing the desired number of permutations, 
+default is 1000.}
 
-\item{permutation_thres}{This is a threshold for permutation. The defalut is 0.05 to make 95 percent confidence..}
+\item{permutation_thres}{This is a threshold for permutation. The defalut is 0.05 to make 95 
+percent confidence..}
 }
 \value{
 A list containing a score table with "ID", "P_value", "Node_Degree", "Activity_Score"
-         and a differential network table with "Node1", "Node2", the binary link value and the weight link value.
+         and a differential network table with "Node1", "Node2", the binary link value and the  
+         weight link value.
 }
 \description{
 A method that integrates differential expression (DE) analysis
-  and differential network (DN) analysis to select biomarker candidates for
-  cancer studies. non_partial_cor is a one step function for user
-  to perform the analysis based on typical correlation analysis, no pre-processing step required.
+    and differential network (DN) analysis to select biomarker candidates for
+    cancer studies. non_partial_cor is a one step function for user
+    to perform the analysis based on typical correlation analysis, no pre-processing step 
+    required.
 }
 \examples{
 non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,

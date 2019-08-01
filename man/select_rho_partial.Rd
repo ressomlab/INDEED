@@ -18,14 +18,16 @@ select_rho_partial(data = NULL, class_label = NULL, id = NULL,
 provided to the user, user can choose "YES" or "NO".}
 }
 \value{
-A list of processed data for the next step, and generates an error curve to select rho for graphical lasso.
+A list of processed data for the next step, and generates an error curve to select rho 
+    for graphical lasso.
 }
 \description{
 A method that integrates differential expression (DE) analysis
-  and differential network (DN) analysis to select biomarker candidates for
-  cancer studies. select_rho_partial is the pre-processing step for INDEED
-  partial differential analysis.
+    and differential network (DN) analysis to select biomarker candidates for
+    cancer studies. select_rho_partial is the pre-processing step for INDEED
+    partial differential analysis.
 }
 \examples{
-select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, error_curve = "YES")
+select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
+    error_curve = "YES")
 }
