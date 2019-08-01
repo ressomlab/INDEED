@@ -22,7 +22,6 @@ display to aid users’ biomarker selection.
 You can install INDEED from github with:
 
 ``` r
-# The development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("ressomlab/INDEED")
 ```
@@ -32,6 +31,7 @@ devtools::install_github("ressomlab/INDEED")
 Load the package.
 
 ``` r
+# load INDEED
 library(INDEED)
 #> Loading required package: glasso
 ```
@@ -120,6 +120,6 @@ head(result$diff_network)
 network_display(result)
 ```
 
-![](figure/network-display.png)
-
 <!-- Network display image was generated from somewhere else -->
+
+![](figure/network-display.png)<!-- -->

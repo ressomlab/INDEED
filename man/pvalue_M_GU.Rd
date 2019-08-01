@@ -4,7 +4,7 @@
 \name{pvalue_M_GU}
 \alias{pvalue_M_GU}
 \title{P-values obtained by differential expression (DE) analysis.}
-\format{A data frame with 39 rows and 3 variables:
+\format{A data frame with 39 rows and 2 variables:
 \describe{
   \item{KEGG.ID}{KEGG ID}
   \item{p.value}{p-value}
