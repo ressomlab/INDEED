@@ -151,10 +151,10 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
     }
     
     
-    # vis.nodes$borderWidth <- 2 # Node border width
-    # vis.nodes$label  <- vis.nodes$name  # Node label
-    # vis.nodes$color.highlight.border <- "darkred"
-    # vis.nodes$color.border <- "black"
+    vis.nodes$borderWidth <- 2 # Node border width
+    vis.nodes$label  <- vis.nodes$name  # Node label
+    vis.nodes$color.highlight.border <- "darkred"
+    vis.nodes$color.border <- "black"
     
     
     wNorm <- scale_range(abs(vis.links$weight))
