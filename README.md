@@ -121,3 +121,5 @@ network_display(result)
 ```
 
 <!-- Network display image was generated from somewhere else -->
+
+![](figure/network-display.png)<!-- -->
