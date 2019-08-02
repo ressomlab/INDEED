@@ -9,6 +9,6 @@
 Met_Group_GU
 }
 \description{
-A dataset containing group information CIRR group: 0; HCC group: 1.
+A dataset containing group information (CIRR group: 0 and HCC group: 1).
 }
 \keyword{datasets}

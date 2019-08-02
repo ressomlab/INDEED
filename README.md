@@ -1,17 +1,23 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-INDEED
-======
 
-Overview
---------
+# INDEED
 
-This package implements INDEED algorithm from Zuo et. al.'s Methods paper, INDEED: Integrated differential expression and differential network analysis of omic data for biomarker discovery (PMID: 27592383).
+## Overview
 
-This R package will generate a list of dataframes containing information such as p-value, node degree and activity score for each biomolecule. A higher activity score indicates that the corresponding biomolecule has more neighbors connceted in the differential network and their p-values are more statistically significant. It will also generate a network display to aid users' biomarker selection.
+This R package implements INDEED algorithm from Zuo *et. al.*’s Methods
+paper, INDEED: Integrated differential expression and differential
+network analysis of omic data for biomarker discovery
+([PMID: 27592383](https://www.ncbi.nlm.nih.gov/pubmed/?term=27592383%5Buid%5D)).
 
-Installation
-------------
+This R package will generate a list of dataframes containing information
+such as p-value, node degree and activity score for each biomolecule. A
+higher activity score indicates that the corresponding biomolecule has
+more neighbors connected in the differential network and their p-values
+are more statistically significant. It will also generate a network
+display to aid users’ biomarker selection.
+
+## Installation
 
 You can install INDEED from github with:
 
@@ -20,8 +26,9 @@ You can install INDEED from github with:
 devtools::install_github("ressomlab/INDEED")
 ```
 
-Usage
------
+## Usage
+
+Load the package.
 
 ``` r
 # load INDEED
@@ -29,7 +36,11 @@ library(INDEED)
 #> Loading required package: glasso
 ```
 
-A testing dataset has been provided to the users to get familiar with INDEED package. It contains the expression levels of 39 metabolites from 120 subjects (CIRR: 60; HCC: 60) with CIRR group named as group 0 and HCC group named as group 1.
+A testing dataset has been provided to the users to get familiar with
+INDEED R package. It contains the expression levels of 39 metabolites
+from 120 subjects (CIRR: 60; HCC: 60) with CIRR group named as group 0
+and HCC group named as group
+1.
 
 ``` r
 # Data matrix contains the expression levels of 39 metabolites from 120 subjects 
@@ -63,35 +74,52 @@ Met_name_GU[1:10]
 #>  [8] "C00097" "C00124" "C00148"
 ```
 
-An example of obtain sparse differential network using partial correlation.
+An example to obtain the differential network using partial correlation
+analysis.
 
 ``` r
+# set seed to avoid randomness
+set.seed(100)
 # Compute rho values to run graphical lasso
-pre_data <- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, error_curve = "NO")
+pre_data <- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, error_curve = "YES")
+```
+
+![](figure/rho-selection-1.png)<!-- -->
+
+From the error curve figure, users can choose the rho value based on the
+minimum rule (red vertical line), the one standard error rule (blue
+horizontal line) or their preferred
+value.
+
+``` r
 # Choose optimal rho values to compute activity scores and build the differntial network
 result <- partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = "min", permutation = 1000, p_val = pvalue_M_GU, permutation_thres = 0.05)
 ```
 
+Show the network display and users can interact with it.
+
 ``` r
 # Show result 
 head(result$activity_score)
-#>   Node  MetID P_value Node_Degree Activity_Score
-#> 1   12 C00183   0.000           8           12.7
-#> 2   24 C00978   0.166           7           11.5
-#> 3   31 C02497   0.537          10           11.3
-#> 4   17 C00209   0.206           6           10.4
-#> 5   15 C00188   0.487           7            9.8
-#> 6   16 C00189   0.016           7            9.7
+#>   Node     ID P_value Node_Degree Activity_Score
+#> 1   15 C00188   0.487           5            8.8
+#> 2   39 C06424   0.707           4            8.7
+#> 3   12 C00183   0.000           4            8.5
+#> 4    5 C00064   0.015           3            7.7
+#> 5   18 C00247   0.889           9            7.7
+#> 6    3 C00025   0.997           7            7.1
 head(result$diff_network)
-#>      Node1 Node2 Binary     Weight
-#> [1,]     1     2      1 0.04463312
-#> [2,]     1     5      1 0.02480624
-#> [3,]     1     6      1 0.01702761
-#> [4,]     1    19      1 0.03594529
-#> [5,]     1    28      1 0.01295338
-#> [6,]     1    32      1 0.01303688
+#>   Node1 Node2 Binary      Weight
+#> 1     1    19      1  0.02642267
+#> 2     2     8     -1 -0.01844766
+#> 3     2    15      1  0.01564158
+#> 4     2    31      1  0.01174936
+#> 5     2    33     -1 -0.02943342
+#> 6     2    38     -1 -0.01018387
 # Show network
 network_display(result)
 ```
 
-![](README-unnamed-chunk-3-1.png)
+<!-- Network display image was generated from somewhere else -->
+
+![](figure/network-display.png)<!-- -->

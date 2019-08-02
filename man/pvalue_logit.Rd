@@ -17,6 +17,6 @@ pvalue_logit(x, class_label, Met_name)
 p-values
 }
 \description{
-Calculate p-values using logistic regression.
-     This function is used in both partial_cor.R and non_partial_corr.R in cases where p-values are not provided
+This function calculates p-values using logistic regression in cases that p-values 
+    are not provided.
 }

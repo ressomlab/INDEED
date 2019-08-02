@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper_function.R
 \name{permutation_pc}
 \alias{permutation_pc}
-\title{Permutations to build differential network using partial correlation}
+\title{Permutations to build differential network based on partial correlation analysis}
 \usage{
 permutation_pc(m, p, n_group_1, n_group_2, data_group_1, data_group_2,
   rho_group_1_opt, rho_group_2_opt)
@@ -16,20 +16,22 @@ permutation_pc(m, p, n_group_1, n_group_2, data_group_1, data_group_2,
 
 \item{n_group_2}{This is the number of subjects in group 2.}
 
-\item{data_group_1}{This is a \eqn{n*p} matrix or data.frame containing group 1 data.}
+\item{data_group_1}{This is a \eqn{n*p} matrix containing group 1 data.}
 
-\item{data_group_2}{This is a \eqn{n*p} matrix of data.frame containing group 2 data.}
+\item{data_group_2}{This is a \eqn{n*p} matrix containing group 2 data.}
 
-\item{rho_group_1_opt}{This is an optimal tuning parameter to sparse the differential network for group 1}
+\item{rho_group_1_opt}{This is an optimal tuning parameter to obtain a sparse differential 
+network for group 1.}
 
-\item{rho_group_2_opt}{This is an optimal tuning parameter to sparse the differential network for group 2}
+\item{rho_group_2_opt}{This is an optimal tuning parameter to obtain a sparse differential
+network for group 2.}
 }
 \value{
-A multi-dimensional matrix that contains the permutation results
+A multi-dimensional matrix that contains the permutation result.
 }
 \description{
 A permutation test that randomly permutes the sample labels in distinct
     biological groups for each biomolecule. The difference in paired partial correlation
-    is considered significant if it falls into the 2.5% tails on either end of the empirical
-    distribution curve. This function is used in partial_corr.R
+    is considered statistically significant if it falls into the 2.5% tails on either end of the 
+    empirical distribution curve.
 }

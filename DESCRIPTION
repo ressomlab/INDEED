@@ -1,10 +1,10 @@
 Package: INDEED
 Title: Integrated Differential Expression and Differential Network Analysis (INDEED)
-Version: 1.1.0
+Version: 1.2.0
 Author: Yiming Zuo with contributions from Kian Ghaffari and Zhenzhi Li
 Maintainer: Yiming Zuo <yimingzuo@gmail.com> and Kian Ghaffari <kg737@georgetown.edu>
 Description: An R package for integrated differential expression and differential network analysis 
-    based on omic data for biomarker candidate selection. Both correlation and partial correlation
+    based on omic data for cancer biomarker discovery. Both correlation and partial correlation
     can be used to generate differential network to aid the traditional differential expression 
     analysis to identify changes between biomolecules on both their expression and pairwise 
     association levels.
@@ -21,7 +21,8 @@ Imports:
     graphics (>= 3.3.1),
     stats (>= 3.3.1),
     utils (>= 3.3.1),
-    igraph (>= 1.2.4)
+    igraph (>= 1.2.4),
+    visNetwork(>= 2.0.6)
 Suggests: knitr (>= 1.19),
     rmarkdown (>= 1.8),
     testthat (>= 2.0.0)

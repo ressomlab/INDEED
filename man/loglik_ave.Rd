@@ -2,19 +2,18 @@
 % Please edit documentation in R/helper_function.R
 \name{loglik_ave}
 \alias{loglik_ave}
-\title{Create log likelihood error function}
+\title{Create log likelihood error}
 \usage{
 loglik_ave(data, theta)
 }
 \arguments{
-\item{data}{This is a matrix or data.frame.}
+\item{data}{This is a matrix.}
 
 \item{theta}{This is a precision matrix.}
 }
 \value{
-log likelihood error function
+log likelihood error
 }
 \description{
-Calculates the log likelihood error function. This function is 
-     used inside the function choose_rho found below.
+This function calculates the log likelihood error.
 }

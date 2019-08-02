@@ -10,9 +10,8 @@ compute_par(pre_inv)
 \item{pre_inv}{This is an inverse covariance matrix.}
 }
 \value{
-An \eqn{n * n} partial correlation matrix
+A \eqn{p*p} partial correlation matrix.
 }
 \description{
-Compute the partial correlation coefficient.
-     This function is used in partial_corr.R
+This function computes the partial correlation coefficient.
 }

@@ -2,25 +2,25 @@
 % Please edit documentation in R/helper_function.R
 \name{permutation_thres}
 \alias{permutation_thres}
-\title{Calculate the positive and negative threshold based on the permutation result}
+\title{Calculate the positive and negative thresholds based on the permutation result}
 \usage{
 permutation_thres(thres_left, thres_right, p, diff_p)
 }
 \arguments{
-\item{thres_left}{This is the threshold representing 2.5 percent of the left tail of the empirical
-distribution curve.}
+\item{thres_left}{This is the threshold representing 2.5 percent of the left tail of the 
+empirical distributuion curve.}
 
-\item{thres_right}{This is the threshold representing 2.5 percent of the right tail of the empirical
-distribution curve.}
+\item{thres_right}{This is the threshold representing 2.5 percent of the right tail of the 
+empirical distributuion curve.}
 
 \item{p}{This is the number of biomarker candidates present.}
 
-\item{diff_p}{This is the permutation results from either permutation_pc or permutation_cor}
+\item{diff_p}{This is the permutation result from either permutation_cor or permutation_pc.}
 }
 \value{
-A list of the positive and negative thresholds
+A list of positive and negative thresholds.
 }
 \description{
-Calculate the positive and negative threshold based on the permutation result.
-      This function is used in both partial_cor.R and non_partial_corr.R
+This function calculates the positive and negative thresholds based on the 
+    permutation result.
 }
