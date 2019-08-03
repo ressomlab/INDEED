@@ -11,24 +11,24 @@
 #'     well when a node is clicked on. 
 #' @param results This is the result from calling either non_partial_corr() or partial_corr(). 
 #' @param nodesize This parameter determines what the size of each node will represent. The options 
-#'     are 'Node_Degree', 'Activity_Score', 'Z_Score', and 'P_Value'. The title of the resulting 
+#'     are 'Node_Degree', 'Activity_Score','P_Value' and'Z_Score'. The title of the resulting 
 #'     network will identify which parameter was selected to represent the node size. The default 
 #'     is Node_Degree.
 #' @param nodecolor This parameter determines what color each node will be based on a yellow to 
-#'     blue color gradient. The options are 'Node_Degree', 'Activity_Score', and 'P_Value'. A color 
-#'     bar will be created based on which parameter is chosen. 
+#'     blue color gradient. The options are 'Node_Degree', 'Activity_Score', 'P_Value', and '
+#'     Z_Score'. A color bar will be created based on which parameter is chosen. 
 #' @param edgewidth This is a 'YES' or 'NO' option as to if the edgewidth should be representative 
 #'     of the weight value corresponding to the correlation between two nodes. 
 #' @param layout User can choose from a a handful of network visualization templates including:
 #'     'nice', 'sphere', 'grid', 'star', and 'circle'.  
-#' @param bingroups Users can choose between 'Activity_Score',  'Node_Degree', and 'P_Value' to 
-#'     sort through varying threshold ranges.
+#' @param bingroups Users can choose between 'Activity_Score',  'Node_Degree', 'P_Value', and 
+#'     'Z_Score' to sort through varying threshold ranges.
 #' @examples result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
 #'                                    method = "spearman", permutation_thres = 0.05, 
 #'                                    permutation = 1000)
 #'           network_display(results = result, layout = 'nice', nodesize = 'Node_Degree', 
 #'                           nodecolor = 'Activity_Score', edgewidth = 'NO', 
-#'                           bingroups = 'Node_Degree')
+#'                           bingroups = 'P_Value')
 #' @return An interactive dipiction of the network resulting from INDEED functions 
 #'     non_partial_corr() or patial_corr().
 #' @import igraph
@@ -42,6 +42,9 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
     nodes <- results$activity_score
     links <- results$diff_network
     
+    # Adding Z_Score to dataframe
+    Z_Score <- abs(qnorm(1 - (nodes$P_value)/2)) # trasfer p-value to z-score
+    nodes$zscore = Z_Score
     
     # Setting up groups for thresholding select option 
     if (missing(bingroups)){
@@ -69,6 +72,12 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
                                                   max(nodes$P_value)/1.5, 
                                                   max(nodes$P_value)))
     }
+    else if(bingroups == 'Z_Score'){
+        nodes$bins <- cut(nodes$zscore, breaks=c(min(nodes$zscore), 
+                                                 max(nodes$zscore)/2, 
+                                                 max(nodes$zscore)/1.5, 
+                                                 max(nodes$zscore)))
+    }
     else { 
         nodes$bins <- cut(nodes$Node_Degree, breaks=c(min(nodes$Node_Degree),
                                                       max(nodes$Node_Degree)/2,
@@ -79,7 +88,7 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
     }
     
     vis.nodes <- data.frame(id= nodes$Node, name= nodes$ID, pval= nodes$P_value, 
-                            ndegree= nodes$Node_Degree, ascore= nodes$Activity_Score, 
+                            ndegree= nodes$Node_Degree, ascore= nodes$Activity_Score,zscore= nodes$zscore, 
                             group = nodes$bins, stringsAsFactors = FALSE)
     vis.links <- data.frame(from=links$Node1, to=links$Node2, binary= links$Binary, 
                             weight= links$Weight)
@@ -90,7 +99,8 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
     vis.nodes$title <- paste0("<p>", paste('MetID: ', vis.nodes$name), "<br>","<br>", 
                               paste('Node Degree: ', vis.nodes$ndegree),"<br>", 
                               paste('Activity Score: ', vis.nodes$ascore),"<br>", 
-                              paste('P-value: ', vis.nodes$pval), "</p>") 
+                              paste('P-value: ', vis.nodes$pval),"<br>",
+                              paste('Z-score: ', round(vis.nodes$zscore, digits=3)),"</p>")
     
     # Setting up the Node Size
     if (missing(nodesize)){
@@ -108,8 +118,7 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
         
     }
     else if(nodesize == 'Z_Score'){
-        z_score <- abs(qnorm(1 - (vis.nodes$pval)/2)) # trasfer p-value to z-score
-        vis.nodes$size   <- ((z_score)+1)*10
+        vis.nodes$size   <- ((vis.nodes$zscore)+1)*10
         
     } else { 
         vis.nodes$size   <- ((vis.nodes$ndegree)+1)*5
@@ -142,6 +151,12 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
         vis.nodes$color.background <- topo.colors(length(vis.nodes$pval), alpha=1)
         vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$pval), alpha=1)
         
+    }
+    else if(nodecolor == 'Z_Score'){
+        vis.nodes<- vis.nodes[order(vis.nodes$zscore, decreasing=TRUE), ]
+        vis.nodes$color.background <- topo.colors(length(vis.nodes$zscore), alpha=1)
+        vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$zscore), alpha=1)
+        nodecolor <- 'Z_Score'
     }
     else {
         vis.nodes<- vis.nodes[order(vis.nodes$ascore, decreasing=TRUE), ]
@@ -198,7 +213,6 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
                   main= paste("Node color based on ", nodecolor), width= 0.2, stepX = 50, 
                   stepY = 50, zoom = TRUE)
     print(net)
-} 
-
+}
 
 

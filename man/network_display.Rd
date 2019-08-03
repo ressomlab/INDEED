@@ -12,13 +12,13 @@ network_display(results = NULL, nodesize = "Node_Degree",
 \item{results}{This is the result from calling either non_partial_corr() or partial_corr().}
 
 \item{nodesize}{This parameter determines what the size of each node will represent. The options 
-are 'Node_Degree', 'Activity_Score', 'Z_Score', and 'P_Value'. The title of the resulting 
+are 'Node_Degree', 'Activity_Score','P_Value' and'Z_Score'. The title of the resulting 
 network will identify which parameter was selected to represent the node size. The default 
 is Node_Degree.}
 
 \item{nodecolor}{This parameter determines what color each node will be based on a yellow to 
-blue color gradient. The options are 'Node_Degree', 'Activity_Score', and 'P_Value'. A color 
-bar will be created based on which parameter is chosen.}
+blue color gradient. The options are 'Node_Degree', 'Activity_Score', 'P_Value', and '
+Z_Score'. A color bar will be created based on which parameter is chosen.}
 
 \item{edgewidth}{This is a 'YES' or 'NO' option as to if the edgewidth should be representative 
 of the weight value corresponding to the correlation between two nodes.}
@@ -26,8 +26,8 @@ of the weight value corresponding to the correlation between two nodes.}
 \item{layout}{User can choose from a a handful of network visualization templates including:
 'nice', 'sphere', 'grid', 'star', and 'circle'.}
 
-\item{bingroups}{Users can choose between 'Activity_Score',  'Node_Degree', and 'P_Value' to 
-sort through varying threshold ranges.}
+\item{bingroups}{Users can choose between 'Activity_Score',  'Node_Degree', 'P_Value', and 
+'Z_Score' to sort through varying threshold ranges.}
 }
 \value{
 An interactive dipiction of the network resulting from INDEED functions 
@@ -51,5 +51,5 @@ result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_nam
                                    permutation = 1000)
           network_display(results = result, layout = 'nice', nodesize = 'Node_Degree', 
                           nodecolor = 'Activity_Score', edgewidth = 'NO', 
-                          bingroups = 'Node_Degree')
+                          bingroups = 'P_Value')
 }
