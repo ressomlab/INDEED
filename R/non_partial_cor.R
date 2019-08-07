@@ -1,20 +1,24 @@
 #' @title Non-partial correlaton analysis
 #' @description A method that integrates differential expression (DE) analysis
-#'   and differential network (DN) analysis to select biomarker candidates for
-#'   cancer studies. non_partial_cor is a one step function for user
-#'   to perform the analysis, no pre-processing step required.
-#' @param data This is a matrix of expression from all metabolites and all samples.
+#'     and differential network (DN) analysis to select biomarker candidates for
+#'     cancer studies. non_partial_cor is a one step function for user
+#'     to perform the analysis based on typical correlation analysis, no pre-processing step 
+#'     required.
+#' @param data This is a matrix of expression from all biomolecules and all samples.
 #' @param class_label this is a binary array with 0 for group 1 and 1 for group 2.
-#' @param id This is an array of biomolecule ID to label.
+#' @param id This is an array of biomolecule IDs.
 #' @param method This is a character string indicating which correlation coefficient is
-#'    to be computed. The options are either "pearson" as the default or "spearman".
-#' @param p_val This is optional, it is a data frame containing p-values for each biomolecule.
-#' @param permutation This is a positive integer representing the desired number of permutations, default is 1000.
-#' @param permutation_thres This is a threshold for permutation. The defalut is 0.05 to make 95 percent confidence..
+#'     to be computed. The options are either "pearson" as the default or "spearman".
+#' @param p_val This is optional, it is a data frame containing p-value for each biomolecule.
+#' @param permutation This is a positive integer representing the desired number of permutations, 
+#'     default is 1000.
+#' @param permutation_thres This is a threshold for permutation. The defalut is 0.05 to make 95 
+#'     percent confidence..
 #' @examples non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
 #'                         method = "pearson", permutation = 1000, permutation_thres = 0.05)
 #' @return A list containing a score table with "ID", "P_value", "Node_Degree", "Activity_Score"
-#'          and a differential network table with "Node1", "Node2", the binary link value and the weight link value.
+#'          and a differential network table with "Node1", "Node2", the binary link value and the  
+#'          weight link value.
 #' @import devtools
 #' @importFrom glasso glasso
 #' @importFrom stats qnorm cor quantile var sd glm
@@ -24,8 +28,10 @@
 non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method = "pearson",
                             p_val = NULL, permutation = 1000, permutation_thres = 0.05){
     data_bind <- rbind(data, class_label)
-    raw_group_1 <- data_bind[,data_bind[nrow(data_bind),] == 0][1:(nrow(data_bind) - 1),]  # Group 1: p*n1
-    raw_group_2 <- data_bind[,data_bind[nrow(data_bind),] == 1][1:(nrow(data_bind) - 1),]  # Group 2: p*n2
+    # Group 1: p*n1
+    raw_group_1 <- data_bind[,data_bind[nrow(data_bind),] == 0][1:(nrow(data_bind) - 1),]  
+    # Group 2: p*n2
+    raw_group_2 <- data_bind[,data_bind[nrow(data_bind),] == 1][1:(nrow(data_bind) - 1),]  
     p <- nrow(raw_group_1)
     n_group_1 <- ncol(raw_group_1)
     n_group_2 <- ncol(raw_group_2)
@@ -39,7 +45,8 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
     # Get the correlation matrix
     if(missing(method)){method = "pearson"}
     else if(method != "spearman"){method = "pearson"}
-    cor <- compute_cor(data_group_1, data_group_2, type_of_cor = method)    # default is pearson correlation
+    # default is pearson correlation
+    cor <- compute_cor(data_group_1, data_group_2, type_of_cor = method) 
     cor_group_1 <- cor$Group1
     cor_group_2 <- cor$Group2
     
@@ -61,7 +68,8 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
     if(permutation <= 0) {stop("please provide a valid number of permutation (positive integer)")}
     else{
         m <- as.numeric(permutation)
-        diff_p <- permutation_cor(m, p, n_group_1, n_group_2, data_group_1, data_group_2, type_of_cor = method)
+        diff_p <- permutation_cor(m, p, n_group_1, n_group_2, data_group_1, data_group_2, 
+                                  type_of_cor = method)
     }
     rm(m)
 
@@ -92,7 +100,8 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
     k <- unlist(lapply(2:nrow(binary_link), seq, nrow(binary_link)))
     binary_link_value <- binary_link[lower.tri(binary_link)]
     weight_link_value <- weight_link[lower.tri(weight_link)]
-    edge <- cbind("Node1" = i, "Node2" = k, "Binary" = binary_link_value, "Weight" = weight_link_value)
+    edge <- cbind("Node1" = i, "Node2" = k, "Binary" = binary_link_value, 
+                  "Weight" = weight_link_value)
     edge_dn <- edge[which(edge[,3] != 0),]
     edge_dn <- as.data.frame(edge_dn)
 
@@ -104,7 +113,7 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
         row.names(pvalue) <- NULL
     } else {     # If the p-value matrix is provided
         pvalue <- p_val
-        p.value <- pvalue$p.value           # Extract p-values from the table provided
+        p.value <- pvalue$p.value   # Extract p-values from the table provided
         row.names(pvalue) <- NULL
     }
 
@@ -118,7 +127,8 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
     indeed_df$P_value <- lapply(indeed_df$P_value, round, 3)
     indeed_df$Activity_Score <- lapply(indeed_df$Activity_Score, round, 1)
     indeed_df <- as.data.frame(lapply(indeed_df, unlist))
-    indeed_df <- cbind(rownames(indeed_df), data.frame(indeed_df, row.names = NULL)) # Recopy dataframe with index to help with ighraph formating
+    # Recopy dataframe with index to help with ighraph formating
+    indeed_df <- cbind(rownames(indeed_df), data.frame(indeed_df, row.names = NULL)) 
     colnames(indeed_df)[1] <- "Node"    # rename the previous index column as "Node"
     indeed_df<-indeed_df[order(indeed_df$Activity_Score, decreasing = TRUE), ]
     row.names(indeed_df) <- NULL      # remove index repeat

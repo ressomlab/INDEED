@@ -8,24 +8,26 @@ select_rho_partial(data = NULL, class_label = NULL, id = NULL,
   error_curve = "YES")
 }
 \arguments{
-\item{data}{This is a matrix of expression from all metabolites and all samples.}
+\item{data}{This is a matrix of expression from all biomolecules and all samples.}
 
 \item{class_label}{This is a binary array with 0 for group 1 and 1 for group 2.}
 
-\item{id}{This is an array of biomolecule ID to label.}
+\item{id}{This is an array of biomolecule IDs.}
 
 \item{error_curve}{The default is "YES". This is an option on whether a error curve plot will be
 provided to the user, user can choose "YES" or "NO".}
 }
 \value{
-A list of processed data for the next step, and generates an error curve to select rho for graphical lasso.
+A list of processed data for the next step, and generates an error curve to select rho 
+    for graphical lasso.
 }
 \description{
 A method that integrates differential expression (DE) analysis
-  and differential network (DN) analysis to select biomarker candidates for
-  cancer studies. select_rho_partial is the pre-processing step for INDEED
-  partial differential analysis.
+    and differential network (DN) analysis to select biomarker candidates for
+    cancer studies. select_rho_partial is the pre-processing step for INDEED
+    partial differential analysis.
 }
 \examples{
-select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, error_curve = "YES")
+select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
+    error_curve = "YES")
 }

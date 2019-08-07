@@ -4,15 +4,15 @@
 \name{pvalue_M_GU}
 \alias{pvalue_M_GU}
 \title{P-values obtained by differential expression (DE) analysis.}
-\format{A data frame with 39 rows and 3 variables:
+\format{A data frame with 39 rows and 2 variables:
 \describe{
-  \item{KEGG.ID}{KEGG.ID}
-  \item{p.value}{p-values}
+  \item{KEGG.ID}{KEGG ID}
+  \item{p.value}{p-value}
 }}
 \usage{
 pvalue_M_GU
 }
 \description{
-A dataset containing the p-values of each metabolite obtained through DE.
+A dataset containing the p-value for each metabolite obtained through DE analysis.
 }
 \keyword{datasets}

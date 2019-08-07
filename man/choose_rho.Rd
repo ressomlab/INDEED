@@ -7,15 +7,15 @@
 choose_rho(data, n_fold, rho)
 }
 \arguments{
-\item{data}{a matrix.}
+\item{data}{This is a matrix.}
 
-\item{n_fold}{specify n to n-fold cross_validation.}
+\item{n_fold}{This parameter specifies the n number in n-fold cross_validation.}
 
-\item{rho}{multiple regularization parameter values to be evalueated in terms of errors.}
+\item{rho}{This is the regularization parameter values to be evalueated in terms their errors.}
 }
 \value{
-a list of errors and their corresponding \eqn{log(rho)}
+A list of errors and their corresponding \eqn{log(rho)}.
 }
 \description{
-Draw error curve using cross-validation.
+This function draws error curve using cross-validation.
 }

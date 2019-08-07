@@ -5,7 +5,7 @@
 
 ## Overview
 
-This package implements INDEED algorithm from Zuo *et. al.*’s Methods
+This R package implements INDEED algorithm from Zuo *et. al.*’s Methods
 paper, INDEED: Integrated differential expression and differential
 network analysis of omic data for biomarker discovery
 ([PMID: 27592383](https://www.ncbi.nlm.nih.gov/pubmed/?term=27592383%5Buid%5D)).
@@ -22,7 +22,6 @@ display to aid users’ biomarker selection.
 You can install INDEED from github with:
 
 ``` r
-# The development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("ressomlab/INDEED")
 ```
@@ -32,14 +31,15 @@ devtools::install_github("ressomlab/INDEED")
 Load the package.
 
 ``` r
+# load INDEED
 library(INDEED)
 #> Loading required package: glasso
 ```
 
 A testing dataset has been provided to the users to get familiar with
-INDEED package. It contains the expression levels of 39 metabolites from
-120 subjects (CIRR: 60; HCC: 60) with CIRR group named as group 0 and
-HCC group named as group
+INDEED R package. It contains the expression levels of 39 metabolites
+from 120 subjects (CIRR: 60; HCC: 60) with CIRR group named as group 0
+and HCC group named as group
 1.
 
 ``` r
@@ -84,7 +84,7 @@ set.seed(100)
 pre_data <- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, error_curve = "YES")
 ```
 
-![Error curve](figure/rho-selection-1.png)
+![](figure/rho-selection-1.png)<!-- -->
 
 From the error curve figure, users can choose the rho value based on the
 minimum rule (red vertical line), the one standard error rule (blue
@@ -102,22 +102,24 @@ Show the network display and users can interact with it.
 # Show result 
 head(result$activity_score)
 #>   Node     ID P_value Node_Degree Activity_Score
-#> 1   12 C00183   0.000           9           13.1
-#> 2   39 C06424   0.707           9           11.6
-#> 3   24 C00978   0.166           7           11.0
-#> 4   34 C03752   0.624           6           10.0
-#> 5    3 C00025   0.997          12            9.8
-#> 6   16 C00189   0.016           7            9.7
+#> 1   15 C00188   0.487           5            8.8
+#> 2   39 C06424   0.707           4            8.7
+#> 3   12 C00183   0.000           4            8.5
+#> 4    5 C00064   0.015           3            7.7
+#> 5   18 C00247   0.889           9            7.7
+#> 6    3 C00025   0.997           7            7.1
 head(result$diff_network)
-#>   Node1 Node2 Binary       Weight
-#> 1     1     2      1  0.025153682
-#> 2     1     5      1  0.012438623
-#> 3     1    19      1  0.026422667
-#> 4     1    28      1  0.007233308
-#> 5     1    32      1  0.005578263
-#> 6     2     3     -1 -0.012646624
+#>   Node1 Node2 Binary      Weight
+#> 1     1    19      1  0.02642267
+#> 2     2     8     -1 -0.01844766
+#> 3     2    15      1  0.01564158
+#> 4     2    31      1  0.01174936
+#> 5     2    33     -1 -0.02943342
+#> 6     2    38     -1 -0.01018387
 # Show network
-network_display(result)
+network_display(result, layout = 'nice', nodesize = 'Node_Degree',nodecolor = 'Activity_Score', edgewidth = 'NO')
 ```
 
-![Differential network](figure/network-display.png)
+<!-- Network display image was generated from somewhere else -->
+
+![](figure/network-display-1.png)<!-- -->

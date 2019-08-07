@@ -4,33 +4,39 @@
 \name{INDEED}
 \alias{INDEED}
 \alias{INDEED-package}
-\title{INDEED: A package for biomarker candidate prioritization.}
+\title{INDEED: A network-based method for cacner biomarker discovery.}
 \description{
-The INDEED package provides a important functions below:
-select_rho_partial
+The INDEED R package provides important functions as shown below:
+non_partial_cor(), select_rho_partial(), partial_cor(), and network_display().
 }
+\section{non_partial_cor function}{
+
+non_partial_cor function performs typical correlation analysis
+based on user input data, class label, p-value, sample id,
+number of permutations, and the method (default pearson)
+p value is optional,
+the result of score table and differential network will be returned
+}
+
 \section{select_rho_partial function}{
 
-select_rho_partial function preprocess data for partical correlation analysis,
+select_rho_partial function preprocesses data for partical correlation analysis,
 the result contains list of preprocessed data and rho values and
-error plot for user to choose desired rho value
+error plot for user to choose desired rho value for graphical lasso
 }
 
 \section{partial_cor function}{
 
 partial_cor function performs partical correlation analysis
-user input preprocessed list from select_rho_partial step
-and the rho choosing method or rho of their choice
-and number of permutations (default 1000), p-value is optional
+based on user input preprocessed list from select_rho_partial step
+and the rho choosing method or values of their choice
+and number of permutations (default 1000), p-value is optional,
 the result of score table and differential network will be returned
 }
 
-\section{non_partial_cor function}{
+\section{network_display function}{
 
-non_partial_cor function performs correlation analysis
-user input data,class label,p-value, sample id,
-number of permutations, and method(default pearson)
-p value is optional
-the result of score table and differential network will be returned
+A function to assist in the network visualization of the result from INDEED functions 
+non_partial_cor() and patial_cor().
 }
 
