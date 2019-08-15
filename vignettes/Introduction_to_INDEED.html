@@ -12,7 +12,7 @@
 
 <meta name="author" content="Yiming Zuo and Kian Ghaffari" />
 
-<meta name="date" content="2019-07-31" />
+<meta name="date" content="2019-08-08" />
 
 <title>INDEED R package for cancer biomarker discovery</title>
 
@@ -300,7 +300,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">INDEED R package for cancer biomarker discovery</h1>
 <h4 class="author"><em>Yiming Zuo and Kian Ghaffari</em></h4>
-<h4 class="date"><em>2019-07-31</em></h4>
+<h4 class="date"><em>2019-08-08</em></h4>
 
 
 
@@ -320,7 +320,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>Load the package.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># load INDEED</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">library</span>(INDEED)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; Loading required package: glasso</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># Loading required package: glasso</span></a></code></pre></div>
 </div>
 <div id="non-partial-correlation-data-analysis-function-non_partial_cor" class="section level2">
 <h2>non-partial correlation data analysis function <code>non_partial_cor()</code></h2>
@@ -334,8 +334,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </ul>
 <p>In non partical correlation method, user only need to run <code>non_partial_cor()</code> function. No rho number will be needed. In this method, user input dataframe with expression level, class label, id, method, number of permutation and p-value similar to partical correaltion but in one step fashion. Result will be saved in a list of two dataframes: activity_score and diff_network. Activity_score contains a dataframe with biomolecules ranked by activity score calculated from p-value and node degree. Diff_network contains a dataframe of connection weight between two nodes.</p>
 <p>The following example demonstrates how to use <code>non_partial_cor()</code> function:</p>
-<pre><code>non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, method = &quot;spearman&quot;)
-</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">non_partial_cor</span>(<span class="dt">data =</span> Met_GU, <span class="dt">class_label =</span> Met_Group_GU, <span class="dt">id =</span> Met_name_GU, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</a></code></pre></div>
 </div>
 <div id="partial-correlation-data-preprocessing-function-select_rho_partial" class="section level2">
 <h2>partial correlation data preprocessing function <code>select_rho_partial()</code></h2>
@@ -358,8 +357,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>The demo data is presented in the <strong>Demo Data</strong> section below. It will be automatically loaded with the package.</p>
 <p>In partical correlation method, user will need to preprocess the data using <code>select_rho_partial()</code> function, followed by using <code>partial_cor()</code> and choosing desired rho number and complete the analysis. User can also choose to provide p-value table and number of permutations in <code>partial_cor()</code> function. Result will be saved in a list of two dataframes: activity_score and diff_network. Activity_score contains a dataframe with biomolecules ranked by activity score calculated from p-value and node degree. Diff_network contains a dataframe of connection weight between two nodes.</p>
 <p>The following example demonstrates how to use <code>select_rho_partial()</code> and <code>partial_cor()</code>function:</p>
-<pre><code>pre_data &lt;- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU)
-result &lt;- partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = &quot;min&quot;, permutation = 1000, p_val = pvalue_M_GU, permutation_thres = 0.05)</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">pre_data &lt;-<span class="st"> </span><span class="kw">select_rho_partial</span>(<span class="dt">data =</span> Met_GU, <span class="dt">class_label =</span> Met_Group_GU, <span class="dt">id =</span> Met_name_GU)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">result &lt;-<span class="st"> </span><span class="kw">partial_cor</span>(<span class="dt">data_list =</span> pre_data, <span class="dt">rho_group1 =</span> <span class="st">'min'</span>, <span class="dt">rho_group2 =</span> <span class="st">&quot;min&quot;</span>, <span class="dt">permutation =</span> <span class="dv">1000</span>, <span class="dt">p_val =</span> pvalue_M_GU, <span class="dt">permutation_thres =</span> <span class="fl">0.05</span>)</a></code></pre></div>
 <p>In this case, the sparse differential network is based on partial correlation and p-value for each biomolecule is calculated for users. Also, <strong>rho</strong> is picked based on minimum rule and number of permutations is set to 1000.</p>
 </div>
 <div id="interactive-network-visualization-function-network_display" class="section level2">
@@ -373,23 +372,22 @@ result &lt;- partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = 
 </ul>
 <p>An interactive tool to assist in the visualization of the results from INDEED functions non_partial_corr() or patial_corr(). The size and the color of each node can be adjusted by users to represent either the Node_Degree, Activity_Score, Z_Score, or P_Value. The color of the edge is based on the binary value of either 1 corresonding to a positive correlation dipicted as green or a negative correlation of -1 dipicted as red. The user also has the option of having the width of each edge be proportional to its weight value. The layout of the network can also be customized by choosing from the options: ‘nice’, ‘sphere’, ‘grid’, ‘star’, and ‘circle’. Nodes can be moved and zoomed in on. Each node and edge will display extra information when clicked on. Secondary interactions will be highlighted as well when a node is clicked on.</p>
 <p>The following example demonstrates how to use the <code>network_display()</code> function:</p>
-<pre><code>network_display(result)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">network_display</span>(result)</a></code></pre></div>
 </div>
 <div id="examples" class="section level2">
 <h2>Examples</h2>
 <div id="example-1" class="section level3">
 <h3>Example 1</h3>
-<pre><code>pre_data &lt;- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU)
-partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = &quot;min&quot;, permutation = 500, p_val = pvalue_M_GU, permutation_thres = 0.05)
-</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">pre_data &lt;-<span class="st"> </span><span class="kw">select_rho_partial</span>(<span class="dt">data =</span> Met_GU, <span class="dt">class_label =</span> Met_Group_GU, <span class="dt">id =</span> Met_name_GU)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">partial_cor</span>(<span class="dt">data_list =</span> pre_data, <span class="dt">rho_group1 =</span> <span class="st">'min'</span>, <span class="dt">rho_group2 =</span> <span class="st">&quot;min&quot;</span>, <span class="dt">permutation =</span> <span class="dv">500</span>, <span class="dt">p_val =</span> pvalue_M_GU, <span class="dt">permutation_thres =</span> <span class="fl">0.05</span>)</a></code></pre></div>
 </div>
 <div id="example-2" class="section level3">
 <h3>Example 2</h3>
-<pre><code>result2 &lt;- non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, method = &quot;spearman&quot;, permutation_thres = 0.05)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">result2 &lt;-<span class="st"> </span><span class="kw">non_partial_cor</span>(<span class="dt">data =</span> Met_GU, <span class="dt">class_label =</span> Met_Group_GU, <span class="dt">id =</span> Met_name_GU, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>, <span class="dt">permutation_thres =</span> <span class="fl">0.05</span>)</a></code></pre></div>
 </div>
 <div id="example-3" class="section level3">
 <h3>Example 3</h3>
-<pre><code>network_display(results = result2, layout = 'nice', nodesize= 'Node_Degree', nodecolor = 'Activity_Score', edgewidth = 'NO')</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">network_display</span>(<span class="dt">results =</span> result2, <span class="dt">layout =</span> <span class="st">'nice'</span>, <span class="dt">nodesize=</span> <span class="st">'Node_Degree'</span>, <span class="dt">nodecolor =</span> <span class="st">'Activity_Score'</span>, <span class="dt">edgewidth =</span> <span class="st">'NO'</span>)</a></code></pre></div>
 </div>
 </div>
 
