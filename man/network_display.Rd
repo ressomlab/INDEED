@@ -5,8 +5,7 @@
 \title{Interactive Network Visualization}
 \usage{
 network_display(results = NULL, nodesize = "Node_Degree",
-  nodecolor = "Activity_Score", edgewidth = "NO", layout = "nice",
-  bingroups = "Node_Degree")
+  nodecolor = "Activity_Score", edgewidth = "NO", layout = "nice")
 }
 \arguments{
 \item{results}{This is the result from calling either non_partial_corr() or partial_corr().}
@@ -25,9 +24,6 @@ of the weight value corresponding to the correlation between two nodes.}
 
 \item{layout}{User can choose from a a handful of network visualization templates including:
 'nice', 'sphere', 'grid', 'star', and 'circle'.}
-
-\item{bingroups}{Users can choose between 'Activity_Score',  'Node_Degree', 'P_Value', and 
-'Z_Score' to sort through varying threshold ranges.}
 }
 \value{
 An interactive dipiction of the network resulting from INDEED functions 
@@ -50,6 +46,5 @@ result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_nam
                                    method = "spearman", permutation_thres = 0.05, 
                                    permutation = 1000)
           network_display(results = result, layout = 'nice', nodesize = 'Node_Degree', 
-                          nodecolor = 'Activity_Score', edgewidth = 'NO', 
-                          bingroups = 'P_Value')
+                          nodecolor = 'Activity_Score', edgewidth = 'NO')
 }
