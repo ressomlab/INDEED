@@ -2,7 +2,7 @@
 title: "INDEED R package for cancer biomarker discovery"
 author: "Yiming Zuo and Kian Ghaffari"
 date: "`r Sys.Date()`"
-output: rmarkdown::pdf_document
+output: rmarkdown::html_document
 vignette: >
   %\VignetteIndexEntry{INDEED R package for cancer biomarker discovery}
   %\VignetteEngine{knitr::rmarkdown}
