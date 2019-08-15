@@ -2,7 +2,7 @@
 title: "INDEED R package for cancer biomarker discovery"
 author: "Yiming Zuo and Kian Ghaffari"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: rmarkdown::pdf_document
 vignette: >
   %\VignetteIndexEntry{INDEED R package for cancer biomarker discovery}
   %\VignetteEngine{knitr::rmarkdown}
@@ -85,7 +85,8 @@ The following example demonstrates how to use `select_rho_partial()` and `partia
 
 ```{r, eval = F}
 pre_data <- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU)
-result <- partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = "min", permutation = 1000, p_val = pvalue_M_GU, permutation_thres = 0.05)
+result <- partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = "min", 
+                      permutation = 1000, p_val = pvalue_M_GU, permutation_thres = 0.05)
 ```
 
 In this case, the sparse differential network is based on partial correlation and p-value for each biomolecule is calculated for users. Also, **rho** is picked based on minimum rule and number of permutations is set to 1000.
@@ -112,16 +113,18 @@ network_display(result)
 ### Example 1
 ```{r, eval = F}
 pre_data <- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU)
-partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = "min", permutation = 500, p_val = pvalue_M_GU, permutation_thres = 0.05)
-
+partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = "min", permutation = 500, 
+            p_val = pvalue_M_GU, permutation_thres = 0.05)
 ```
 
 ### Example 2
 ```{r, eval = F}
-result2 <- non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, method = "spearman", permutation_thres = 0.05)
+result2 <- non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
+                            method = "spearman", permutation_thres = 0.05)
 ```
 
 ### Example 3
 ```{r, eval = F}
-network_display(results = result2, layout = 'nice', nodesize= 'Node_Degree', nodecolor = 'Activity_Score', edgewidth = 'NO')
+network_display(result2, layout = 'nice', nodesize= 'Node_Degree', 
+                nodecolor = 'Activity_Score', edgewidth = 'NO')
 ```

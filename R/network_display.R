@@ -21,14 +21,11 @@
 #'     of the weight value corresponding to the correlation between two nodes. 
 #' @param layout User can choose from a a handful of network visualization templates including:
 #'     'nice', 'sphere', 'grid', 'star', and 'circle'.  
-#' @param bingroups Users can choose between 'Activity_Score',  'Node_Degree', 'P_Value', and 
-#'     'Z_Score' to sort through varying threshold ranges.
 #' @examples result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
 #'                                    method = "spearman", permutation_thres = 0.05, 
 #'                                    permutation = 1000)
 #'           network_display(results = result, layout = 'nice', nodesize = 'Node_Degree', 
-#'                           nodecolor = 'Activity_Score', edgewidth = 'NO', 
-#'                           bingroups = 'P_Value')
+#'                           nodecolor = 'Activity_Score', edgewidth = 'NO')
 #' @return An interactive dipiction of the network resulting from INDEED functions 
 #'     non_partial_corr() or patial_corr().
 #' @import igraph
@@ -37,59 +34,19 @@
 #' @export
 
 network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 'Activity_Score', 
-                            edgewidth= 'NO', layout= 'nice', bingroups= 'Node_Degree'){
+                            edgewidth= 'NO', layout= 'nice'){
     
     nodes <- results$activity_score
     links <- results$diff_network
-    
+   
     # Adding Z_Score to dataframe
     Z_Score <- abs(qnorm(1 - (nodes$P_value)/2)) # trasfer p-value to z-score
     nodes$zscore = Z_Score
-    
-    # Setting up groups for thresholding select option 
-    if (missing(bingroups)){
-        nodes$bins <- cut(nodes$Node_Degree, breaks=c(as.integer(min(nodes$Node_Degree)), 
-                                                      as.integer(max(nodes$Node_Degree)/2), 
-                                                      as.integer(max(nodes$Node_Degree)/1.5), 
-                                                      as.integer(max(nodes$Node_Degree))))
-        bingroups <- 'Node_Degree'
-    }
-    else if (bingroups == 'Node_Degree'){
-        nodes$bins <- cut(nodes$Node_Degree, breaks=c(as.integer(min(nodes$Node_Degree)), 
-                                                      as.integer(max(nodes$Node_Degree)/2), 
-                                                      as.integer(max(nodes$Node_Degree)/1.5), 
-                                                      as.integer(max(nodes$Node_Degree))))
-    } 
-    else if(bingroups == 'Activity_Score'){
-        nodes$bins <- cut(nodes$Activity_Score, breaks=c(min(nodes$Activity_Score), 
-                                                         max(nodes$Activity_Score)/2, 
-                                                         max(nodes$Activity_Score)/1.5, 
-                                                         max(nodes$Activity_Score)))
-    } 
-    else if(bingroups == 'P_Value'){
-        nodes$bins <- cut(nodes$P_value, breaks=c(min(nodes$P_value), 
-                                                  max(nodes$P_value)/2, 
-                                                  max(nodes$P_value)/1.5, 
-                                                  max(nodes$P_value)))
-    }
-    else if(bingroups == 'Z_Score'){
-        nodes$bins <- cut(nodes$zscore, breaks=c(min(nodes$zscore), 
-                                                 max(nodes$zscore)/2, 
-                                                 max(nodes$zscore)/1.5, 
-                                                 max(nodes$zscore)))
-    }
-    else { 
-        nodes$bins <- cut(nodes$Node_Degree, breaks=c(min(nodes$Node_Degree),
-                                                      max(nodes$Node_Degree)/2,
-                                                      max(nodes$Node_Degree)/1.5,
-                                                      max(nodes$Node_Degree)))
-        bingroups <- 'Node_Degree'
-        
-    }
+
     
     vis.nodes <- data.frame(id= nodes$Node, name= nodes$ID, pval= nodes$P_value, 
-                            ndegree= nodes$Node_Degree, ascore= nodes$Activity_Score,zscore= nodes$zscore, 
-                            group = nodes$bins, stringsAsFactors = FALSE)
+                            ndegree= nodes$Node_Degree, ascore= nodes$Activity_Score,
+                            zscore= nodes$zscore, stringsAsFactors = FALSE)
     vis.links <- data.frame(from=links$Node1, to=links$Node2, binary= links$Binary, 
                             weight= links$Weight)
     
@@ -153,10 +110,10 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
         
     }
     else if(nodecolor == 'Z_Score'){
-        vis.nodes<- vis.nodes[order(vis.nodes$zscore, decreasing=TRUE), ]
-        vis.nodes$color.background <- topo.colors(length(vis.nodes$zscore), alpha=1)
-        vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$zscore), alpha=1)
-        nodecolor <- 'Z_Score'
+      vis.nodes<- vis.nodes[order(vis.nodes$zscore, decreasing=TRUE), ]
+      vis.nodes$color.background <- topo.colors(length(vis.nodes$zscore), alpha=1)
+      vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$zscore), alpha=1)
+      nodecolor <- 'Z_Score'
     }
     else {
         vis.nodes<- vis.nodes[order(vis.nodes$ascore, decreasing=TRUE), ]
@@ -203,9 +160,8 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
     
     
     net <- visNetwork(vis.nodes, vis.links, width = "100%", height = "800px", main= "INDEED 2.0", 
-                      submain= paste("Node size represents: ", nodesize, "&", 
-                                     "Groups selection represents: ", bingroups)) %>%
-        visOptions( highlightNearest= TRUE,selectedBy = "group", nodesIdSelection= TRUE)  %>% 
+                      submain= paste("Node size represents: ", nodesize)) %>%
+        visOptions( highlightNearest= TRUE, nodesIdSelection= TRUE)  %>% 
         visIgraphLayout(layout=l) %>%
         visInteraction( dragView= TRUE, dragNodes= TRUE, zoomView= TRUE, navigationButtons= FALSE, 
                         hideEdgesOnDrag= FALSE, multiselect = TRUE) %>%
@@ -214,5 +170,6 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
                   stepY = 50, zoom = TRUE)
     print(net)
 }
+
 
 
