@@ -27,7 +27,7 @@ This R package will generate a list of dataframes containing information such as
 
 You can install INDEED from github with:
 
-``` r
+```{r, eval = F}
 # install.packages("devtools")
 devtools::install_github("ressomlab/INDEED")
 ```
@@ -37,10 +37,10 @@ devtools::install_github("ressomlab/INDEED")
 
 Load the package.
 
-``` r
+```{r, eval = F}
 # load INDEED
 library(INDEED)
-#> Loading required package: glasso
+# Loading required package: glasso
 ```
 
 
@@ -57,7 +57,7 @@ In non partical correlation method, user only need to run `non_partial_cor()` fu
 
 The following example demonstrates how to use `non_partial_cor()` function:
 
-```
+```{r, eval = F}
 non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, method = "spearman")
 ```
 
@@ -83,7 +83,7 @@ In partical correlation method, user will need to preprocess the data using `sel
 
 The following example demonstrates how to use `select_rho_partial()` and `partial_cor()`function:
 
-```
+```{r, eval = F}
 pre_data <- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU)
 result <- partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = "min", permutation = 1000, p_val = pvalue_M_GU, permutation_thres = 0.05)
 ```
@@ -103,25 +103,25 @@ An interactive tool to assist in the visualization of the results from INDEED fu
 
 The following example demonstrates how to use the `network_display()` function:
 
-```
+```{r, eval = F}
 network_display(result)
 ```
 
 ## Examples
 
 ### Example 1
-```
+```{r, eval = F}
 pre_data <- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU)
 partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = "min", permutation = 500, p_val = pvalue_M_GU, permutation_thres = 0.05)
 
 ```
 
 ### Example 2
-```
+```{r, eval = F}
 result2 <- non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, method = "spearman", permutation_thres = 0.05)
 ```
 
 ### Example 3
-```
+```{r, eval = F}
 network_display(results = result2, layout = 'nice', nodesize= 'Node_Degree', nodecolor = 'Activity_Score', edgewidth = 'NO')
 ```
