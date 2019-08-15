@@ -122,4 +122,4 @@ network_display(result)
 
 <!-- Network display image was generated from somewhere else -->
 
-![](figure/network-display.png)<!-- -->
+![](figure/network-display-1.png)<!-- -->
