@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -102,20 +107,20 @@ Show the network display and users can interact with it.
 # Show result 
 head(result$activity_score)
 #>   Node     ID P_value Node_Degree Activity_Score
-#> 1   15 C00188   0.487           5            8.8
-#> 2   39 C06424   0.707           4            8.7
-#> 3   12 C00183   0.000           4            8.5
-#> 4    5 C00064   0.015           3            7.7
-#> 5   18 C00247   0.889           9            7.7
-#> 6    3 C00025   0.997           7            7.1
+#> 1   15 C00188   0.487           4            8.3
+#> 2   12 C00183   0.000           3            8.2
+#> 3    5 C00064   0.015           3            7.7
+#> 4    8 C00097   0.578           7            7.2
+#> 5   19 C00249   0.686           7            7.0
+#> 6   18 C00247   0.889           6            6.4
 head(result$diff_network)
 #>   Node1 Node2 Binary      Weight
-#> 1     1    19      1  0.02642267
-#> 2     2     8     -1 -0.01844766
-#> 3     2    15      1  0.01564158
-#> 4     2    31      1  0.01174936
-#> 5     2    33     -1 -0.02943342
-#> 6     2    38     -1 -0.01018387
+#> 1     1    19      1  0.03594529
+#> 2     2     8     -1 -0.02648414
+#> 3     2    15      1  0.01962253
+#> 4     2    31      1  0.01562868
+#> 5     2    33     -1 -0.03870218
+#> 6     2    38     -1 -0.01260509
 # Show network
 network_display(result)
 ```
