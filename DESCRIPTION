@@ -10,13 +10,12 @@ Description: An R package for integrated differential expression and differentia
     analysis to identify changes between biomolecules on both their expression and pairwise 
     association levels.
 =======
-Title: An Implementation of Integrated Differential Expression and Differential Network Analysis for Biomarker Candidate Selection
-Version: 1.3.0
-Author: Zhenzhi Li <zzrickli@gmail.com>
-Maintainer: Zhenzhi Li <zzrickli@gmail.com>,
+Title: An Implementation of Integrated Differential Expression and Differential Network Analysis for Biomarker Candidate Selection and Visualization 
+Version: 2.0
+Author: Yiming Zuo with contributions from Kian Ghaffari and Zhenzhi Li
+Maintainer: Dr. Habtom Ressom <hwr@georgetown.edu>,
             Yiming Zuo <yimingzuo@gmail.com>
-Description: An Implementation of Integrated Differential Expression and Differential Network 
-    Analysis of Omic Data. The differential network is obtained based on partial correlation or correlation.
+Description: An Implementation of Integrated Differential Expression and Differential Network Analysis of Omic Data. The differential network is obtained based on partial correlation or correlation. Results can be visualized in an informative and interactive network 
 >>>>>>> INDEED_V2/master
 License: Artistic-2.0
 URL: http://github.com/ressomlab/INDEED
