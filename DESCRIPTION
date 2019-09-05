@@ -1,4 +1,5 @@
 Package: INDEED
+<<<<<<< HEAD
 Title: Integrated Differential Expression and Differential Network Analysis (INDEED)
 Version: 1.2.0
 Author: Yiming Zuo with contributions from Kian Ghaffari and Zhenzhi Li
@@ -8,6 +9,15 @@ Description: An R package for integrated differential expression and differentia
     can be used to generate differential network to aid the traditional differential expression 
     analysis to identify changes between biomolecules on both their expression and pairwise 
     association levels.
+=======
+Title: An Implementation of Integrated Differential Expression and Differential Network Analysis for Biomarker Candidate Selection
+Version: 1.3.0
+Author: Zhenzhi Li <zzrickli@gmail.com>
+Maintainer: Zhenzhi Li <zzrickli@gmail.com>,
+            Yiming Zuo <yimingzuo@gmail.com>
+Description: An Implementation of Integrated Differential Expression and Differential Network 
+    Analysis of Omic Data. The differential network is obtained based on partial correlation or correlation.
+>>>>>>> INDEED_V2/master
 License: Artistic-2.0
 URL: http://github.com/ressomlab/INDEED
 BugReports: http://github.com/ressomlab/INDEED/issues
@@ -27,6 +37,7 @@ Suggests: knitr (>= 1.19),
     rmarkdown (>= 1.8),
     testthat (>= 2.0.0)
 VignetteBuilder: knitr
+<<<<<<< HEAD
 biocViews: Software,
     ResearchField,
     BiologicalQuestion,
@@ -34,3 +45,12 @@ biocViews: Software,
     DifferentialExpression,
     MassSpectrometry,
     Metabolomics
+=======
+biocViews: ImmunoOncology, Software, 
+           ResearchField,
+           BiologicalQuestion, 
+           StatisticalMethod,
+           DifferentialExpression,
+           MassSpectrometry, 
+           Metabolomics
+>>>>>>> INDEED_V2/master
