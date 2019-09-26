@@ -18,7 +18,7 @@ non_partial_cor(data = NULL, class_label = NULL, id = NULL,
 \item{method}{This is a character string indicating which correlation coefficient is
 to be computed. The options are either "pearson" as the default or "spearman".}
 
-\item{p_val}{This is optional, it is a data frame containing p-value for each biomolecule.}
+\item{p_val}{This is optional, it is a dataframe containing p-value for each biomolecule.}
 
 \item{permutation}{This is a positive integer representing the desired number of permutations, 
 default is 1000.}

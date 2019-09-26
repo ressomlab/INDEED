@@ -9,7 +9,7 @@
 #' @param id This is an array of biomolecule IDs.
 #' @param method This is a character string indicating which correlation coefficient is
 #'     to be computed. The options are either "pearson" as the default or "spearman".
-#' @param p_val This is optional, it is a data frame containing p-value for each biomolecule.
+#' @param p_val This is optional, it is a dataframe containing p-value for each biomolecule.
 #' @param permutation This is a positive integer representing the desired number of permutations, 
 #'     default is 1000.
 #' @param permutation_thres This is a threshold for permutation. The defalut is 0.05 to make 95 

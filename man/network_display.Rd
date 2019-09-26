@@ -11,19 +11,21 @@ network_display(results = NULL, nodesize = "Node_Degree",
 \item{results}{This is the result from calling either non_partial_corr() or partial_corr().}
 
 \item{nodesize}{This parameter determines what the size of each node will represent. The options 
-are 'Node_Degree', 'Activity_Score','P_Value' and'Z_Score'. The title of the resulting 
+are 'Node_Degree', 'Activity_Score','P_Value' and 'Z_Score'. The title of the resulting 
 network will identify which parameter was selected to represent the node size. The default 
 is Node_Degree.}
 
 \item{nodecolor}{This parameter determines what color each node will be based on a yellow to 
 blue color gradient. The options are 'Node_Degree', 'Activity_Score', 'P_Value', and '
-Z_Score'. A color bar will be created based on which parameter is chosen.}
+Z_Score'. A color bar will be created based on which parameter is chosen. The default is
+Activity_Score.}
 
 \item{edgewidth}{This is a 'YES' or 'NO' option as to if the edgewidth should be representative 
-of the weight value corresponding to the correlation between two nodes.}
+of the weight value corresponding to the correlation change between two nodes. The default 
+is NO.}
 
 \item{layout}{User can choose from a a handful of network visualization templates including:
-'nice', 'sphere', 'grid', 'star', and 'circle'.}
+'nice', 'sphere', 'grid', 'star', and 'circle'. The default is nice.}
 }
 \value{
 An interactive dipiction of the network resulting from INDEED functions 
@@ -45,6 +47,6 @@ An interactive tool to assist in the visualization of the results from INDEED
 result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
                                    method = "spearman", permutation_thres = 0.05, 
                                    permutation = 1000)
-          network_display(results = result, layout = 'nice', nodesize = 'Node_Degree', 
-                          nodecolor = 'Activity_Score', edgewidth = 'NO')
+          network_display(results = result, nodesize = 'Node_Degree', 
+          nodecolor = 'Activity_Score', edgewidth = 'NO', layout = 'nice')
 }

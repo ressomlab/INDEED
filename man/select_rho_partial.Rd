@@ -14,8 +14,8 @@ select_rho_partial(data = NULL, class_label = NULL, id = NULL,
 
 \item{id}{This is an array of biomolecule IDs.}
 
-\item{error_curve}{The default is "YES". This is an option on whether a error curve plot will be
-provided to the user, user can choose "YES" or "NO".}
+\item{error_curve}{This is an option on whether a error curve plot will be
+provided to the user, user can choose "YES" or "NO". The default is YES.}
 }
 \value{
 A list of processed data for the next step, and generates an error curve to select rho 

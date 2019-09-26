@@ -7,12 +7,11 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Yiming Zuo and Kian Ghaffari" />
 
-<meta name="date" content="2019-08-15" />
+<meta name="date" content="2019-09-26" />
 
 <title>INDEED R package for cancer biomarker discovery</title>
 
@@ -257,7 +256,9 @@ h6 {
 </style>
 
 
+</head>
 
+<body>
 
 <style type="text/css">
 .main-container {
@@ -288,6 +289,8 @@ summary {
 </style>
 
 
+
+<div class="container-fluid main-container">
 
 <!-- tabsets -->
 
@@ -345,17 +348,20 @@ summary {
 }
 </style>
 
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
 <!-- code folding -->
 
-
-
-
-</head>
-
-<body>
-
-
-<div class="container-fluid main-container">
 
 
 
@@ -365,16 +371,16 @@ summary {
 
 
 <h1 class="title toc-ignore">INDEED R package for cancer biomarker discovery</h1>
-<h4 class="author">Yiming Zuo and Kian Ghaffari</h4>
-<h4 class="date">2019-08-15</h4>
+<h4 class="author"><em>Yiming Zuo and Kian Ghaffari</em></h4>
+<h4 class="date"><em>2019-09-26</em></h4>
 
 </div>
 
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>Differential expression (DE) analysis is commonly used to identify biomarker candidates that have significant changes in their expression levels between distinct biological groups. One drawback of DE analysis is that it only considers the changes on single biomolecular level. In differential network (DN) analysis, network is typically built based on the correlation and biomarker candidates are selected by investigating the network topology. However, correlation tends to generate over-complicated networks and the selection of biomarker candidates purely based on network topology ignores the changes on single biomolecule level. Thus, we have proposed a novel method INDEED, which considers both the changes on single biomolecular and network levels by integrating DE and DN analysis. INDEED has been published in Methods journal (PMID: 27592383). This is the R package that implements the algorithm.</p>
-<p>This R package will generate a list of dataframes containing information such as p-values, node degree and activity score for each biomolecule. A higher activity score indicates that the corresponding biomolecule has more neighbors connceted in the differential network and their p-values are more statistically significant. It will also generate a csv file for the differential network created by INDEED.</p>
+<p>Differential expression (DE) analysis is commonly used to identify biomarker candidates that have significant changes in their expression levels between distinct biological groups. One drawback of DE analysis is that it only considers the changes on single biomolecular level. In differential network (DN) analysis, network is typically built based on the correlation and biomarker candidates are selected by investigating the network topology. However, correlation tends to generate over-complicated networks and the selection of biomarker candidates purely based on network topology ignores the changes on single biomolecule level. Thus, we have proposed a novel method INDEED, which considers both the changes on single biomolecular and network levels by integrating DE and DN analysis. INDEED has been published in Methods journal (<a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=27592383%5Buid%5D">PMID: 27592383</a>). This is the R package that implements the algorithm.</p>
+<p>This R package will generate a list of dataframes containing information such as p-values, node degree and activity score for each biomolecule. A higher activity score indicates that the corresponding biomolecule has more neighbors connceted in the differential network and their p-values are more statistically significant. It will also generate a network display to aid users’ biomarker selection.</p>
 </div>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
@@ -389,10 +395,22 @@ devtools::install_github(&quot;ressomlab/INDEED&quot;)</code></pre>
 library(INDEED)
 # Loading required package: glasso</code></pre>
 </div>
+<div id="testing-dataset" class="section level2">
+<h2>Testing dataset</h2>
+<p>A testing dataset has been provided to the users to get familiar with INDEED R package. It contains the expression levels of 39 metabolites from 120 subjects (CIRR: 60; HCC: 60) with CIRR group named as group 0 and HCC group named as group 1.</p>
+<pre class="r"><code># Data matrix contains the expression levels of 39 metabolites from 120 subjects 
+# (6 metabolites and 10 subjects are shown)
+head(Met_GU[, 1:10])
+# Group label for each subject (40 subjects are shown)
+Met_Group_GU[1:40]
+# Metabolite KEGG IDs (10 metabolites are shown)
+Met_name_GU[1:10]
+</code></pre>
+</div>
 <div id="non-partial-correlation-data-analysis-function-non_partial_cor" class="section level2">
 <h2>non-partial correlation data analysis function <code>non_partial_cor()</code></h2>
 <ul>
-<li>(<strong>data</strong>) A data frame that contains the expression level of individual biomolecule from two biologically disparate groups (p * n)</li>
+<li>(<strong>data</strong>) A dataframe that contains the expression level of individual biomolecule from two biologically disparate groups (p * n)</li>
 <li>(<strong>class_label</strong>) A binary array with group 1 labeled as 0 and group 2 as 1</li>
 <li>(<strong>id</strong>) An array that includes the corresponding ID for each biomolecule</li>
 <li>(<strong>method</strong>) Type of correlation, user can choose between pearson and spearman correaltion, default pearson</li>
@@ -407,25 +425,27 @@ library(INDEED)
 <h2>partial correlation data preprocessing function <code>select_rho_partial()</code></h2>
 <p>To use the function <code>select_rho_partial()</code>, users will need to have these data sets in hand:</p>
 <ul>
-<li>(<strong>data</strong>) A data frame that contains the expression level of individual biomolecule from two biologically disparate groups (p * n)</li>
+<li>(<strong>data</strong>) A dataframe that contains the expression level of individual biomolecule from two biologically disparate groups (p * n)</li>
 <li>(<strong>class_label</strong>) A binary array with group 1 labeled as 0 and group 2 as 1</li>
 <li>(<strong>id</strong>) An array that includes the corresponding ID for each biomolecule</li>
+<li>(<strong>error_curve</strong>) This is an option on whether a error curve plot will be provided to the user, user can choose “YES” or “NO”. The default is YES</li>
 </ul>
 </div>
 <div id="partial-correlation-data-analysis-function-partial_cor" class="section level2">
 <h2>partial correlation data analysis function <code>partial_cor()</code></h2>
 <ul>
 <li>(<strong>data_list</strong>) A list of dataframes output from select_rho_partial step</li>
-<li>(<strong>rho_group1</strong>) Rule to choose rho for first group of data, user can input “min” for minimum rule, “ste” as one standard error rule, or user can input a number of choice</li>
-<li>(<strong>rho_group2</strong>) Rule to choose rho for second group of data, user can input “min” for minimum rule, “ste” as one standard error rule, or user can input a number of choice</li>
+<li>(<strong>rho_group1</strong>) Rule to choose rho for first group of data, user can input “min” for minimum rule, “ste” as one standard error rule, or user can input a number of choice, the default is min</li>
+<li>(<strong>rho_group2</strong>) Rule to choose rho for second group of data, user can input “min” for minimum rule, “ste” as one standard error rule, or user can input a number of choice, the default is min</li>
 <li>(<strong>permutation</strong>) A positive integer number of permutation, default 1000</li>
 <li>(<strong>p_val</strong>) A dataframe containing p-values obtained from DE analysis (optional)</li>
+<li>(<strong>permutation_thres</strong>) This is the threshold for permutation. The defalut is 0.05 to make 95 percent confidenc</li>
 </ul>
-<p>The demo data is presented in the <strong>Demo Data</strong> section below. It will be automatically loaded with the package.</p>
 <p>In partical correlation method, user will need to preprocess the data using <code>select_rho_partial()</code> function, followed by using <code>partial_cor()</code> and choosing desired rho number and complete the analysis. User can also choose to provide p-value table and number of permutations in <code>partial_cor()</code> function. Result will be saved in a list of two dataframes: activity_score and diff_network. Activity_score contains a dataframe with biomolecules ranked by activity score calculated from p-value and node degree. Diff_network contains a dataframe of connection weight between two nodes.</p>
 <p>The following example demonstrates how to use <code>select_rho_partial()</code> and <code>partial_cor()</code>function:</p>
-<pre class="r"><code>pre_data &lt;- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU)
-result &lt;- partial_cor(data_list = pre_data, rho_group1 = &#39;min&#39;, rho_group2 = &quot;min&quot;, 
+<pre class="r"><code>pre_data &lt;- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
+                               error_curve = &quot;YES&quot;)
+result &lt;- partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = &quot;min&quot;, 
                       permutation = 1000, p_val = pvalue_M_GU, permutation_thres = 0.05)</code></pre>
 <p>In this case, the sparse differential network is based on partial correlation and p-value for each biomolecule is calculated for users. Also, <strong>rho</strong> is picked based on minimum rule and number of permutations is set to 1000.</p>
 </div>
@@ -434,32 +454,14 @@ result &lt;- partial_cor(data_list = pre_data, rho_group1 = &#39;min&#39;, rho_g
 <ul>
 <li>(<strong>results</strong>) This is the result from the calling either non_partial_cor() or partial_cor().</li>
 <li>(<strong>nodesize</strong>) This parameter determines what the size of each node will represent. The options are ‘Node_Degree’, ‘Activity_Score’, ‘Z_Score’, and ‘P_Value’. The title of the resulting network will identify which parameter was selected to represent the node size. The default is Node_Degree.</li>
-<li>(<strong>nodecolor</strong>) This parameter determines what color each node will be, based on a yellow or red color gradient. The options are ‘Node_Degree’, ‘Activity_Score’, ‘Z_Score’, and ‘P_Value’. A color bar will be created based on which parameter is chosen.</li>
-<li>(<strong>edgewidth</strong>) This is a ‘YES’ or ‘NO’ option as to if the edgewidth should be representative of the weight value corresponding to the correlation between two nodes.</li>
-<li>(<strong>layout</strong>) User can choose from a a handful of network visualization templates including:‘nice’, ‘sphere’, ‘grid’, ‘star’, and ‘circle’.</li>
+<li>(<strong>nodecolor</strong>) This parameter determines what color each node will be, based on a yellow or red color gradient. The options are ‘Node_Degree’, ‘Activity_Score’, ‘Z_Score’, and ‘P_Value’. A color bar will be created based on which parameter is chosen. The default is Activity_Score.</li>
+<li>(<strong>edgewidth</strong>) This is a ‘YES’ or ‘NO’ option as to if the edgewidth should be representative of the weight value corresponding to the correlation between two nodes. The default is NO.</li>
+<li>(<strong>layout</strong>) User can choose from a a handful of network visualization templates including:‘nice’, ‘sphere’, ‘grid’, ‘star’, and ‘circle’. The default is nice.</li>
 </ul>
-<p>An interactive tool to assist in the visualization of the results from INDEED functions non_partial_corr() or patial_corr(). The size and the color of each node can be adjusted by users to represent either the Node_Degree, Activity_Score, Z_Score, or P_Value. The color of the edge is based on the binary value of either 1 corresonding to a positive correlation dipicted as green or a negative correlation of -1 dipicted as red. The user also has the option of having the width of each edge be proportional to its weight value. The layout of the network can also be customized by choosing from the options: ‘nice’, ‘sphere’, ‘grid’, ‘star’, and ‘circle’. Nodes can be moved and zoomed in on. Each node and edge will display extra information when clicked on. Secondary interactions will be highlighted as well when a node is clicked on.</p>
+<p>An interactive tool to assist in the visualization of the results from INDEED functions non_partial_corr() or patial_corr(). The size and the color of each node can be adjusted by users to represent either the Node_Degree, Activity_Score, Z_Score, or P_Value. The color of the edge is based on the binary value of either 1 corresonding to a positive correlation change dipicted as green or a negative correlation change of -1 dipicted as red. The user also has the option of having the width of each edge be proportional to its weight value. The layout of the network can also be customized by choosing from the options: ‘nice’, ‘sphere’, ‘grid’, ‘star’, and ‘circle’. Nodes can be moved and zoomed in on. Each node and edge will display extra information when clicked on. Secondary interactions will be highlighted as well when a node is clicked on.</p>
 <p>The following example demonstrates how to use the <code>network_display()</code> function:</p>
-<pre class="r"><code>network_display(result)</code></pre>
-</div>
-<div id="examples" class="section level2">
-<h2>Examples</h2>
-<div id="example-1" class="section level3">
-<h3>Example 1</h3>
-<pre class="r"><code>pre_data &lt;- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU)
-partial_cor(data_list = pre_data, rho_group1 = &#39;min&#39;, rho_group2 = &quot;min&quot;, permutation = 500, 
-            p_val = pvalue_M_GU, permutation_thres = 0.05)</code></pre>
-</div>
-<div id="example-2" class="section level3">
-<h3>Example 2</h3>
-<pre class="r"><code>result2 &lt;- non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
-                            method = &quot;spearman&quot;, permutation_thres = 0.05)</code></pre>
-</div>
-<div id="example-3" class="section level3">
-<h3>Example 3</h3>
-<pre class="r"><code>network_display(result2, layout = &#39;nice&#39;, nodesize= &#39;Node_Degree&#39;, 
-                nodecolor = &#39;Activity_Score&#39;, edgewidth = &#39;NO&#39;)</code></pre>
-</div>
+<pre class="r"><code>network_display(results = result, nodesize= 'Node_Degree', nodecolor= 'Activity_Score', 
+                edgewidth= 'NO', layout= 'nice')</code></pre>
 </div>
 
 
@@ -479,23 +481,6 @@ $(document).ready(function () {
 
 
 </script>
-
-<!-- tabsets -->
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
-<!-- code folding -->
-
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

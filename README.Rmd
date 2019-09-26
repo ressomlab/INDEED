@@ -70,7 +70,8 @@ Show the network display and users can interact with it.
 head(result$activity_score)
 head(result$diff_network)
 # Show network
-network_display(result)
+network_display(results = result, nodesize= 'Node_Degree', nodecolor= 'Activity_Score', 
+                edgewidth= 'NO', layout= 'nice')
 ```
 
 <!-- Network display image was generated from somewhere else -->

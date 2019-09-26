@@ -2,7 +2,7 @@ Package: INDEED
 Title: Interactive Visualization of Integrated Differential Expression and Differential Network Analysis for Biomarker Candidate Selection
 Version: 1.99.2
 Author: Yiming Zuo <yimingzuo@gmail.com>, Kian Ghaffari <kg.ghaffari@gmail.com>, Zhenzhi Li <zzrickli@gmail.com>
-Maintainer: Dr.Habtom Ressom <hwr@georgetown.edu>,
+Maintainer: Ressom group <hwr@georgetown.edu>,
             Yiming Zuo <yimingzuo@gmail.com>
 Description: An R package for integrated differential expression and differential network analysis based on omic data for cancer biomarker discovery. Both correlation and partial correlation can be used to generate differential network to aid the traditional differential expression analysis to identify changes between biomolecules on both their expression and pairwise association levels. An interactive visualization feature allows for the exploration and selection of candidate biomarkers. 
 License: Artistic-2.0
@@ -13,8 +13,7 @@ LazyData: true
 RoxygenNote: 6.1.1
 Depends: glasso (>= 1.8),
     R (>= 3.5)
-Imports: 
-    devtools (>= 1.13.0),
+Imports: devtools (>= 1.13.0),
     graphics (>= 3.3.1),
     stats (>= 3.3.1),
     utils (>= 3.3.1),
@@ -24,17 +23,11 @@ Suggests: knitr (>= 1.19),
     rmarkdown (>= 1.8),
     testthat (>= 2.0.0)
 VignetteBuilder: knitr
-biocViews: Software,
+biocViews: ImmunoOncology, 
+    Software,
     ResearchField,
     BiologicalQuestion,
     StatisticalMethod,
     DifferentialExpression,
     MassSpectrometry,
     Metabolomics
-biocViews: ImmunoOncology, Software, 
-           ResearchField,
-           BiologicalQuestion, 
-           StatisticalMethod,
-           DifferentialExpression,
-           MassSpectrometry, 
-           Metabolomics

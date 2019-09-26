@@ -6,8 +6,8 @@
 #' @param data This is a matrix of expression from all biomolecules and all samples.
 #' @param class_label This is a binary array with 0 for group 1 and 1 for group 2.
 #' @param id This is an array of biomolecule IDs.
-#' @param error_curve The default is "YES". This is an option on whether a error curve plot will be
-#'     provided to the user, user can choose "YES" or "NO".
+#' @param error_curve This is an option on whether a error curve plot will be
+#'     provided to the user, user can choose "YES" or "NO". The default is YES.
 #' @examples select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
 #'     error_curve = "YES")
 #' @return A list of processed data for the next step, and generates an error curve to select rho 
