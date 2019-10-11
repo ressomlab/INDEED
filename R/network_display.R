@@ -46,7 +46,7 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
     nodes$zscore = Z_Score
 
     
-    vis.nodes <- data.frame(id= nodes$Node, name= nodes$ID, pval= nodes$P_value, 
+    vis.nodes <- data.frame(id= nodes$Node, name= nodes$ID,font.size = 24, pval= nodes$P_value, 
                             ndegree= nodes$Node_Degree, ascore= nodes$Activity_Score,
                             zscore= nodes$zscore, stringsAsFactors = FALSE)
     vis.links <- data.frame(from=links$Node1, to=links$Node2, binary= links$Binary, 
@@ -55,7 +55,7 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
     vis.nodes$shape  <- "dot"  
     vis.nodes$shadow <- TRUE # Nodes will drop shadow
     # Information that will be displayed when hovering over a node 
-    vis.nodes$title <- paste0("<p>", paste('MetID: ', vis.nodes$name), "<br>","<br>", 
+    vis.nodes$title <- paste0("<p>", paste('ID: ', vis.nodes$name), "<br>","<br>", 
                               paste('Node Degree: ', vis.nodes$ndegree),"<br>", 
                               paste('Activity Score: ', vis.nodes$ascore),"<br>", 
                               paste('P-value: ', vis.nodes$pval),"<br>",
@@ -126,7 +126,7 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
     
     
     vis.nodes$borderWidth <- 2 # Node border width
-    vis.nodes$label  <- vis.nodes$name  # Node label
+    vis.nodes$label  <- vis.nodes$name # Node label
     vis.nodes$color.highlight.border <- "darkred"
     vis.nodes$color.border <- "black"
     
@@ -156,12 +156,12 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
     
     lnodes <- data.frame(label= c("High", "       ", "Low"), shape= c("circle"), 
                          color= c("blue", "green", "yellow"))
-    ledges <- data.frame(color= c("green", "red"), label= c("Positive Correlation", 
-                                                            "Negative Correlation"), 
+    ledges <- data.frame(color= c("green", "red"), label= c("Positive Change in Correlation", 
+                                                            "Negative Change in Correlation"), 
                          font.align= "top", arrows= c("NA", "NA"), width= 4)
     
     
-    net <- visNetwork(vis.nodes, vis.links, width = "100%", height = "800px", main= "INDEED 2.0", 
+    net <- visNetwork(vis.nodes, vis.links, width = "100%", height = "800px", main= "INDEED", 
                       submain= paste("Node size represents: ", nodesize)) %>%
         visOptions( highlightNearest= TRUE, nodesIdSelection= TRUE)  %>% 
         visIgraphLayout(layout=l) %>%
