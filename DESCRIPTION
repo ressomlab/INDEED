@@ -1,6 +1,6 @@
 Package: INDEED
 Title: Interactive Visualization of Integrated Differential Expression and Differential Network Analysis for Biomarker Candidate Selection Package
-Version: 1.99.3
+Version: 1.99.4
 Author: Yiming Zuo <yimingzuo@gmail.com>, Kian Ghaffari <kg.ghaffari@gmail.com>, Zhenzhi Li <zzrickli@gmail.com>
 Maintainer: Ressom group <hwr@georgetown.edu>,
             Yiming Zuo <yimingzuo@gmail.com>
