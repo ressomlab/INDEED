@@ -4,7 +4,7 @@
 \alias{network_display}
 \title{Interactive Network Visualization}
 \usage{
-network_display(results = NULL, nodesize = "Node_Degree",
+network_display(results = NULL, nodesize = "P_Value",
   nodecolor = "Activity_Score", edgewidth = "NO", layout = "nice")
 }
 \arguments{
@@ -13,7 +13,7 @@ network_display(results = NULL, nodesize = "Node_Degree",
 \item{nodesize}{This parameter determines what the size of each node will represent. The options 
 are 'Node_Degree', 'Activity_Score','P_Value' and 'Z_Score'. The title of the resulting 
 network will identify which parameter was selected to represent the node size. The default 
-is Node_Degree.}
+is P_Value.}
 
 \item{nodecolor}{This parameter determines what color each node will be based on a yellow to 
 blue color gradient. The options are 'Node_Degree', 'Activity_Score', 'P_Value', and '
@@ -47,6 +47,6 @@ An interactive tool to assist in the visualization of the results from INDEED
 result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
                                    method = "spearman", permutation_thres = 0.05, 
                                    permutation = 1000)
-          network_display(results = result, nodesize = 'Node_Degree', 
+          network_display(results = result, nodesize = 'P_Value', 
           nodecolor = 'Activity_Score', edgewidth = 'NO', layout = 'nice')
 }

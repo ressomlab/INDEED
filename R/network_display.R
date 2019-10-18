@@ -13,7 +13,7 @@
 #' @param nodesize This parameter determines what the size of each node will represent. The options 
 #'     are 'Node_Degree', 'Activity_Score','P_Value' and 'Z_Score'. The title of the resulting 
 #'     network will identify which parameter was selected to represent the node size. The default 
-#'     is Node_Degree.
+#'     is P_Value.
 #' @param nodecolor This parameter determines what color each node will be based on a yellow to 
 #'     blue color gradient. The options are 'Node_Degree', 'Activity_Score', 'P_Value', and '
 #'     Z_Score'. A color bar will be created based on which parameter is chosen. The default is
@@ -26,7 +26,7 @@
 #' @examples result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
 #'                                    method = "spearman", permutation_thres = 0.05, 
 #'                                    permutation = 1000)
-#'           network_display(results = result, nodesize = 'Node_Degree', 
+#'           network_display(results = result, nodesize = 'P_Value', 
 #'           nodecolor = 'Activity_Score', edgewidth = 'NO', layout = 'nice')
 #' @return An interactive dipiction of the network resulting from INDEED functions 
 #'     non_partial_corr() or patial_corr().
@@ -35,7 +35,7 @@
 #' @importFrom grDevices topo.colors 
 #' @export
 
-network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 'Activity_Score', 
+network_display <- function(results = NULL, nodesize= 'P_Value', nodecolor= 'Activity_Score', 
                             edgewidth= 'NO', layout= 'nice'){
     
     nodes <- results$activity_score
@@ -63,65 +63,77 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
     
     # Setting up the Node Size
     if (missing(nodesize)){
-        vis.nodes$size   <- ((vis.nodes$ndegree)+1)*5
-        nodesize <- 'Node_Degree'
+      vis.nodes$size   <- (rank(-1 * vis.nodes$pval)+1)
+        nodesize <- 'p-value significance '
     }
     else if (nodesize == 'Node_Degree'){
         vis.nodes$size   <- ((vis.nodes$ndegree)+1)*5
+        nodesize <- 'Node Degree'
     } 
     else if(nodesize == 'Activity_Score'){
         vis.nodes$size   <- ((vis.nodes$ascore)+1)*5
+        nodesize <- 'Activity Score'
     }
     else if(nodesize == 'P_Value'){
         vis.nodes$size   <- (rank(-1 * vis.nodes$pval)+1)
+        nodesize <- 'p-value significance'
         
     }
     else if(nodesize == 'Z_Score'){
         vis.nodes$size   <- ((vis.nodes$zscore)+1)*10
+        nodesize <- 'Z-Score'
         
-    } else { 
-        vis.nodes$size   <- ((vis.nodes$ndegree)+1)*5
-        nodesize <- "Node_Degree"
+    } else {
+        vis.nodes$size   <- (rank(-1 * vis.nodes$pval)+1)
+        nodesize <- 'p-value significance'
     }
     
     
+    H <- "Higher"
+    L <- "Lower"
+    M <- "       "
     
     # Setting Up Node Color
     if (missing(nodecolor)){
         vis.nodes<- vis.nodes[order(vis.nodes$ascore, decreasing=TRUE), ]
         vis.nodes$color.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
         vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
-        nodecolor <- 'Activity_Score'
+        nodecolor <- 'Activity Score'
+
     }
     else if (nodecolor == 'Node_Degree'){
         vis.nodes<- vis.nodes[order(vis.nodes$ndegree, decreasing=TRUE), ]
         vis.nodes$color.background <- topo.colors(length(vis.nodes$ndegree), alpha=1)
         vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$ndegree), alpha=1)
-        
+        nodecolor <- 'Node Degree'
     } 
     else if(nodecolor == 'Activity_Score'){
         vis.nodes<- vis.nodes[order(vis.nodes$ascore, decreasing=TRUE), ]
         vis.nodes$color.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
         vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
-        
+        nodecolor <- 'Activity Score'
     }
     else if(nodecolor == 'P_Value'){
         vis.nodes<- vis.nodes[order(vis.nodes$pval, decreasing=FALSE), ]
         vis.nodes$color.background <- topo.colors(length(vis.nodes$pval), alpha=1)
         vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$pval), alpha=1)
-        
+        nodecolor <- 'p-value'
+        H <- "Lower"
+        L <- "Higher"
+        M <- "       "
     }
     else if(nodecolor == 'Z_Score'){
       vis.nodes<- vis.nodes[order(vis.nodes$zscore, decreasing=TRUE), ]
       vis.nodes$color.background <- topo.colors(length(vis.nodes$zscore), alpha=1)
       vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$zscore), alpha=1)
-      nodecolor <- 'Z_Score'
+      nodecolor <- 'Z-Score'
+
     }
     else {
         vis.nodes<- vis.nodes[order(vis.nodes$ascore, decreasing=TRUE), ]
         vis.nodes$color.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
         vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
-        nodecolor <- 'Activity_Score'
+        nodecolor <- 'Activity Score'
     }
     
     
@@ -153,8 +165,8 @@ network_display <- function(results = NULL, nodesize= 'Node_Degree', nodecolor= 
     else if (layout == 'grid'){l <- "layout_on_grid"}
     else if (layout == 'circle'){l <- "layout_in_circle"
     } else {l <- "layout_nicely"}
-    
-    lnodes <- data.frame(label= c("High", "       ", "Low"), shape= c("circle"), 
+
+    lnodes <- data.frame(label= c(H, M, L), position = "left", shape= c("circle"), 
                          color= c("blue", "green", "yellow"))
     ledges <- data.frame(color= c("green", "red"), label= c("Positive Change in Correlation", 
                                                             "Negative Change in Correlation"), 
