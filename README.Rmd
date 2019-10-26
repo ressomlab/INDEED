@@ -76,5 +76,5 @@ network_display(results = result, nodesize= 'Node_Degree', nodecolor= 'Activity_
 
 <!-- Network display image was generated from somewhere else -->
 
-![](figure/network-display.png)<!-- -->
+![](figure/network_display_pic.png)<!-- -->
 

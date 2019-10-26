@@ -45,7 +45,7 @@ select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL, error
     error_group1 <- choose_rho(data_group_1, n_fold, rho)
     if(error_curve != "NO"){
         par(mfrow = c(1, 2))
-        plot(rho, error_group1$log.cv, xlab = expression(lambda), ylab = "Error")
+        plot(rho, error_group1$log.cv, xlab = expression(rho), ylab = "Error")
         lines(rho, error_group1$log.cv)
         title(main = paste("Group 1 error curve", "using cross validation", sep = "\n"))
         # chosse optimal rho
@@ -74,7 +74,7 @@ select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL, error
     # draw error curve
     error_group2 <- choose_rho(data_group_2, n_fold, rho)
     if(error_curve != "NO"){
-        plot(rho, error_group2$log.cv, xlab = expression(lambda), ylab = "Error")
+        plot(rho, error_group2$log.cv, xlab = expression(rho), ylab = "Error")
         lines(rho, error_group2$log.cv)
         title(main = paste("Group 2 error curve", "using cross validation", sep="\n"))
         # choOse optimal rho
