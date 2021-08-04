@@ -82,6 +82,10 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
         # thres = 1e-3
         # sum(abs(diff) > thres)
         # diff[1:10, 1:10]
+        
+        diff_matrix=matrix(diff,nrow=p)
+        rownames(diff_matrix)<-c(1:p)
+        colnames(diff_matrix)<-c(1:p)
 
         # Permutation test using partial correlation
         if(permutation <= 0) 
@@ -93,6 +97,9 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
                                      rho_group_1_opt, rho_group_2_opt)
             p <- data_list$p
         }
+      
+        pvalue_pcdiff=permutation_pv(p,diff_p)/m
+      
         rm(m)
 
         # Calculating the positive and negative threshold based on the permutation result
@@ -156,7 +163,11 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
         row.names(indeed_df) <- NULL      # remove index repeat
 
         # return
-        result_list <-list(activity_score=indeed_df, diff_network=edge_dn)
-        return (result_list)
+        #result_list <-list(activity_score=indeed_df, diff_network=edge_dn)
+        #return (result_list)
+      
+        results=list("diff_matrix"=diff_matrix,"pvalue"=pvalue_pcdiff)
+        return (results)
+
     }
 }
