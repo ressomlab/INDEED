@@ -276,38 +276,6 @@ choose_rho <- function(data, n_fold, rho) {
 #' @return Scaled version of data that fits between 0 to 1.
 
 scale_range <- function(x){(x-min(x))/(max(x)-min(x))}
-
-                       
-
-
-#' @title 
-#' @description                              
-permutation_pv <- function(p, diff_p) {
-    significant_thres_n <- matrix(0, p, p)
-    mean_matrix<-permutation_mean(m, p, res$n_group_1,res$ n_group_2, 
-                                     res$data_group_1, res$data_group_2, 
-                                     rho_group_1_opt, rho_group_2_opt)
-    for (i in 1 : (p-1)) {
-        for (j in (i + 1) : p) {
-            significant_thres_n[i, j] <- length(diff_p[,i,j][diff_p[,i,j]>mean_matrix[i,j]])
-            significant_thres_n[j, i] <- significant_thres_n[i, j]
-        }
-    }
-    return(significant_thres_n)
-}                             
-                             
-
-#' @title 
-#' @description calculations on pvalues based on permutations
-permutation_mean <- function(m, p, n_group_1, n_group_2, data_group_1, data_group_2, rho_group_1_opt, rho_group_2_opt) {
-    diff_p <- array(0, dim = c(p, p))
-    per_group_1 <- glasso(var(data_group_1), rho = rho_group_1_opt)
-    per_group_2 <- glasso(var(data_group_2), rho = rho_group_2_opt)
-    pc_group_1_p <- compute_par(per_group_1$wi)
-    pc_group_2_p <- compute_par(per_group_2$wi)
-    diff_p <- pc_group_2_p - pc_group_1_p#Delta PC
-    return(diff_p)
-}                             
                              
 
                        
