@@ -93,52 +93,16 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
                                      rho_group_1_opt, rho_group_2_opt)
             p <- data_list$p
             ## multiple testing step
-            # p-value for edge
-            significant_thres <- matrix(0, p, p)
-            for (i in 1 : (p-1)) {
-                for (j in (i + 1) : p) {
-                    significant_thres[i, j] <- length(diff_p[,i,j][diff_p[,i,j]>diff[i,j]])
-                    significant_thres[j, i] <- significant_thres[i, j]
-                }
-            }
-            pvalue_edge = significant_thres/m
-            diag(pvalue_edge) = 1
-            # two-side
-            pvalue_edge_two_side = pvalue_edge
-            pvalue_edge_two_side[pvalue_edge_two_side <= 0.5] = 2 * pvalue_edge_two_side[pvalue_edge_two_side <= 0.5]
-            pvalue_edge_two_side[pvalue_edge_two_side > 0.5] = 2 * (1 - pvalue_edge_two_side[pvalue_edge_two_side > 0.5])
-            diag(pvalue_edge_two_side) = 1
-            # fdr
-            pvalue_edge_vector = vector()
-            for (i in 1:(p-1)){
-                for (j in (i+1):p){
-                    pvalue_edge_vector = append(pvalue_edge_vector, c(i,j,pvalue_edge[i,j],pvalue_edge_two_side[i,j]))
-                }
-            }
-            pvalue_edge_vector = matrix(pvalue_edge_vector, ncol = 4, byrow = T)
-            pvalue_edge_vector_fdr = p.adjust(pvalue_edge_vector[,4], method ="fdr", n = length(pvalue_edge_vector[,4]))
-            pvalue_edge_fdr <- matrix(0, p, p)
-            num = 1
-            for (i in 1 : (p-1)) {
-                for (j in (i + 1) : p) {
-                    pvalue_edge_fdr[i, j] <- pvalue_edge_vector_fdr[num]
-                    pvalue_edge_fdr[j, i] <- pvalue_edge_fdr[i, j]
-                    num = num + 1
-                }
-            }
-            diag(pvalue_edge_fdr) = 1
+            # p-value for edges
+            pvalue_edge <- compute_pvalue_edge(p, diff, diff_p, m)
+            # two-sided p-value for edges
+            pvalue_edge_two_side <- compute_pvalue_edge_two_side(pvalue_edge)
+            # fdr to adjust multiple testing
+            pvalue_edge_fdr <- compute_pvalue_edge_fdr(p, pvalue_edge, pvalue_edge_two_side)
         }
         rm(m)
 
-        # # Calculating the positive and negative threshold based on the permutation result
-        # thres_left <- permutation_thres/2
-        # thres_right <- 1 - permutation_thres/2
-        # significant_thres <- permutation_thres(thres_left, thres_right, p, diff_p)
-        # rm(thres_left, thres_right)
-
-        # get binary matrix
-        # significant_thres_p <- significant_thres$positive
-        # significant_thres_n <- significant_thres$negative
+        ## get binary and weight matrix
         binary_link <- matrix(0, p, p) # binary connection
         binary_link[pvalue_edge_fdr < permutation_thres] <- 1
         binary_link[(pvalue_edge_fdr < permutation_thres) & (pvalue_edge > 0.5)] <- -1

@@ -4,13 +4,20 @@
 \alias{permutation_cor}
 \title{Permutations to build a differential network based on correlation analysis}
 \usage{
-permutation_cor(m, p, n_group_1, n_group_2, data_group_1, data_group_2,
-  type_of_cor)
+permutation_cor(
+  m,
+  p,
+  n_group_1,
+  n_group_2,
+  data_group_1,
+  data_group_2,
+  type_of_cor
+)
 }
 \arguments{
-\item{m}{This is the number of permutations desired.}
+\item{m}{This is the number of permutations.}
 
-\item{p}{This is the number of biomarker candidates present.}
+\item{p}{This is the number of biomarker candidates.}
 
 \item{n_group_1}{This is the number of subjects in group 1.}
 

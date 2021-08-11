@@ -4,8 +4,13 @@
 \alias{network_display}
 \title{Interactive Network Visualization}
 \usage{
-network_display(results = NULL, nodesize = "P_Value",
-  nodecolor = "Activity_Score", edgewidth = "NO", layout = "nice")
+network_display(
+  results = NULL,
+  nodesize = "P_Value",
+  nodecolor = "Activity_Score",
+  edgewidth = "NO",
+  layout = "nice"
+)
 }
 \arguments{
 \item{results}{This is the result from calling either non_partial_corr() or partial_corr().}

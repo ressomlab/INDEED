@@ -4,9 +4,15 @@
 \alias{non_partial_cor}
 \title{Non-partial correlaton analysis}
 \usage{
-non_partial_cor(data = NULL, class_label = NULL, id = NULL,
-  method = "pearson", p_val = NULL, permutation = 1000,
-  permutation_thres = 0.05)
+non_partial_cor(
+  data = NULL,
+  class_label = NULL,
+  id = NULL,
+  method = "pearson",
+  p_val = NULL,
+  permutation = 1000,
+  permutation_thres = 0.05
+)
 }
 \arguments{
 \item{data}{This is a matrix of expression from all biomolecules and all samples.}

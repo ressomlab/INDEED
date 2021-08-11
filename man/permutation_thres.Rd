@@ -13,7 +13,7 @@ empirical distributuion curve.}
 \item{thres_right}{This is the threshold representing 2.5 percent of the right tail of the 
 empirical distributuion curve.}
 
-\item{p}{This is the number of biomarker candidates present.}
+\item{p}{This is the number of biomarker candidates.}
 
 \item{diff_p}{This is the permutation result from either permutation_cor or permutation_pc.}
 }

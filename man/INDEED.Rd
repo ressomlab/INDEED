@@ -3,7 +3,6 @@
 \docType{package}
 \name{INDEED}
 \alias{INDEED}
-\alias{INDEED-package}
 \title{INDEED: A network-based method for cacner biomarker discovery.}
 \description{
 The INDEED R package provides important functions as shown below:

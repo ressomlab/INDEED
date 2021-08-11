@@ -57,8 +57,8 @@ compute_par <- function(pre_inv) {
 #'     biological groups for each biomolecule. The difference in each paired biomolecule
 #'     is considered statistically significant if it falls into the 2.5% tails on either end of the 
 #'     empirical distribution curve. 
-#' @param m This is the number of permutations desired.
-#' @param p This is the number of biomarker candidates present.
+#' @param m This is the number of permutations.
+#' @param p This is the number of biomarker candidates.
 #' @param n_group_1 This is the number of subjects in group 1.
 #' @param n_group_2 This is the number of subjects in group 2.
 #' @param data_group_1 This is a \eqn{n*p} matrix containing group 1 data.
@@ -105,8 +105,8 @@ permutation_cor <- function(m, p, n_group_1, n_group_2, data_group_1, data_group
 #'     biological groups for each biomolecule. The difference in paired partial correlation
 #'     is considered statistically significant if it falls into the 2.5% tails on either end of the 
 #'     empirical distribution curve.  
-#' @param m This is the number of permutations desired.
-#' @param p This is the number of biomarker candidates present.
+#' @param m This is the number of permutations.
+#' @param p This is the number of biomarker candidates.
 #' @param n_group_1 This is the number of subjects in group 1.
 #' @param n_group_2 This is the number of subjects in group 2.
 #' @param data_group_1 This is a \eqn{n*p} matrix containing group 1 data.
@@ -152,7 +152,7 @@ permutation_pc <- function(m, p, n_group_1, n_group_2, data_group_1, data_group_
 #'     empirical distributuion curve.
 #' @param thres_right This is the threshold representing 2.5 percent of the right tail of the 
 #'     empirical distributuion curve.
-#' @param p This is the number of biomarker candidates present.
+#' @param p This is the number of biomarker candidates.
 #' @param diff_p This is the permutation result from either permutation_cor or permutation_pc.
 #' @return A list of positive and negative thresholds.
 #' @importFrom stats quantile
@@ -253,7 +253,7 @@ choose_rho <- function(data, n_fold, rho) {
       trainData <- Data[-testIndexes, ]
       # use test and train data partitions however you desire...
       cov <- var(trainData) # compute the covariance matrix
-      pre<- glasso(cov, rho = rho[i])
+      pre <- glasso(cov, rho = rho[i])
       loglik_ave(testData, pre$wi)
     }, numeric(1))})
 
@@ -276,6 +276,68 @@ choose_rho <- function(data, n_fold, rho) {
 #' @return Scaled version of data that fits between 0 to 1.
 
 scale_range <- function(x){(x-min(x))/(max(x)-min(x))}
-                             
+
+#' @title Compute p-value for edges
+#' @description This function computes p-value for edges based on permutation result. 
+#' @param p This is the number of biomarker candidates.
+#' @param diff This is the delta correlation or partial correlation matrix.
+#' @param diff_p This is the permutation result from either permutation_cor or permutation_pc.
+#' @param m This is the number of permutations.
+#' @return p-value for edges.
+
+compute_pvalue_edge <- function(p, diff, diff_p, m) {
+  significant_thres <- matrix(0, p, p)
+  for (i in 1 : (p-1)) {
+    for (j in (i + 1) : p) {
+      significant_thres[i, j] <- length(diff_p[,i,j][diff_p[,i,j]>diff[i,j]])
+      significant_thres[j, i] <- significant_thres[i, j]
+    }
+  }
+  pvalue_edge <- significant_thres/m
+  diag(pvalue_edge) <- 1
+  return(pvalue_edge)
+}
+
+#' @title Compute two sided p-value for edges
+#' @description This function computes two sided p-value for edges based on pvalue_edge.
+#' @param pvalue_edge This is p-value for edges from compute_pvalue_edge.
+#' @return Two sided p-value for edges.
+
+compute_pvalue_edge_two_side <- function(pvalue_edge) {
+  pvalue_edge_two_side <- pvalue_edge
+  pvalue_edge_two_side[pvalue_edge_two_side <= 0.5] <- 2 * pvalue_edge_two_side[pvalue_edge_two_side <= 0.5]
+  pvalue_edge_two_side[pvalue_edge_two_side > 0.5] <- 2 * (1 - pvalue_edge_two_side[pvalue_edge_two_side > 0.5])
+  diag(pvalue_edge_two_side) <- 1
+  return(pvalue_edge)
+}
+
+#' @title Compute fdr p-value for edges
+#' @description This function computes fdr p-value for edges to adjust for multiple testing.
+#' @param p This is the number of biomarker candidates.
+#' @param pvalue_edge This is p-value for edges from compute_pvalue_edge.
+#' @param pvalue_edge_two_side This is two sided p-value for edges from compute_pvalue_edge_two_side.
+#' @return Adjusted p-value for edges by fdr.
+
+compute_pvalue_edge_fdr <- function(p, pvalue_edge, pvalue_edge_two_side) {
+  pvalue_edge_vector <- vector()
+  for (i in 1:(p-1)){
+    for (j in (i+1):p){
+      pvalue_edge_vector = append(pvalue_edge_vector, c(i,j,pvalue_edge[i,j],pvalue_edge_two_side[i,j]))
+    }
+  }
+  pvalue_edge_vector <- matrix(pvalue_edge_vector, ncol = 4, byrow = T)
+  pvalue_edge_vector_fdr <- p.adjust(pvalue_edge_vector[,4], method = "fdr", n = length(pvalue_edge_vector[,4]))
+  pvalue_edge_fdr <- matrix(0, p, p)
+  num <- 1
+  for (i in 1 : (p-1)) {
+    for (j in (i + 1) : p) {
+      pvalue_edge_fdr[i, j] <- pvalue_edge_vector_fdr[num]
+      pvalue_edge_fdr[j, i] <- pvalue_edge_fdr[i, j]
+      num <- num + 1
+    }
+  }
+  diag(pvalue_edge_fdr) = 1
+  return(pvalue_edge_fdr)
+}
 
                        

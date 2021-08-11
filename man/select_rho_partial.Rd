@@ -4,8 +4,12 @@
 \alias{select_rho_partial}
 \title{Data preprocessing for partial correlaton analysis}
 \usage{
-select_rho_partial(data = NULL, class_label = NULL, id = NULL,
-  error_curve = "YES")
+select_rho_partial(
+  data = NULL,
+  class_label = NULL,
+  id = NULL,
+  error_curve = "YES"
+)
 }
 \arguments{
 \item{data}{This is a matrix of expression from all biomolecules and all samples.}
