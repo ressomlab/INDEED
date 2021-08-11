@@ -61,7 +61,7 @@ pre_data <- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = M
 From the error curve figure, users can choose the rho value based on the minimum rule (red vertical line), the one standard error rule (blue horizontal line) or their preferred value.
 ```{r partial-cor, eval = T, results = 'hide'}
 # Choose optimal rho values to compute activity scores and build the differntial network
-result <- partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = "min", p_val = pvalue_M_GU, permutation = 1000, permutation_thres = 0.05, fdr = FALSE) # default 1000
+result <- partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = "min", p_val = pvalue_M_GU, permutation = 1000, permutation_thres = 0.1, fdr = TRUE)
 ```
 
 Show the network display and users can interact with it.

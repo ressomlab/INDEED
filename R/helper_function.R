@@ -317,6 +317,7 @@ compute_pvalue_edge_two_side <- function(pvalue_edge) {
 #' @param pvalue_edge This is p-value for edges from compute_pvalue_edge.
 #' @param pvalue_edge_two_side This is two sided p-value for edges from compute_pvalue_edge_two_side.
 #' @return Adjusted p-value for edges by fdr.
+#' @importFrom stats p.adjust
 
 compute_pvalue_edge_fdr <- function(p, pvalue_edge, pvalue_edge_two_side) {
   pvalue_edge_vector <- vector()

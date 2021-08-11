@@ -44,7 +44,7 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
         else if (is.numeric(rho_group1) & rho_group1>0) {rho_group_1_opt = rho_group1}
         else if (is.numeric(rho_group1) & rho_group1<=0) 
         {stop("please provide data_list from select_rho_partial function")}
-        #default is minimum rho if no rule specified and no valid input entered
+        # default is minimum rho if no rule specified and no valid input entered
         else {rho_group_1_opt = data_list$rho_table[1, 2]} 
         # group 2
         if (rho_group2 =='min'){ rho_group_2_opt = data_list$rho_table[2, 2] }
@@ -52,40 +52,40 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
         else if (is.numeric(rho_group2) & rho_group2>0) {rho_group_2_opt = rho_group2}
         else if (is.numeric(rho_group2) & rho_group2<=0) 
         {stop("please provide data_list from select_rho_partial function")}
-        #default is minimum rho if no rule specified and no valid input entered
+        # default is minimum rho if no rule specified and no valid input entered
         else {rho_group_2_opt = data_list$rho_table[2, 2]} 
 
-        # compute precision matrix for group 1
+        ## Compute precision matrix for group 1
         pre_group_1 <- glasso(data_list$cov_group_1, rho = rho_group_1_opt)
         # thres <- 1e-3
         # sum(abs(pre_group_1$wi) > thres)
         # pre_group_1$wi[1:10, 1:10]
         
-        # compute partial correlation for group 1
+        ## Compute partial correlation for group 1
         pc_group_1 <- compute_par(pre_group_1$wi)
         # # examine the partial correlation matrix
         # sum(abs(pc_group_1) > thres)
         # pc_group_1[1:10, 1:10]
         
-        # compute precision matrix for group 2
+        ## Compute precision matrix for group 2
         pre_group_2 <- glasso(data_list$cov_group_2, rho = rho_group_2_opt)
         # # examine the precision matrix
         # sum(abs(pre_group_2$wi) > thres)
         # pre_group_2$wi[1:10,1:10]
         
-        # compute partial correlation for group 2
+        ## Compute partial correlation for group 2
         pc_group_2 <- compute_par(pre_group_2$wi)
         # # examine the partial correlation matrix
         # sum(abs(pc_group_2) > thres)
         # pc_group_2[1:10,1:10]
         
-        # differential network
+        ## Differential network
         diff <- pc_group_2 - pc_group_1  # from group 1 to group 2
         # thres = 1e-3
         # sum(abs(diff) > thres)
         # diff[1:10, 1:10]
 
-        # Permutation test using partial correlation
+        ## Permutation test using partial correlation
         if(permutation <= 0) 
             {stop("please provide a valid number of permutation (positive integer)")}
         else{
@@ -94,7 +94,7 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
                                      data_list$data_group_1, data_list$data_group_2, 
                                      rho_group_1_opt, rho_group_2_opt)
             p <- data_list$p
-            ## multiple testing step
+            ## Multiple testing step
             # p-value for edges
             pvalue_edge <- compute_pvalue_edge(p, diff, diff_p, m)
             # two-sided p-value for edges
@@ -109,7 +109,7 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
         }
         rm(m)
 
-        ## get binary and weight matrix
+        ## Get binary and weight matrix
         binary_link <- matrix(0, p, p) # binary connection
         binary_link[pvalue_edge_fdr < permutation_thres] <- 1
         binary_link[(pvalue_edge_fdr < permutation_thres) & (pvalue_edge > 0.5)] <- -1
@@ -122,7 +122,7 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
         # rowSums(abs(binary_link)) # node degree for differential networks
         # rm(diff_p)
 
-        # Convert adjacent matrix into edge list
+        ## Convert adjacent matrix into edge list
         i <- rep(seq_len(nrow(binary_link) - 1), times = (nrow(binary_link)-1):1)
         k <- unlist(lapply(2:nrow(binary_link), seq, nrow(binary_link)))
         binary_link_value <- binary_link[lower.tri(binary_link)]
@@ -132,35 +132,35 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
         edge_dn <- edge[which(edge[,3] != 0),]
         edge_dn <- as.data.frame(edge_dn)
 
-        # Compute p-values
+        ## Compute p-values
         if (is.null(p_val) == TRUE) {
-            # Calculate p-values using logistic regression if p-values are not provided by users
+            # calculate p-values using logistic regression if p-values are not provided by users
             pvalue <- pvalue_logit(data_list$data, data_list$class_label, data_list$id)
             p.value <- pvalue$p.value
             row.names(pvalue)<-NULL
-        } else {     # If the p-value matrix is provided
+        } else {     # if the p-value matrix is provided
             pvalue <- p_val
-            p.value <- pvalue$p.value           # Extract p-values from the table provided
+            p.value <- pvalue$p.value           # extract p-values from the table provided
             row.names(pvalue)<-NULL
         }
 
-        # trasfer p-value to z-score
+        ## Transfer p-value to z-score
         z_score <- abs(qnorm(1 - p.value/2))
         
-        # calculate differntial network score
+        ## calculate differntial network score
         dn_score <- compute_dns(binary_link, z_score)
         indeed_df <- cbind(pvalue, rowSums(abs(binary_link)), dn_score )
         colnames(indeed_df) <- c("ID", "P_value", "Node_Degree", "Activity_Score")
         indeed_df$P_value <- lapply(indeed_df$P_value, round, 3)
         indeed_df$Activity_Score <- lapply(indeed_df$Activity_Score, round, 1)
         indeed_df <- as.data.frame(lapply(indeed_df, unlist))
-        # Recopy dataframe with index to help with ighraph formating
+        ## Recopy dataframe with index to help with ighraph formating
         indeed_df <- cbind(rownames(indeed_df) , data.frame(indeed_df, row.names=NULL) ) 
         colnames(indeed_df)[1] <- "Node"    # rename the previous index column as "Node"
         indeed_df<-indeed_df[order(indeed_df$Activity_Score, decreasing=TRUE), ]
         row.names(indeed_df) <- NULL      # remove index repeat
 
-        return
+        ## Return
         result_list <-list(activity_score=indeed_df, diff_network=edge_dn)
         return (result_list)
 
