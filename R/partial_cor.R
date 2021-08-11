@@ -14,8 +14,10 @@
 #' @param p_val This is optional. It is a data frame that contains p-values for each biomolecule.
 #' @param permutation This is a positive integer of the desired number of permutations. The default 
 #'     is 1000 permutations.
-#' @param permutation_thres This is the threshold for permutation. The defalut is 0.05 to make 95 
-#'     percent confidence.
+#' @param permutation_thres This is the threshold for permutation. The defalut is 0.05.
+#' @param fdr This is whether to apply multiple testing correction. The defalut is TRUE. However, if
+#'     user finds the output network is too sparse even after relaxing the permutation_thres, it's
+#'     probably a good idea to turn off the multiple testing correction.
 #' @examples
 #' # step 1: select_rho_partial
 #' preprocess<- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
@@ -32,8 +34,8 @@
 #' @importFrom graphics abline title plot lines par
 #' @export
 
-partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, permutation = 1000,
-                        p_val = NULL, permutation_thres = 0.05){
+partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, p_val = NULL, 
+                        permutation = 1000, permutation_thres = 0.05, fdr = TRUE){
     if(missing(data_list)) {stop("please provide data_list from select_rho_partial function")}
     else{
         # group 1
@@ -98,7 +100,12 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
             # two-sided p-value for edges
             pvalue_edge_two_side <- compute_pvalue_edge_two_side(pvalue_edge)
             # fdr to adjust multiple testing
-            pvalue_edge_fdr <- compute_pvalue_edge_fdr(p, pvalue_edge, pvalue_edge_two_side)
+            if(fdr == TRUE){
+                pvalue_edge_fdr <- compute_pvalue_edge_fdr(p, pvalue_edge, pvalue_edge_two_side)
+            }
+            else{
+                pvalue_edge_fdr <- pvalue_edge_two_side
+            }
         }
         rm(m)
 

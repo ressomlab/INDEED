@@ -8,9 +8,10 @@ partial_cor(
   data_list = NULL,
   rho_group1 = NULL,
   rho_group2 = NULL,
-  permutation = 1000,
   p_val = NULL,
-  permutation_thres = 0.05
+  permutation = 1000,
+  permutation_thres = 0.05,
+  fdr = TRUE
 )
 }
 \arguments{
@@ -25,13 +26,16 @@ is minimum.}
 "ste": one standard error from minimum, or user can input rho of their choice, the default 
 is minimum.}
 
+\item{p_val}{This is optional. It is a data frame that contains p-values for each biomolecule.}
+
 \item{permutation}{This is a positive integer of the desired number of permutations. The default 
 is 1000 permutations.}
 
-\item{p_val}{This is optional. It is a data frame that contains p-values for each biomolecule.}
+\item{permutation_thres}{This is the threshold for permutation. The defalut is 0.05.}
 
-\item{permutation_thres}{This is the threshold for permutation. The defalut is 0.05 to make 95 
-percent confidence.}
+\item{fdr}{This is whether to apply multiple testing correction. The defalut is TRUE. However, if
+user finds the output network is too sparse even after relaxing the permutation_thres, it's
+probably a good idea to turn off the multiple testing correction.}
 }
 \value{
 A list containing a score table with "ID", "P_value", "Node_Degree", "Activity_Score"

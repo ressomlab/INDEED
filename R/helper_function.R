@@ -308,7 +308,7 @@ compute_pvalue_edge_two_side <- function(pvalue_edge) {
   pvalue_edge_two_side[pvalue_edge_two_side <= 0.5] <- 2 * pvalue_edge_two_side[pvalue_edge_two_side <= 0.5]
   pvalue_edge_two_side[pvalue_edge_two_side > 0.5] <- 2 * (1 - pvalue_edge_two_side[pvalue_edge_two_side > 0.5])
   diag(pvalue_edge_two_side) <- 1
-  return(pvalue_edge)
+  return(pvalue_edge_two_side)
 }
 
 #' @title Compute fdr p-value for edges
