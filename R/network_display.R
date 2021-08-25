@@ -180,8 +180,7 @@ network_display <- function(results = NULL, nodesize= 'P_Value', nodecolor= 'Act
         visInteraction( dragView= TRUE, dragNodes= TRUE, zoomView= TRUE, navigationButtons= FALSE, 
                         hideEdgesOnDrag= FALSE, multiselect = TRUE) %>%
         visLegend(addEdges= ledges, addNodes= lnodes, position= "right", useGroups= FALSE, ncol=1, 
-                  main= paste("Node color based on ", nodecolor), width= 0.2, stepX = 50, 
-                  stepY = 50, zoom = TRUE)
+                  main= paste("Node color based on ", nodecolor), width= 0.2, zoom = TRUE)
     print(net)
 }
 
