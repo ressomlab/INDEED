@@ -26,7 +26,7 @@
 #' @export
 
 non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method = "pearson",
-                            p_val = NULL, permutation = 1000, permutation_thres = 0.05){
+                            p_val = NULL, permutation = 1000, permutation_thres = 0.05, fdr = FALSE){
     data_bind <- rbind(data, class_label)
     # Group 1: p*n1
     raw_group_1 <- data_bind[,data_bind[nrow(data_bind),] == 0][1:(nrow(data_bind) - 1),]  
@@ -70,26 +70,27 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
         m <- as.numeric(permutation)
         diff_p <- permutation_cor(m, p, n_group_1, n_group_2, data_group_1, data_group_2, 
                                   type_of_cor = method)
+        ## Multiple testing step
+        # p-value for edges
+        pvalue_edge <- compute_pvalue_edge(p, diff, diff_p, m)
+        # two-sided p-value for edges
+        pvalue_edge_two_side <- compute_pvalue_edge_two_side(pvalue_edge)
+        # fdr to adjust multiple testing
+        if(fdr == TRUE){
+            pvalue_edge_fdr <- compute_pvalue_edge_fdr(p, pvalue_edge, pvalue_edge_two_side)
+        }
+        else{
+            pvalue_edge_fdr <- pvalue_edge_two_side
+        }
     }
     rm(m)
 
-    # Calculating the positive and negative threshold based on the permutation result
-    thres_left <- permutation_thres/2
-    thres_right <- 1 - permutation_thres/2
-    significant_thres <- permutation_thres(thres_left, thres_right, p, diff_p)
-    rm(thres_left, thres_right)
-
-    # get binary matrix
-    significant_thres_p <- significant_thres$positive
-    significant_thres_n <- significant_thres$negative
+    # get binary and weight matrix
     binary_link <- matrix(0, p, p) # binary connection
-    binary_link[diff < significant_thres_n] <- -1
-    binary_link[diff > significant_thres_p] <- 1
+    binary_link[pvalue_edge_fdr < permutation_thres] <- 1
+    binary_link[(pvalue_edge_fdr < permutation_thres) & (pvalue_edge > 0.5)] <- -1
     weight_link <- matrix(0, p, p) # weight connection
-    weight_link[diff < significant_thres_n] <- diff[diff < significant_thres_n]
-    weight_link[diff > significant_thres_p] <- diff[diff > significant_thres_p]
-    # sum(diff < significant_thres_n)
-    # sum(diff > significant_thres_p)
+    weight_link[pvalue_edge_fdr < permutation_thres] <- diff[pvalue_edge_fdr < permutation_thres]
     # binary_link[1:10, 1:10]
     # weight_link[1:10, 1:10]
     # rowSums(abs(binary_link)) # node degree for differential networks

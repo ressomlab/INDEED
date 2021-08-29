@@ -35,7 +35,7 @@
 #' @export
 
 partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, p_val = NULL, 
-                        permutation = 1000, permutation_thres = 0.05, fdr = TRUE){
+                        permutation = 1000, permutation_thres = 0.05, fdr = FALSE){
     if(missing(data_list)) {stop("please provide data_list from select_rho_partial function")}
     else{
         # group 1
@@ -115,8 +115,6 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
         binary_link[(pvalue_edge_fdr < permutation_thres) & (pvalue_edge > 0.5)] <- -1
         weight_link <- matrix(0, p, p) # weight connection
         weight_link[pvalue_edge_fdr < permutation_thres] <- diff[pvalue_edge_fdr < permutation_thres]
-        # sum(diff < significant_thres_n)
-        # sum(diff > significant_thres_p)
         # binary_link[1:10, 1:10]
         # weight_link[1:10, 1:10]
         # rowSums(abs(binary_link)) # node degree for differential networks

@@ -11,7 +11,8 @@ non_partial_cor(
   method = "pearson",
   p_val = NULL,
   permutation = 1000,
-  permutation_thres = 0.05
+  permutation_thres = 0.05,
+  fdr = TRUE
 )
 }
 \arguments{
