@@ -12,7 +12,7 @@ non_partial_cor(
   p_val = NULL,
   permutation = 1000,
   permutation_thres = 0.05,
-  fdr = TRUE
+  fdr = FALSE
 )
 }
 \arguments{

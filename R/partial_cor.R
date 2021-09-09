@@ -113,8 +113,7 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
         binary_link <- matrix(0, p, p) # binary connection
         binary_link[pvalue_edge_fdr < permutation_thres] <- 1
         binary_link[(pvalue_edge_fdr < permutation_thres) & (pvalue_edge > 0.5)] <- -1
-        weight_link <- matrix(0, p, p) # weight connection
-        weight_link[pvalue_edge_fdr < permutation_thres] <- diff[pvalue_edge_fdr < permutation_thres]
+        weight_link <- compute_edge_weights(pvalue_edge_fdr, binary_link)
         # binary_link[1:10, 1:10]
         # weight_link[1:10, 1:10]
         # rowSums(abs(binary_link)) # node degree for differential networks

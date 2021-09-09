@@ -45,7 +45,6 @@ network_display <- function(results = NULL, nodesize= 'P_Value', nodecolor= 'Act
     Z_Score <- abs(qnorm(1 - (nodes$P_value)/2)) # trasfer p-value to z-score
     nodes$zscore = Z_Score
 
-    
     vis.nodes <- data.frame(id= nodes$Node, name= nodes$ID,font.size = 24, pval= nodes$P_value, 
                             ndegree= nodes$Node_Degree, ascore= nodes$Activity_Score,
                             zscore= nodes$zscore, stringsAsFactors = FALSE)
@@ -77,17 +76,14 @@ network_display <- function(results = NULL, nodesize= 'P_Value', nodecolor= 'Act
     else if(nodesize == 'P_Value'){
         vis.nodes$size   <- (rank(-1 * vis.nodes$pval)+1)
         nodesize <- 'p-value significance'
-        
     }
     else if(nodesize == 'Z_Score'){
         vis.nodes$size   <- ((vis.nodes$zscore)+1)*10
         nodesize <- 'Z-Score'
-        
     } else {
         vis.nodes$size   <- (rank(-1 * vis.nodes$pval)+1)
         nodesize <- 'p-value significance'
     }
-    
     
     H <- "Higher"
     L <- "Lower"
@@ -99,7 +95,6 @@ network_display <- function(results = NULL, nodesize= 'P_Value', nodecolor= 'Act
         vis.nodes$color.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
         vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$ascore), alpha=1)
         nodecolor <- 'Activity Score'
-
     }
     else if (nodecolor == 'Node_Degree'){
         vis.nodes<- vis.nodes[order(vis.nodes$ndegree, decreasing=TRUE), ]
@@ -127,7 +122,6 @@ network_display <- function(results = NULL, nodesize= 'P_Value', nodecolor= 'Act
       vis.nodes$color.background <- topo.colors(length(vis.nodes$zscore), alpha=1)
       vis.nodes$color.highlight.background <- topo.colors(length(vis.nodes$zscore), alpha=1)
       nodecolor <- 'Z-Score'
-
     }
     else {
         vis.nodes<- vis.nodes[order(vis.nodes$ascore, decreasing=TRUE), ]
@@ -136,17 +130,13 @@ network_display <- function(results = NULL, nodesize= 'P_Value', nodecolor= 'Act
         nodecolor <- 'Activity Score'
     }
     
-    
     vis.nodes$borderWidth <- 2 # Node border width
     vis.nodes$label  <- vis.nodes$name # Node label
     vis.nodes$color.highlight.border <- "darkred"
     vis.nodes$color.border <- "black"
-    
-    
-    wNorm <- scale_range(abs(vis.links$weight))
-    
+
     # Setting up edge width parameter 
-    if (edgewidth != "NO" ){vis.links$width <- 15^(wNorm)
+    if (edgewidth != "NO" ){vis.links$width <- abs(vis.links$weight) * 3
     } else {vis.links$width <- 3}
     # Information that will be displayed when hovering over the edge
     vis.links$title <- paste0("<p>", paste('Edge Weight: ', 
@@ -171,7 +161,6 @@ network_display <- function(results = NULL, nodesize= 'P_Value', nodecolor= 'Act
     ledges <- data.frame(color= c("green", "red"), label= c("Positive Change in Correlation", 
                                                             "Negative Change in Correlation"), 
                          font.align= "top", arrows= c("NA", "NA"), width= 4)
-    
     
     net <- visNetwork(vis.nodes, vis.links, width = "100%", height = "800px", main= "INDEED", 
                       submain= paste("Node size represents: ", nodesize)) %>%

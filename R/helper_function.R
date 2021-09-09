@@ -267,16 +267,6 @@ choose_rho <- function(data, n_fold, rho) {
 }        
 
 
-#' @title Scale list of numbers
-#' @description This function is used to help spread out data values across 0 to 1. 
-#'     This is so that it will be easier to distinguish values later incorporated into the 
-#'     network_display function. 
-#' @param x This is a list of numbers taken form on the columns outputted from calling 
-#'     non_partial_corr or patial_corr functions.
-#' @return Scaled version of data that fits between 0 to 1.
-
-scale_range <- function(x){(x-min(x))/(max(x)-min(x))}
-
 #' @title Compute p-value for edges
 #' @description This function computes p-value for edges based on permutation result. 
 #' @param p This is the number of biomarker candidates.
@@ -298,6 +288,7 @@ compute_pvalue_edge <- function(p, diff, diff_p, m) {
   return(pvalue_edge)
 }
 
+
 #' @title Compute two sided p-value for edges
 #' @description This function computes two sided p-value for edges based on pvalue_edge.
 #' @param pvalue_edge This is p-value for edges from compute_pvalue_edge.
@@ -310,6 +301,7 @@ compute_pvalue_edge_two_side <- function(pvalue_edge) {
   diag(pvalue_edge_two_side) <- 1
   return(pvalue_edge_two_side)
 }
+
 
 #' @title Compute fdr p-value for edges
 #' @description This function computes fdr p-value for edges to adjust for multiple testing.
@@ -340,5 +332,23 @@ compute_pvalue_edge_fdr <- function(p, pvalue_edge, pvalue_edge_two_side) {
   diag(pvalue_edge_fdr) = 1
   return(pvalue_edge_fdr)
 }
+
+
+#' @title Compute edge weights
+#' @description This function computes edge weights based on p-value for edges with directions.
+#' @param pvalue_edge_fdr This is the p-value for edges possibly after multiple testing correction.
+#' @param binary_link This is the binary edge connection.
+#' @return Edge weights.
+#' @importFrom stats qnorm
+
+compute_edge_weights <- function(pvalue_edge_fdr, binary_link) {
+  zscore_edge_fdr <- abs(qnorm(1 - pvalue_edge_fdr/2))
+  # 1.5 is a predefined factor to cap zero-pvalue connection
+  inf_cap <- 1.5 * max(zscore_edge_fdr[is.finite(zscore_edge_fdr)]) 
+  zscore_edge_fdr[is.infinite(zscore_edge_fdr)] <- inf_cap
+  weight_link <- zscore_edge_fdr * binary_link
+  return(weight_link)
+}
+
 
                        
