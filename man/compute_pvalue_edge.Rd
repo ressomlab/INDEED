@@ -21,14 +21,3 @@ p-value for edges.
 \description{
 This function computes p-value for edges based on permutation result.
 }
-\details{
-#' @title Scale list of numbers
-#' @description This function is used to help spread out data values across 0 to 1. 
-#'     This is so that it will be easier to distinguish values later incorporated into the 
-#'     network_display function. 
-#' @param x This is a list of numbers taken form on the columns outputted from calling 
-#'     non_partial_corr or patial_corr functions.
-#' @return Scaled version of data that fits between 0 to 1.
-
-scale_range <- function(x){x/max(x)}
-}
