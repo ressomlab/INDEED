@@ -1,24 +1,27 @@
-#' @title Non-partial correlaton analysis
-#' @description A method that integrates differential expression (DE) analysis
-#'     and differential network (DN) analysis to select biomarker candidates for
-#'     cancer studies. non_partial_cor is a one step function for user
-#'     to perform the analysis based on typical correlation analysis, no pre-processing step 
-#'     required.
-#' @param data This is a matrix of expression from all biomolecules and all samples.
-#' @param class_label this is a binary array with 0 for group 1 and 1 for group 2.
-#' @param id This is an array of biomolecule IDs.
-#' @param method This is a character string indicating which correlation coefficient is
-#'     to be computed. The options are either "pearson" as the default or "spearman".
-#' @param p_val This is optional, it is a dataframe containing p-value for each biomolecule.
-#' @param permutation This is a positive integer representing the desired number of permutations, 
-#'     default is 1000.
-#' @param permutation_thres This is a threshold for permutation. The defalut is 0.05 to make 95 
-#'     percent confidence..
+#' @title Non-partial correlation analysis
+#' @description A method that integrates differential expression (DE) analysis and differential 
+#'     network (DN) analysis to select biomarker candidates for cancer studies. non_partial_cor is 
+#'     a one step function for users to perform the typical correlation analysis. No pre-processing 
+#'     step is required.
+#' @param data This is a p*n dataframe that contains the expression levels for all biomolecules and samples.
+#' @param class_label This is a 1*n dataframe that contains the class label with 0 for group 1 and 1 for group 2.
+#' @param id This is a p*1 dataframe that contains the ID for each biomolecule.
+#' @param method This is a character string indicating which correlation method is to use. The 
+#'     options are either "pearson" as the default or "spearman".
+#' @param p_val This is optional. It is a p*1 dataframe that contains the p-value for each biomolecule from DE analysis.
+#' @param permutation This is a positive integer representing the desired number of permutations. 
+#'     The default is 1000.
+#' @param permutation_thres This is a integer representing the threshold for the permutation test. 
+#'     The default is 0.05 to achieve 95 percent confidence.
+#' @param fdr This is a boolean value indicating whether to apply multiple testing correction (TRUE) 
+#'     or not (FALSE). The default is TRUE. However, if users find the output network is too sparse 
+#'     even after relaxing the permutation_thres, it's probably a good idea to turn off the multiple testing correction.
 #' @examples non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
-#'                         method = "pearson", permutation = 1000, permutation_thres = 0.05)
-#' @return A list containing a score table with "ID", "P_value", "Node_Degree", "Activity_Score"
-#'          and a differential network table with "Node1", "Node2", the binary link value and the  
-#'          weight link value.
+#'                           method = "pearson", p_val = pvalue_M_GU, permutation = 1000, 
+#'                           permutation_thres = 0.05, fdr = TRUE)
+#' @return A list containing an activity score dataframe with "ID", "P_value", "Node_Degree" and 
+#'     "Activity_Score" as columns and a differential network dataframe with the binary and the 
+#'     weight connection values.
 #' @import devtools
 #' @importFrom glasso glasso
 #' @importFrom stats qnorm cor quantile var sd glm
@@ -26,7 +29,7 @@
 #' @export
 
 non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method = "pearson",
-                            p_val = NULL, permutation = 1000, permutation_thres = 0.05, fdr = FALSE){
+                            p_val = NULL, permutation = 1000, permutation_thres = 0.05, fdr = TRUE){
     data_bind <- rbind(data, class_label)
     # Group 1: p*n1
     raw_group_1 <- data_bind[,data_bind[nrow(data_bind),] == 0][1:(nrow(data_bind) - 1),]  

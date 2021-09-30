@@ -1,33 +1,31 @@
-#' @title Partial correlaton analysis
-#' @description A method that integrates differential expression (DE) analysis
-#'     and differential network (DN) analysis to select biomarker candidates for
-#'     cancer studies. partial_cor is the second step of partial correlation
-#'     calculation after getting the result from select_rho_partial function.
-#' @param data_list This is a list of pre-processed data outputed by the select_rho_partial 
-#'     function.
-#' @param rho_group1 This is the rule for choosing rho for group 1, "min": minimum rho,
-#'     "ste": one standard error from minimum, or user can input rho of their choice, the default 
+#' @title Partial correlation analysis
+#' @description A method that integrates differential expression (DE) analysis and differential 
+#'     network (DN) analysis to select biomarker candidates for cancer studies. partial_cor is the 
+#'     second step of the partial correlation calculation after getting the result from select_rho_partial function.
+#' @param data_list This is a list of pre-processed data outputted by the select_rho_partial function.
+#' @param rho_group1 This is a character string indicating the rule for choosing rho value for group 1, 
+#'     "min": minimum rho, "ste": one standard error from minimum, or user can input rho of their choice. The default 
 #'     is minimum.
-#' @param rho_group2 This is the rule for choosing rho for group 2, "min": minimum rho,
-#'     "ste": one standard error from minimum, or user can input rho of their choice, the default 
+#' @param rho_group2 This is a character string indicating the rule for choosing rho value for group 2, 
+#'     "min": minimum rho, "ste": one standard error from minimum, or user can input rho of their choice, the default 
 #'     is minimum.
-#' @param p_val This is optional. It is a data frame that contains p-values for each biomolecule.
-#' @param permutation This is a positive integer of the desired number of permutations. The default 
-#'     is 1000 permutations.
-#' @param permutation_thres This is the threshold for permutation. The defalut is 0.05.
-#' @param fdr This is whether to apply multiple testing correction. The defalut is TRUE. However, if
-#'     user finds the output network is too sparse even after relaxing the permutation_thres, it's
-#'     probably a good idea to turn off the multiple testing correction.
+#' @param p_val This is optional. It is a p*1 dataframe that contains the p-value for each biomolecule from DE analysis.
+#' @param permutation This is a positive integer representing the desired number of permutations. 
+#'     The default is 1000.
+#' @param permutation_thres This is a integer representing the threshold for the permutation test. 
+#'     The default is 0.05 to achieve 95 percent confidence.
+#' @param fdr This is a boolean value indicating whether to apply multiple testing correction (TRUE) 
+#'     or not (FALSE). The default is TRUE. However, if users find the output network is too sparse 
+#'     even after relaxing the permutation_thres, it's probably a good idea to turn off the multiple testing correction.
 #' @examples
 #' # step 1: select_rho_partial
-#' preprocess<- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU,
-#'                                 error_curve = "YES")
+#' pre_data <- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, error_curve = TRUE)
 #' # step 2: partial_cor
-#' partial_cor(data_list = preprocess, rho_group1 = 'min', rho_group2 = "min", permutation = 1000,
-#'             p_val = pvalue_M_GU, permutation_thres = 0.05)
-#' @return A list containing a score table with "ID", "P_value", "Node_Degree", "Activity_Score"
-#'          and a differential network table with  "Node1", "Node2", the binary link value and the 
-#'          weight link value.
+#' result <- partial_cor(data_list = pre_data, rho_group1 = 'min', rho_group2 = "min", p_val = pvalue_M_GU, permutation = 1000,
+#'                       permutation_thres = 0.05, fdr = TRUE)
+#' @return A list containing an activity score dataframe with "ID", "P_value", "Node_Degree" and 
+#'     "Activity_Score" as columns and a differential network dataframe with the binary and the 
+#'     weight connection values.
 #' @import devtools
 #' @importFrom glasso glasso
 #' @importFrom stats qnorm cor quantile var sd glm
@@ -35,7 +33,7 @@
 #' @export
 
 partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, p_val = NULL, 
-                        permutation = 1000, permutation_thres = 0.05, fdr = FALSE){
+                        permutation = 1000, permutation_thres = 0.05, fdr = TRUE){
     if(missing(data_list)) {stop("please provide data_list from select_rho_partial function")}
     else{
         # group 1

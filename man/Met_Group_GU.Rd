@@ -5,12 +5,12 @@
 \alias{Met_Group_GU}
 \title{Group label.}
 \format{
-A data frame with 1 row and 120 (subjects) columns.
+A dataframe with 1 row and 120 (subjects) columns.
 }
 \usage{
 Met_Group_GU
 }
 \description{
-A dataset containing group information (CIRR group: 0 and HCC group: 1).
+A dataset containing the group information (CIRR group: 0 and HCC group: 1).
 }
 \keyword{datasets}

@@ -1,45 +1,44 @@
 #' @title Interactive Network Visualization
-#' @description An interactive tool to assist in the visualization of the results from INDEED 
+#' @description An interactive function to assist in the visualization of the result from INDEED 
 #'     functions non_partial_corr() or patial_corr(). The size and the color of each node can be 
 #'     adjusted by users to represent either the Node_Degree, Activity_Score, Z_Score, or P_Value.
-#'     The color of the edge is based on the binary value of either 1 corresonding to a positive 
-#'     correlation dipicted as green or a negative correlation of -1 dipicted as red. The user also 
-#'     has the option of having the width of each edge be proportional to its weight value. The 
+#'     The color of the edge is based on the binary value of either 1 corresponding to a positive 
+#'     correlation depicted as green or a negative correlation of -1 depicted as red. Users also 
+#'     have the option of having the width of each edge be proportional to its weight value. The 
 #'     layout of the network can also be customized by choosing from the options: 'nice', 'sphere', 
 #'     'grid', 'star', and 'circle'. Nodes can be moved and zoomed in on. Each node and edge will 
 #'     display extra information when clicked on. Secondary interactions will be highlighted as 
 #'     well when a node is clicked on. 
-#' @param results This is the result from calling either non_partial_corr() or partial_corr(). 
+#' @param result This is the result from calling either non_partial_corr() or partial_corr(). 
 #' @param nodesize This parameter determines what the size of each node will represent. The options 
 #'     are 'Node_Degree', 'Activity_Score','P_Value' and 'Z_Score'. The title of the resulting 
-#'     network will identify which parameter was selected to represent the node size. The default 
-#'     is P_Value.
+#'     network will identify which parameter is selected to represent the node size. The default 
+#'     is Node_Degree.
 #' @param nodecolor This parameter determines what color each node will be based on a yellow to 
 #'     blue color gradient. The options are 'Node_Degree', 'Activity_Score', 'P_Value', and '
 #'     Z_Score'. A color bar will be created based on which parameter is chosen. The default is
 #'     Activity_Score.
-#' @param edgewidth This is a 'YES' or 'NO' option as to if the edgewidth should be representative 
-#'     of the weight value corresponding to the correlation change between two nodes. The default 
-#'     is NO.
-#' @param layout User can choose from a a handful of network visualization templates including:
+#' @param edgewidth This is a boolean value to indicate whether the edgewidth should be representative 
+#'     of the weight connection (TRUE) or not (FALSE). The default is FALSE.
+#' @param layout Users can choose from a a handful of network visualization templates including:
 #'     'nice', 'sphere', 'grid', 'star', and 'circle'. The default is nice. 
 #' @examples result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
-#'                                    method = "spearman", permutation_thres = 0.05, 
-#'                                    permutation = 1000)
-#'           network_display(results = result, nodesize = 'P_Value', 
-#'           nodecolor = 'Activity_Score', edgewidth = 'NO', layout = 'nice')
-#' @return An interactive dipiction of the network resulting from INDEED functions 
+#'                                    method = "pearson", p_val = pvalue_M_GU, permutation = 1000, 
+#'                                    permutation_thres = 0.05, fdr = TRUE)
+#'           network_display(result = result, nodesize = 'Node_Degree', nodecolor = 'Activity_Score', 
+#'           edgewidth = FALSE, layout = 'nice')
+#' @return An interactive depiction of the network resulting from INDEED functions 
 #'     non_partial_corr() or patial_corr().
 #' @import igraph
 #' @import visNetwork
 #' @importFrom grDevices topo.colors 
 #' @export
 
-network_display <- function(results = NULL, nodesize= 'P_Value', nodecolor= 'Activity_Score', 
-                            edgewidth= 'NO', layout= 'nice'){
+network_display <- function(result = NULL, nodesize= 'Node_Degree', nodecolor= 'Activity_Score', 
+                            edgewidth= FALSE, layout= 'nice'){
     
-    nodes <- results$activity_score
-    links <- results$diff_network
+    nodes <- result$activity_score
+    links <- result$diff_network
    
     # Adding Z_Score to dataframe
     Z_Score <- abs(qnorm(1 - (nodes$P_value)/2)) # trasfer p-value to z-score
@@ -136,7 +135,7 @@ network_display <- function(results = NULL, nodesize= 'P_Value', nodecolor= 'Act
     vis.nodes$color.border <- "black"
 
     # Setting up edge width parameter 
-    if (edgewidth != "NO" ){vis.links$width <- abs(vis.links$weight) * 3
+    if (edgewidth == TRUE ){vis.links$width <- abs(vis.links$weight) * 3
     } else {vis.links$width <- 3}
     # Information that will be displayed when hovering over the edge
     vis.links$title <- paste0("<p>", paste('Edge Weight: ', 

@@ -1,16 +1,16 @@
-#' @title Data preprocessing for partial correlaton analysis
+#' @title Data preprocessing for partial correlation analysis
 #' @description A method that integrates differential expression (DE) analysis
 #'     and differential network (DN) analysis to select biomarker candidates for
 #'     cancer studies. select_rho_partial is the pre-processing step for INDEED
 #'     partial differential analysis.
-#' @param data This is a matrix of expression from all biomolecules and all samples.
-#' @param class_label This is a binary array with 0 for group 1 and 1 for group 2.
-#' @param id This is an array of biomolecule IDs.
-#' @param error_curve This is an option on whether a error curve plot will be
-#'     provided to the user, user can choose "YES" or "NO". The default is YES.
+#' @param data This is a p*n dataframe that contains the expression levels for all biomolecules and samples.
+#' @param class_label This is a 1*n dataframe that contains the class label with 0 for group 1 and 1 for group 2.
+#' @param id This is a p*1 dataframe that contains the ID for each biomolecule.
+#' @param error_curve This is a boolean value indicating whether to plot the error curve (TRUE) or not (FALSE). 
+#'     The default is TRUE.
 #' @examples select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
-#'     error_curve = "YES")
-#' @return A list of processed data for the next step, and generates an error curve to select rho 
+#'     error_curve = TRUE)
+#' @return A list of processed data for the next step, and an error curve to select optimal rho value
 #'     for graphical lasso.
 #' @import devtools
 #' @importFrom glasso glasso
@@ -18,7 +18,7 @@
 #' @importFrom graphics abline title plot lines 
 #' @export
 
-select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL, error_curve = "YES"){
+select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL, error_curve = TRUE){
     data_bind <- rbind(data, class_label)
     # Group 1: p*n1
     raw_group_1 <- data_bind[,data_bind[nrow(data_bind),] == 0][1:(nrow(data_bind) - 1),]
@@ -43,7 +43,7 @@ select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL, error
     # group 1
     # draw error curve
     error_group1 <- choose_rho(data_group_1, n_fold, rho)
-    if(error_curve != "NO"){
+    if(error_curve == TRUE){
         par(mfrow = c(1, 2))
         plot(rho, error_group1$log.cv, xlab = expression(rho), ylab = "Error")
         lines(rho, error_group1$log.cv)
@@ -73,7 +73,7 @@ select_rho_partial <- function(data = NULL, class_label = NULL, id = NULL, error
     # group 2
     # draw error curve
     error_group2 <- choose_rho(data_group_2, n_fold, rho)
-    if(error_curve != "NO"){
+    if(error_curve == TRUE){
         plot(rho, error_group2$log.cv, xlab = expression(rho), ylab = "Error")
         lines(rho, error_group2$log.cv)
         title(main = paste("Group 2 error curve", "using cross validation", sep="\n"))

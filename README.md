@@ -26,7 +26,7 @@ You can install INDEED from github with:
 devtools::install_github("ressomlab/INDEED")
 ```
 
-## Usage
+## Load package
 
 Load the package.
 
@@ -35,6 +35,8 @@ Load the package.
 library(INDEED)
 #> Loading required package: glasso
 ```
+
+## Examples
 
 A testing dataset has been provided to the users to get familiar with
 INDEED R package. It contains the expression levels of 39 metabolites

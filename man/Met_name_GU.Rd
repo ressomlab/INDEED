@@ -5,7 +5,7 @@
 \alias{Met_name_GU}
 \title{KEGG ID}
 \format{
-A data frame with 39 KEGG ID as rows and 1 column:
+A dataframe with 39 KEGG ID as rows and 1 column.
 }
 \usage{
 Met_name_GU

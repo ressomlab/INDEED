@@ -2,27 +2,27 @@
 % Please edit documentation in R/select_rho_partial.R
 \name{select_rho_partial}
 \alias{select_rho_partial}
-\title{Data preprocessing for partial correlaton analysis}
+\title{Data preprocessing for partial correlation analysis}
 \usage{
 select_rho_partial(
   data = NULL,
   class_label = NULL,
   id = NULL,
-  error_curve = "YES"
+  error_curve = TRUE
 )
 }
 \arguments{
-\item{data}{This is a matrix of expression from all biomolecules and all samples.}
+\item{data}{This is a p*n dataframe that contains the expression levels for all biomolecules and samples.}
 
-\item{class_label}{This is a binary array with 0 for group 1 and 1 for group 2.}
+\item{class_label}{This is a 1*n dataframe that contains the class label with 0 for group 1 and 1 for group 2.}
 
-\item{id}{This is an array of biomolecule IDs.}
+\item{id}{This is a p*1 dataframe that contains the ID for each biomolecule.}
 
-\item{error_curve}{This is an option on whether a error curve plot will be
-provided to the user, user can choose "YES" or "NO". The default is YES.}
+\item{error_curve}{This is a boolean value indicating whether to plot the error curve (TRUE) or not (FALSE). 
+The default is TRUE.}
 }
 \value{
-A list of processed data for the next step, and generates an error curve to select rho 
+A list of processed data for the next step, and an error curve to select optimal rho value
     for graphical lasso.
 }
 \description{
@@ -33,5 +33,5 @@ A method that integrates differential expression (DE) analysis
 }
 \examples{
 select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
-    error_curve = "YES")
+    error_curve = TRUE)
 }
