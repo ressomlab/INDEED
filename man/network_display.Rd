@@ -47,3 +47,10 @@ An interactive function to assist in the visualization of the result from INDEED
     display extra information when clicked on. Secondary interactions will be highlighted as 
     well when a node is clicked on.
 }
+\examples{
+result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
+                                   method = "pearson", p_val = pvalue_M_GU, permutation = 1000, 
+                                   permutation_thres = 0.05, fdr = FALSE)
+          network_display(result = result, nodesize = 'Node_Degree', nodecolor = 'Activity_Score', 
+                          edgewidth = FALSE, layout = 'nice')
+}

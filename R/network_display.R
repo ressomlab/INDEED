@@ -24,9 +24,9 @@
 #'     'nice', 'sphere', 'grid', 'star', and 'circle'. The default is nice. 
 #' @examples result = non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, 
 #'                                    method = "pearson", p_val = pvalue_M_GU, permutation = 1000, 
-#'                                    permutation_thres = 0.05, fdr = TRUE)
+#'                                    permutation_thres = 0.05, fdr = FALSE)
 #'           network_display(result = result, nodesize = 'Node_Degree', nodecolor = 'Activity_Score', 
-#'           edgewidth = FALSE, layout = 'nice')
+#'                           edgewidth = FALSE, layout = 'nice')
 #' @return An interactive depiction of the network resulting from INDEED functions 
 #'     non_partial_corr() or patial_corr().
 #' @import igraph

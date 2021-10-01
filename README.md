@@ -80,7 +80,7 @@ analysis.
 # set seed to avoid randomness
 set.seed(100)
 # Compute rho values to run graphical lasso
-pre_data <- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, error_curve = "YES")
+pre_data <- select_rho_partial(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, error_curve = TRUE)
 ```
 
 ![](figure/rho-selection-1.png)<!-- -->
@@ -120,8 +120,7 @@ head(result$diff_network)
 #> 5     3    22      1  2.033520
 #> 6     4    33     -1 -2.457263
 # Show network
-network_display(results = result, nodesize= 'Node_Degree', nodecolor= 'Activity_Score', 
-                edgewidth= 'NO', layout= 'nice')
+network_display(result = result, nodesize= 'Node_Degree', nodecolor= 'Activity_Score', edgewidth= FALSE, layout= 'nice')
 ```
 
 <!-- Network display image was generated from somewhere else -->
@@ -137,8 +136,7 @@ FALSE). It’s better to try correlation analysis.
 # set seed to avoid randomness
 set.seed(100)
 # Compute rho values to run graphical lasso
-result <- non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, method = "pearson",
-                            p_val = pvalue_M_GU, permutation = 1000, permutation_thres = 0.05, fdr = FALSE)
+result <- non_partial_cor(data = Met_GU, class_label = Met_Group_GU, id = Met_name_GU, method = "pearson", p_val = pvalue_M_GU, permutation = 1000, permutation_thres = 0.05, fdr = FALSE)
 ```
 
 Show the network display and users can interact with it. Here, edgewidth
@@ -165,8 +163,7 @@ head(result$diff_network)
 #> 5     5    22     -1 -2.033520
 #> 6     5    34      1  4.635348
 # Show network
-network_display(results = result, nodesize= 'Node_Degree', nodecolor= 'Activity_Score', 
-                edgewidth= 'YES', layout= 'nice')
+network_display(result = result, nodesize= 'Node_Degree', nodecolor= 'Activity_Score', edgewidth= TRUE, layout= 'nice')
 ```
 
 <!-- Network display image was generated from somewhere else -->
