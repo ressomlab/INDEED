@@ -4,14 +4,12 @@
 \alias{compute_pvalue_edge_fdr}
 \title{Compute fdr p-value for edges}
 \usage{
-compute_pvalue_edge_fdr(p, pvalue_edge, pvalue_edge_two_side)
+compute_pvalue_edge_fdr(p, pvalue_edge)
 }
 \arguments{
 \item{p}{This is the number of biomarker candidates.}
 
 \item{pvalue_edge}{This is p-value for edges from compute_pvalue_edge.}
-
-\item{pvalue_edge_two_side}{This is two sided p-value for edges from compute_pvalue_edge_two_side.}
 }
 \value{
 Adjusted p-value for edges by fdr.

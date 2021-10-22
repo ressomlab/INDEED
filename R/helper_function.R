@@ -279,27 +279,17 @@ compute_pvalue_edge <- function(p, diff, diff_p, m) {
   significant_thres <- matrix(0, p, p)
   for (i in 1 : (p-1)) {
     for (j in (i + 1) : p) {
-      significant_thres[i, j] <- length(diff_p[,i,j][diff_p[,i,j]>diff[i,j]])
+      significant_thres[i, j] <- min(length(diff_p[,i,j][diff_p[,i,j]>=diff[i,j]]),
+                                     length(diff_p[,i,j][diff_p[,i,j]<=diff[i,j]])) 
       significant_thres[j, i] <- significant_thres[i, j]
     }
   }
   pvalue_edge <- significant_thres/m
+  # adjust for two sides
+  pvalue_edge[pvalue_edge <= 0.5] <- 2 * pvalue_edge[pvalue_edge <= 0.5]
+  
   diag(pvalue_edge) <- 1
   return(pvalue_edge)
-}
-
-
-#' @title Compute two sided p-value for edges
-#' @description This function computes two sided p-value for edges based on pvalue_edge.
-#' @param pvalue_edge This is p-value for edges from compute_pvalue_edge.
-#' @return Two sided p-value for edges.
-
-compute_pvalue_edge_two_side <- function(pvalue_edge) {
-  pvalue_edge_two_side <- pvalue_edge
-  pvalue_edge_two_side[pvalue_edge_two_side <= 0.5] <- 2 * pvalue_edge_two_side[pvalue_edge_two_side <= 0.5]
-  pvalue_edge_two_side[pvalue_edge_two_side > 0.5] <- 2 * (1 - pvalue_edge_two_side[pvalue_edge_two_side > 0.5])
-  diag(pvalue_edge_two_side) <- 1
-  return(pvalue_edge_two_side)
 }
 
 
@@ -307,19 +297,18 @@ compute_pvalue_edge_two_side <- function(pvalue_edge) {
 #' @description This function computes fdr p-value for edges to adjust for multiple testing.
 #' @param p This is the number of biomarker candidates.
 #' @param pvalue_edge This is p-value for edges from compute_pvalue_edge.
-#' @param pvalue_edge_two_side This is two sided p-value for edges from compute_pvalue_edge_two_side.
 #' @return Adjusted p-value for edges by fdr.
 #' @importFrom stats p.adjust
 
-compute_pvalue_edge_fdr <- function(p, pvalue_edge, pvalue_edge_two_side) {
+compute_pvalue_edge_fdr <- function(p, pvalue_edge) {
   pvalue_edge_vector <- vector()
   for (i in 1:(p-1)){
     for (j in (i+1):p){
-      pvalue_edge_vector = append(pvalue_edge_vector, c(i,j,pvalue_edge[i,j],pvalue_edge_two_side[i,j]))
+      pvalue_edge_vector = append(pvalue_edge_vector, c(i,j,pvalue_edge[i,j]))
     }
   }
-  pvalue_edge_vector <- matrix(pvalue_edge_vector, ncol = 4, byrow = T)
-  pvalue_edge_vector_fdr <- p.adjust(pvalue_edge_vector[,4], method = "fdr", n = length(pvalue_edge_vector[,4]))
+  pvalue_edge_vector <- matrix(pvalue_edge_vector, ncol = 3, byrow = T)
+  pvalue_edge_vector_fdr <- p.adjust(pvalue_edge_vector[,3], method = "fdr", n = length(pvalue_edge_vector[,3]))
   pvalue_edge_fdr <- matrix(0, p, p)
   num <- 1
   for (i in 1 : (p-1)) {

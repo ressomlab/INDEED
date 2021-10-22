@@ -76,14 +76,12 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
         ## Multiple testing step
         # p-value for edges
         pvalue_edge <- compute_pvalue_edge(p, diff, diff_p, m)
-        # two-sided p-value for edges
-        pvalue_edge_two_side <- compute_pvalue_edge_two_side(pvalue_edge)
         # fdr to adjust multiple testing
         if(fdr == TRUE){
-            pvalue_edge_fdr <- compute_pvalue_edge_fdr(p, pvalue_edge, pvalue_edge_two_side)
+            pvalue_edge_fdr <- compute_pvalue_edge_fdr(p, pvalue_edge)
         }
         else{
-            pvalue_edge_fdr <- pvalue_edge_two_side
+            pvalue_edge_fdr <- pvalue_edge
         }
     }
     rm(m)
@@ -91,7 +89,7 @@ non_partial_cor <- function(data = NULL, class_label = NULL, id = NULL, method =
     # get binary and weight matrix
     binary_link <- matrix(0, p, p) # binary connection
     binary_link[pvalue_edge_fdr < permutation_thres] <- 1
-    binary_link[(pvalue_edge_fdr < permutation_thres) & (pvalue_edge > 0.5)] <- -1
+    binary_link[(pvalue_edge_fdr < permutation_thres) & (diff < 0)] <- -1
     weight_link <- compute_edge_weights(pvalue_edge_fdr, binary_link)
     # binary_link[1:10, 1:10]
     # weight_link[1:10, 1:10]

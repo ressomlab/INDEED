@@ -148,20 +148,20 @@ negative changes).
 # Show result 
 head(result$activity_score)
 #>   Node     ID P_value Node_Degree Activity_Score
-#> 1   22 C00581   0.074           6           12.9
-#> 2   15 C00188   0.487           7           11.1
-#> 3   21 C00383   0.001           8           11.1
-#> 4   13 C00186   0.388           6            9.0
-#> 5   31 C02497   0.537           5            8.6
-#> 6   16 C00189   0.016           4            7.9
+#> 1   22 C00581   0.074           5           11.9
+#> 2   15 C00188   0.487           5           10.0
+#> 3   31 C02497   0.537           5            8.6
+#> 4   21 C00383   0.001           5            8.5
+#> 5   13 C00186   0.388           5            7.8
+#> 6   16 C00189   0.016           3            7.2
 head(result$diff_network)
 #>   Node1 Node2 Binary    Weight
 #> 1     1    19      1  2.512144
-#> 2     2    21      1  2.053749
-#> 3     4    18      1  2.326348
-#> 4     5    13     -1 -2.197286
-#> 5     5    22     -1 -2.033520
-#> 6     5    34      1  4.635348
+#> 2     4    18      1  2.326348
+#> 3     5    13     -1 -2.197286
+#> 4     5    22     -1 -2.033520
+#> 5     5    34      1  4.635348
+#> 6     6    31     -1 -2.257129
 # Show network
 network_display(result = result, nodesize= 'Node_Degree', nodecolor= 'Activity_Score', edgewidth= TRUE, layout= 'nice')
 ```
