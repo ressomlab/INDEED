@@ -1,6 +1,6 @@
 Package: INDEED
 Title: Interactive Visualization of Integrated Differential Expression and Differential Network Analysis for Biomarker Candidate Selection
-Version: 2.2.0
+Version: 2.3.0
 Author: Yiming Zuo <yimingzuo@gmail.com>, Kian Ghaffari <kg.ghaffari@gmail.com>
 Maintainer: Yiming Zuo <yimingzuo@gmail.com>, Habtom Ressom <hwr@georgetown.edu>
 Description: An R package for integrated differential expression and differential network analysis based on omic data for cancer biomarker discovery. Both correlation and partial correlation can be used to generate differential network to aid the traditional differential expression analysis to identify changes between biomolecules on both their expression and pairwise association levels. A detailed description of the methodology has been published in Methods journal (PMID: 27592383). An interactive visualization feature allows for the exploration and selection of candidate biomarkers. 
