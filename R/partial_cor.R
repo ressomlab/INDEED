@@ -37,21 +37,21 @@ partial_cor <- function(data_list = NULL, rho_group1 = NULL, rho_group2 = NULL, 
     if(missing(data_list)) {stop("please provide data_list from select_rho_partial function")}
     else{
         # group 1
-        if (rho_group1 =='min'){ rho_group_1_opt = data_list$rho_table[1, 2] }
-        else if (rho_group1 =='ste'){ rho_group_1_opt = data_list$rho_table[1, 1] }
+        if (rho_group1 =='min'){ rho_group_1_opt = data_list$rho_table["minimum",1] }
+        else if (rho_group1 =='ste'){ rho_group_1_opt = data_list$rho_table["one standard error",1] }
         else if (is.numeric(rho_group1) & rho_group1>0) {rho_group_1_opt = rho_group1}
         else if (is.numeric(rho_group1) & rho_group1<=0) 
         {stop("please provide data_list from select_rho_partial function")}
         # default is minimum rho if no rule specified and no valid input entered
-        else {rho_group_1_opt = data_list$rho_table[1, 2]} 
+        else {rho_group_1_opt = data_list$rho_table["minimum",1]} 
         # group 2
-        if (rho_group2 =='min'){ rho_group_2_opt = data_list$rho_table[2, 2] }
-        else if (rho_group2 =='ste'){ rho_group_2_opt = data_list$rho_table[2, 1] }
+        if (rho_group2 =='min'){ rho_group_2_opt = data_list$rho_table["minimum",2] }
+        else if (rho_group2 =='ste'){ rho_group_2_opt = data_list$rho_table["one standard error",2] }
         else if (is.numeric(rho_group2) & rho_group2>0) {rho_group_2_opt = rho_group2}
         else if (is.numeric(rho_group2) & rho_group2<=0) 
         {stop("please provide data_list from select_rho_partial function")}
         # default is minimum rho if no rule specified and no valid input entered
-        else {rho_group_2_opt = data_list$rho_table[2, 2]} 
+        else {rho_group_2_opt = data_list$rho_table["minimum",2]} 
 
         ## Compute precision matrix for group 1
         pre_group_1 <- glasso(data_list$cov_group_1, rho = rho_group_1_opt)
