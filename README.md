@@ -17,6 +17,10 @@ more neighbors connected in the differential network and their p-values
 are more statistically significant. It will also generate a network
 display to aid users’ biomarker selection.
 
+## Comparison with competing methods
+
+A comparison between INDEED and two competing methods ([DNAPATH](https://cran.r-project.org/web/packages/dnapath/index.html) and [JDINAC](https://github.com/jijiadong/JDINAC)) has been performed in a [simulation study](https://github.com/Hurricaner1989/INDEED-simulation). Metrics such as precision recall AUC, precision, recall and run time are computed under $n < p$, $n = p$, and $n > p$ conditions. We encourage users who are interested in a more thorough comparison to build on top of our simulation study and try to perform the comparison by themselves. 
+
 ## Installation
 
 You can install INDEED from github with:
